@@ -42,6 +42,7 @@ end
 %4: filling ratio = mask_area / bbox_area
 %5: type of sign
 
+Sign
 %Creamos una matriz donde se guardaran los filename en orden en función
 %a su tamaño (de menor área de bounding box a mayor en cada columna) y
 %en 6 filas en función al tipo de señal (A,B,C,D,E,F), así como
