@@ -22,7 +22,7 @@ for i = 1:length(archivos)
         if strcmp(archivos(i).name(end-2:end),'txt') == 1  
             
             name = archivos(i).name;
-            file = strcat(NewFolder, '/', name);
+            file = strcat(Folder_gt, '/', name);
             [annotations, ~] = LoadAnnotations(file);            
             Total_signs = Total_signs + size(annotations, 1);
         end
@@ -46,7 +46,7 @@ for i = 1:length(archivos)
         if strcmp(archivos(i).name(end-2:end),'txt') == 1  
             
             name = archivos(i).name;
-            file = strcat(NewFolder, '/', name);
+            file = strcat(Folder_gt, '/', name);
             [annotations, Signs] = LoadAnnotations(file);
             %For each sign
             for j = 1:size(annotations, 1)
