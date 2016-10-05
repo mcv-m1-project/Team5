@@ -1,4 +1,4 @@
-function [annotations Signs] = LoadAnnotations(file)
+function [annotations, Signs] = LoadAnnotations(file)
     % LoadAnnotations
     % Load text annotations files for the M1 project
     %
@@ -15,12 +15,12 @@ function [annotations Signs] = LoadAnnotations(file)
     
     annotations = [];
     fid = fopen(file, 'r');
-    BBs=[]; Signs=[];
+    BBs = []; Signs = [];
     tline = fgetl(fid);
     while ischar(tline)
-        [A,c,e,ni]=sscanf(tline,'%f %f %f %f',4);
+        [A, c, e, ni] = sscanf(tline,'%f %f %f %f',4);
         annotations = [annotations ; struct('x', A(2), 'y', A(1), 'w', A(4)-A(2), 'h', A(3)-A(1))];
-        Signs=[Signs {tline(ni+1:end)}];
+        Signs = [Signs {tline(ni+1:end)}];
         tline = fgetl(fid);
     end
     fclose(fid);

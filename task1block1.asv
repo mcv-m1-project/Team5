@@ -34,6 +34,13 @@ for i = 1:length(archivos)
     end
 end
 
+%The characteristics will be saved in a matrix where each row corresponds
+%to a sign and the columns are:
+%1: File where the sign appears
+%2: Area of the bound box containing the sign
+%3: form ratio = width/height
+%4: filling ratio = mask_area / bbox_area
+%5: type of sign
 
 %Creamos una matriz donde se guardaran los filename en orden en función
 %a su tamaño (de menor área de bounding box a mayor en cada columna) y
