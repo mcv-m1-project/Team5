@@ -9,24 +9,14 @@ addpath('./circular_hough')
 
 
 %Read all the files from the directory
-Folder_gt = './train/gt';
-archivos = dir(Folder_gt);
+archivos = dir('./train/gt/*.txt');
 
 %First, let's determine the total number of signs
 
 Total_signs = 0;
 for i = 1:length(archivos)
-    
-    %Ensure the file is a .txt
-    if archivos(i).isdir == 0,
-        if strcmp(archivos(i).name(end-2:end),'txt') == 1  
-            
-            name = archivos(i).name;
-            file = strcat(Folder_gt, '/', name);
-            [annotations, ~] = LoadAnnotations(file);            
-            Total_signs = Total_signs + size(annotations, 1);
-        end
-    end
+    [annotations, signlist] = LoadAnnotations(strcat(Folder_gt,filesep,archivos(i).name));            
+    Total_signs = Total_signs + size(annotations, 1);
 end
 
 %The characteristics will be saved in a matrix where each row corresponds
