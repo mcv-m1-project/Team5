@@ -9,7 +9,8 @@ addpath('./circular_hough')
 
 
 %Read all the files from the directory
-archivos = dir('./train/gt/*.txt');
+Folder_gt = './train/gt';
+archivos = dir(strcat(Folder_gt,'/*.txt'));
 
 %First, let's determine the total number of signs
 
