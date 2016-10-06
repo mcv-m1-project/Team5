@@ -8,7 +8,7 @@ addpath('./colorspace')
 addpath('./circular_hough')
 
 
-%Read all the files from the directory
+%Read txt files from the directory of the ground truth files
 Folder_gt = './train/gt';
 archivos = dir(strcat(Folder_gt,'/*.txt'));
 
