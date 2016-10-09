@@ -15,7 +15,7 @@ function [annotations, Signs] = LoadAnnotations(file)
     
     annotations = [];
     fid = fopen(file, 'r');
-    BBs = []; Signs = [];
+    Signs = [];
     tline = fgetl(fid);
     while ischar(tline)
         [A, c, e, ni] = sscanf(tline,'%f %f %f %f',4);

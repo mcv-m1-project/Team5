@@ -10,12 +10,12 @@ addpath('./circular_hough')
 
 %Read txt files from the directory of the ground truth files
 Folder_gt = './train/gt';
-archivos = dir(strcat(Folder_gt,'/*.txt'));
+Text_files = dir(strcat(Folder_gt,'/*.txt'));
 
 %First, let's determine the total number of signs
 Total_signs = 0;
-for i = 1:length(archivos)
-    [annotations, ~] = LoadAnnotations(strcat(Folder_gt,filesep,archivos(i).name));            
+for i = 1:length(Text_files)
+    [annotations, ~] = LoadAnnotations(strcat(Folder_gt,filesep,Text_files(i).name));            
     Total_signs = Total_signs + size(annotations, 1);
 end    
 
@@ -23,7 +23,7 @@ end
 %The characteristics will be saved in a matrix where each row corresponds
 %to a sign and the columns are:
 %1: File where the sign appears
-%2: Area of the bound box containing the sign
+%2: Area of the bounding box containing the sign
 %3: form factor = width/height
 %4: filling ratio = mask_area / bbox_area
 %5: type of sign
@@ -31,26 +31,61 @@ end
 Sign_characteristics = cell(Total_signs, 5);
 
 %First image
-[annotations, Signs] = LoadAnnotations(strcat(Folder_gt, '/', archivos(1).name));
+[annotations, Signs] = LoadAnnotations(strcat(Folder_gt, '/', Text_files(1).name));
 ii=size(annotations, 1);
+Sign_characteristics(1:ii,1)={Text_files(1).name(4:length(Text_files(1).name)-4)};
+Sign_characteristics(1:ii,2)=num2cell(([annotations(:).w].*[annotations(:).h]));
+Sign_characteristics(1:ii,3)=num2cell(([annotations(:).w]./[annotations(:).h]));
 Sign_characteristics(1:ii,5)=Signs(:);
-Sign_characteristics(1:ii,1)={archivos(i).name(4:length(archivos(1).name)-4)};
+mask = double(imread(strcat('./train/mask/mask.', Sign_characteristics{1,1}, '.png')));
+for j=1:ii
+    mask_area=sum(sum(mask(round(annotations(j).y):round(annotations(j).y+annotations(j).h),round(annotations(j).x):round(annotations(j).x+annotations(j).w))>0));
+    Sign_characteristics(j,4)={mask_area/Sign_characteristics{j,2}};
+end
+
+
+%%%%%%CODIGO A BORRAR: problema masks
+close all;
+mask = double(imread('./train/mask/mask.00.004782.png'));
+im = imread('./train/00.004782.jpg');
+[annotations, Signs] = LoadAnnotations(strcat(Folder_gt, '/gt.00.004782.txt'));
+signs_number=size(annotations, 1);
+mask_areav=zeros(signs_number,1);
+figure();
+imshow(mask);
+for j=1:signs_number
+    mask_areav(j)=sum(sum(mask(round(annotations(j).y):round(annotations(j).y+annotations(j).h),round(annotations(j).x):round(annotations(j).x+annotations(j).w))>0));
+    figure();
+    subplot(1,2,1),
+    imshow(mask(round(annotations(j).y):round(annotations(j).y+annotations(j).h),round(annotations(j).x):round(annotations(j).x+annotations(j).w)));
+    subplot(1,2,2),
+    imshow(im(round(annotations(j).y):round(annotations(j).y+annotations(j).h),round(annotations(j).x):round(annotations(j).x+annotations(j).w)));
+end
+%%%%%%%%%%%%%%%%%%%
+
+
 
 %For each image
-for i = 2:length(archivos)
-    [annotations, Signs] = LoadAnnotations(strcat(Folder_gt, '/', archivos(i).name));
+for i = 2:length(Text_files)
+    [annotations, Signs] = LoadAnnotations(strcat(Folder_gt, '/', Text_files(i).name));
     signs_number=size(annotations, 1);
     
     %Compute the characteristics
-        
     %Char 1: File name
-    Sign_characteristics(ii+1:ii+signs_number,1)={archivos(i).name(4:length(archivos(i).name)-4)};
+    Sign_characteristics(ii+1:ii+signs_number,1)={Text_files(i).name(4:length(Text_files(i).name)-4)};
     
-    %Char 2
+    %Char 2: Bounding box area
+    Sign_characteristics(ii+1:ii+signs_number,2)=num2cell(([annotations(:).w].*[annotations(:).h]));
 
-    %Char 3
-
-    %Char 4
+    %Char 3: Form factor
+    Sign_characteristics(ii+1:ii+signs_number,3)=num2cell(([annotations(:).w]./[annotations(:).h]));
+    
+    %Char 4: Filling ratio
+    mask = double(imread(strcat('./train/mask/mask.', Sign_characteristics{ii+1,1}, '.png')));
+    for j=1:signs_number
+        mask_area=sum(sum(mask(round(annotations(j).y):round(annotations(j).y+annotations(j).h),round(annotations(j).x):round(annotations(j).x+annotations(j).w))>0));
+        Sign_characteristics(ii+j,4)={mask_area/Sign_characteristics{ii+j,2}};
+    end
 
     %Char 5: Sign type
     Sign_characteristics(ii+1:ii+signs_number,5)=Signs(:);
