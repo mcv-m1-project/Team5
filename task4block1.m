@@ -10,10 +10,12 @@ addpath('./circular_hough')
 Folder_gt = './train/mask';
 Files = ListFiles(Folder_gt);
 files = size(Files, 1);
+
 TP_images = zeros(files, 1);
 FP_images = zeros(files, 1);
 FN_images = zeros(files, 1);
 TN_images = zeros(files, 1);
+
 Precision_images = zeros(files, 1);
 Accuracy_images = zeros(files, 1);
 Specificit_images = zeros(files, 1);

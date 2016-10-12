@@ -45,28 +45,28 @@ end
 
 
 %%%%%%CODIGO A BORRAR: problema masks
-close all;
-mask = double(imread('./train/mask/mask.00.004782.png'));
-im = imread('./train/00.004782.jpg');
-[annotations, Signs] = LoadAnnotations(strcat(Folder_gt, '/gt.00.004782.txt'));
-signs_number=size(annotations, 1);
-mask_areav=zeros(signs_number,1);
-figure();
-imshow(mask);
-for j=1:signs_number
-    mask_areav(j)=sum(sum(mask(round(annotations(j).y):round(annotations(j).y+annotations(j).h),round(annotations(j).x):round(annotations(j).x+annotations(j).w))>0));
-    figure();
-    subplot(1,2,1),
-    imshow(mask(round(annotations(j).y):round(annotations(j).y+annotations(j).h),round(annotations(j).x):round(annotations(j).x+annotations(j).w)));
-    subplot(1,2,2),
-    imshow(im(round(annotations(j).y):round(annotations(j).y+annotations(j).h),round(annotations(j).x):round(annotations(j).x+annotations(j).w)));
-end
+% close all;
+% mask = double(imread('./train/mask/mask.00.004782.png'));
+% im = imread('./train/00.004782.jpg');
+% [annotations, Signs] = LoadAnnotations(strcat(Folder_gt, '/gt.00.004782.txt'));
+% signs_number=size(annotations, 1);
+% mask_areav=zeros(signs_number,1);
+% figure();
+% imshow(mask);
+% for j=1:signs_number
+%     mask_areav(j)=sum(sum(mask(round(annotations(j).y):round(annotations(j).y+annotations(j).h),round(annotations(j).x):round(annotations(j).x+annotations(j).w))>0));
+%     figure();
+%     subplot(1,2,1),
+%     imshow(mask(round(annotations(j).y):round(annotations(j).y+annotations(j).h),round(annotations(j).x):round(annotations(j).x+annotations(j).w)));
+%     subplot(1,2,2),
+%     imshow(im(round(annotations(j).y):round(annotations(j).y+annotations(j).h),round(annotations(j).x):round(annotations(j).x+annotations(j).w)));
+% end
 %%%%%%%%%%%%%%%%%%%
 
 
 
 %For each image
-for i = 2:length(Text_files)
+for i = 2:length(Text_files)%Por que empieza en 2??
     [annotations, Signs] = LoadAnnotations(strcat(Folder_gt, '/', Text_files(i).name));
     signs_number=size(annotations, 1);
     
