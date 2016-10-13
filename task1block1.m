@@ -61,3 +61,5 @@ end
 
 %Remove signs without mask
 Sign_characteristics=Sign_characteristics([[Sign_characteristics{:,4}]~=0]',:);
+
+Total_signs=size(Sign_characteristics,1);
