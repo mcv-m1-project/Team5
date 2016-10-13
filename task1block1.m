@@ -43,28 +43,6 @@ for j=1:ii
     Sign_characteristics(j,4)={mask_area/Sign_characteristics{j,2}};
 end
 
-
-%%%%%%CODIGO A BORRAR: problema masks
-% close all;
-% mask = double(imread('./train/mask/mask.00.004782.png'));
-% im = imread('./train/00.004782.jpg');
-% [annotations, Signs] = LoadAnnotations(strcat(Folder_gt, '/gt.00.004782.txt'));
-% signs_number=size(annotations, 1);
-% mask_areav=zeros(signs_number,1);
-% figure();
-% imshow(mask);
-% for j=1:signs_number
-%     mask_areav(j)=sum(sum(mask(round(annotations(j).y):round(annotations(j).y+annotations(j).h),round(annotations(j).x):round(annotations(j).x+annotations(j).w))>0));
-%     figure();
-%     subplot(1,2,1),
-%     imshow(mask(round(annotations(j).y):round(annotations(j).y+annotations(j).h),round(annotations(j).x):round(annotations(j).x+annotations(j).w)));
-%     subplot(1,2,2),
-%     imshow(im(round(annotations(j).y):round(annotations(j).y+annotations(j).h),round(annotations(j).x):round(annotations(j).x+annotations(j).w)));
-% end
-%%%%%%%%%%%%%%%%%%%
-
-
-
 %For each image
 for i = 2:length(Text_files)%Por que empieza en 2??
     [annotations, Signs] = LoadAnnotations(strcat(Folder_gt, '/', Text_files(i).name));
@@ -92,6 +70,10 @@ for i = 2:length(Text_files)%Por que empieza en 2??
     
     ii=ii+signs_number;
 end
+
+%Remove signs without mask
+Sign_characteristics=Sign_characteristics([[Sign_characteristics{:,4}]~=0]',:);
+
 
 % %Creamos una matriz donde se guardaran los filename en orden en función
 % %a su tamaño (de menor área de bounding box a mayor en cada columna) y
