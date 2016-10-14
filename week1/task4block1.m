@@ -7,9 +7,11 @@ addpath('./evaluation')
 addpath('./colorspace')
 addpath('./circular_hough')
 
-Folder_gt = './train/mask';
-Files = ListFiles(Folder_gt);
+Folder_mask = './train/mask';
+Files = ListFiles(Folder_mask);
 files = size(Files, 1);
+
+List_of_images =  ListFiles('./train/');
 
 TP_images = zeros(files, 1);
 FP_images = zeros(files, 1);
@@ -20,11 +22,29 @@ Precision_images = zeros(files, 1);
 Accuracy_images = zeros(files, 1);
 Specificit_images = zeros(files, 1);
 Sensitivity_images = zeros(files, 1);
+% for i = 1:4
+%     Mask4('./train/', i)
+% end    
 
+
+%%
+colorSpace = 1;
+switch colorSpace
+    case 1
+        path = './train/Masks/OtsuRGB/';
+    case 2
+        path = './train/Masks/HSV/';
+    case 3
+        path = './train/Masks/Lab/';
+    case 4
+        path = './train/Masks/HSV&RGB/';
+end        
+    
 for i = 1:files
-    mask = imread(strcat('./train/mask', Files(i)));
-    pixelAnnotation = mask > 128;
-    %Compute pixelCandidates!!!!!
+    pixelAnnotation = imread(strcat('./train/mask/', char(Files(i).name)));
+
+    pixelCandidates = imread(strcat(path, char(List_of_images(i).name(1:length(List_of_images(i).name)-4)), '_mask.jpg'));
+    
     [pixelTP, pixelFP, pixelFN, pixelTN] = PerformanceAccumulationPixel(pixelCandidates, pixelAnnotation);
     [pixelPrecision, pixelAccuracy, pixelSpecificity, pixelSensitivity] = PerformanceEvaluationPixel(pixelTP, pixelFP, pixelFN, pixelTN);
     TP_images(i) = pixelTP;

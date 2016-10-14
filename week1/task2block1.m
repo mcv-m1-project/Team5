@@ -199,5 +199,5 @@ for i = 1:files
        idx = idx + 1;
     end    
 end   
-
+mkdir('Results');
 save('Results/names_files_train', 'names_files_train');
