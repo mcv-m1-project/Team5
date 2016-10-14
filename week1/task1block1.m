@@ -58,8 +58,3 @@ for i = 1:length(Text_files)
     
     ii=ii+signs_number;
 end
-
-%Remove signs without mask
-Sign_characteristics=Sign_characteristics([[Sign_characteristics{:,4}]~=0]',:);
-
-Total_signs=size(Sign_characteristics,1);
