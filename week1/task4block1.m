@@ -22,13 +22,14 @@ Precision_images = zeros(files, 1);
 Accuracy_images = zeros(files, 1);
 Specificit_images = zeros(files, 1);
 Sensitivity_images = zeros(files, 1);
+FMeasure_images = zeros(files, 1);
 % for i = 1:4
 %     Mask4('./train/', i)
 % end    
 
 
 %%
-colorSpace = 1;
+colorSpace = 5;
 switch colorSpace
     case 1
         path = './train/Masks/OtsuRGB/';
@@ -38,6 +39,8 @@ switch colorSpace
         path = './train/Masks/Lab/';
     case 4
         path = './train/Masks/HSV&RGB/';
+    case 5
+        path = './train/Masks/RGBManual/';
 end        
     
 for i = 1:files
@@ -46,7 +49,7 @@ for i = 1:files
     pixelCandidates = imread(strcat(path, char(List_of_images(i).name(1:length(List_of_images(i).name)-4)), '_mask.jpg'));
     
     [pixelTP, pixelFP, pixelFN, pixelTN] = PerformanceAccumulationPixel(pixelCandidates, pixelAnnotation);
-    [pixelPrecision, pixelAccuracy, pixelSpecificity, pixelSensitivity] = PerformanceEvaluationPixel(pixelTP, pixelFP, pixelFN, pixelTN);
+    [pixelPrecision, pixelAccuracy, pixelSpecificity, pixelSensitivity, pixelFMeasure] = PerformanceEvaluationPixel(pixelTP, pixelFP, pixelFN, pixelTN);
     TP_images(i) = pixelTP;
     FP_images(i) = pixelFP;
     FN_images(i) = pixelFN;
@@ -55,9 +58,17 @@ for i = 1:files
     Accuracy_images(i) = pixelAccuracy;
     Specificit_images(i) = pixelSpecificity;
     Sensitivity_images(i) = pixelSensitivity;
+    FMeasure_images(i) = pixelFMeasure;
 end
 
 average_TP = mean(TP_images);
 average_FP = mean(FP_images);
 average_FN = mean(FN_images);
 average_TN = mean(TN_images);
+
+Precision_images(isnan(Precision_images))=0;
+average_Precision = mean(Precision_images);
+average_Accuracy = mean(Accuracy_images);
+average_Specificit = mean(Specificit_images);
+average_sensitivity = mean(Sensitivity_images);
+average_FMeasure = mean(FMeasure_images);
