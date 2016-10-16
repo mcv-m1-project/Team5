@@ -84,7 +84,9 @@ switch colorSpace
             tic
             rgbImage = imread(strcat(path_images,Imgs(numImagen).name));
             Imgswithoutext=strrep(Imgs(numImagen).name,ext,'');
-            labImage = rgb2lab(rgbImage);
+            labImage = zeros(size(rgbImage));
+            [labImage(:, :, 1), labImage(:, :, 2), labImage(:, :, 3)] = RGB2Lab_own(rgbImage(:, :, 1), rgbImage(:, :, 2), rgbImage(:, :, 3));
+%             labImage = rgb2lab(rgbImage);
             redMask = labImage(:,:,2)==1 & labImage(:,:,3)==1;
             %figure,imshow(redMask)
             blueMask = labImage(:,:,2)==0 & labImage(:,:,3)==0;

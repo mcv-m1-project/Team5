@@ -8,11 +8,11 @@ addpath('./evaluation')
 addpath('./colorspace')
 addpath('./circular_hough')
 
-Folder_mask = './train/mask';
-Files = ListFiles(Folder_mask);
-files = size(Files, 1);
+% Folder_mask = './train/mask';
+% Files = ListFiles(Folder_mask);
+files = size(files_trains, 1);
 
-List_of_images =  ListFiles('./train/');
+List_of_images =  files_train;
 
 TP_images = zeros(files, 1);
 FP_images = zeros(files, 1);
@@ -43,7 +43,7 @@ path_images = './train/';
 average_time = Mask4(path_images, files_train, pixel_method);
 
 for i = 1:files
-    pixelAnnotation = imread(strcat('./train/mask/', char(Files(i).name)));
+    pixelAnnotation = imread(strcat('./train/mask/', char(List_of_images(i).name(1:length(List_of_images(i).name)-4)), '.jpg'));
 
     pixelCandidates = imread(strcat(path, char(List_of_images(i).name(1:length(List_of_images(i).name)-4)), '_mask.jpg'));
     
