@@ -1,8 +1,8 @@
-function [ Sign_characteristics, Text_files ] = task1block1( )
+function [ Sign_characteristics, Text_files ] = task1block1( directory )
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%  Module 1 Block 1 Task 1  %%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-clear all;
+
 %Add folders of functions to path
 addpath('./evaluation')
 addpath('./colorspace')
@@ -10,7 +10,7 @@ addpath('./circular_hough')
 
 
 %Read txt files from the directory of the ground truth files
-Folder_gt = './train/gt';
+Folder_gt = strcat(directory, '/gt');
 Text_files = dir(strcat(Folder_gt,'/*.txt'));
 
 %First, let's determine the total number of signs
@@ -48,7 +48,7 @@ for i = 1:length(Text_files)
     Sign_characteristics(ii+1:ii+signs_number,3)=num2cell(([annotations(:).w]./[annotations(:).h]));
     
     %Char 4: Filling ratio
-    mask = double(imread(strcat('./train/mask/mask.', Sign_characteristics{ii+1,1}, '.png')));
+    mask = double(imread(strcat(directory, '/mask/mask.', Sign_characteristics{ii+1,1}, '.png')));
     for j=1:signs_number
         mask_area=sum(sum(mask(round(annotations(j).y):round(annotations(j).y+annotations(j).h),round(annotations(j).x):round(annotations(j).x+annotations(j).w))>0));
         Sign_characteristics(ii+j,4)={mask_area/Sign_characteristics{ii+j,2}};

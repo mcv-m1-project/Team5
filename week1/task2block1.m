@@ -1,11 +1,11 @@
-function [ names_files_train ] = task2block1(  )
+function [ files_train ] = task2block1( directory )
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%  Module 1 Block 1 Task 2  %%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %Load the information from the previous task
 % cd(directory);
-[ Sign_characteristics, Text_files ] = task1block1( );
+[ Sign_characteristics, Text_files ] = task1block1( directory );
 Total_signs = size(Sign_characteristics, 1);
 
 files = size(Text_files, 1);
@@ -194,14 +194,26 @@ end
 
 
 names_files = keys(Files_picked);
+
 names_files_train = cell(sum(cell2mat(values(Files_picked))), 1);
 idx = 1;
+files_to_delete = [];
 for i = 1:files
     if Files_picked(char(names_files(i))) == 1
-        names_files_train(idx) = {strcat('gt.', names_files(i), '.txt')};
+        % If the file is marked as picked
+        Text_files(i).name = Text_files(i).name(4:length(Text_files(i).name)-4);
+        names_files_train(idx) = {names_files(i)};
         idx = idx + 1;
+    else
+        files_to_delete = [i files_to_delete]; 
     end
 end
 
-save('Results/names_files_train', 'names_files_train');
+files_train = Text_files;
+for i = 1:size(files_to_delete, 2)
+    files_train(files_to_delete(i)) = [];
+    
+end    
+
+save('Results/names_files_train', 'files_train');
 end
