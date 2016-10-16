@@ -1,4 +1,4 @@
-function time = Mask4(path_images, Imgs, colorSpace)
+function time = Task3block1(path_images, Imgs, colorSpace)
 mkdir([path_images 'Masks'])
 Imgs = dir([path_images '/*.jpg']);
 

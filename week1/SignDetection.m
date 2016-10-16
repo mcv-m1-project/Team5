@@ -10,9 +10,13 @@ addpath('./circular_hough')
 
 % Folder_mask = './train/mask';
 % Files = ListFiles(Folder_mask);
-files = size(files_trains, 1);
 
-List_of_images =  files_train;
+
+List_of_images =  ListFiles('./train/');
+files = size(List_of_images, 1);
+
+% files = size(files_train, 1);
+% List_of_images =  files_train;
 
 TP_images = zeros(files, 1);
 FP_images = zeros(files, 1);
@@ -37,13 +41,15 @@ switch pixel_method
         path = './train/Masks/HSV&RGB/';
     case 5
         path = './train/Masks/RGBManual/';
-end        
+    case 6
+        path = './train/Masks/YUV/';
+end
 path_images = './train/';
 %Generate the masks for the given method
-average_time = Mask4(path_images, files_train, pixel_method);
+average_time = Task3block1(path_images, files_train, pixel_method);
 
 for i = 1:files
-    pixelAnnotation = imread(strcat('./train/mask/', char(List_of_images(i).name(1:length(List_of_images(i).name)-4)), '.jpg'));
+    pixelAnnotation = imread(strcat('./train/mask/mask.', char(List_of_images(i).name(1:length(List_of_images(i).name)-4)), '.png'));
 
     pixelCandidates = imread(strcat(path, char(List_of_images(i).name(1:length(List_of_images(i).name)-4)), '_mask.jpg'));
     
@@ -73,7 +79,7 @@ average_sensitivity = mean(Sensitivity_images);
 average_FMeasure = mean(FMeasure_images);
 
 
-%The vector metrix_method contains the measures of the method
+% The vector metrix_method contains the measures of the method
 % 1 average_Precision
 % 2 average_Accuracy
 % 3 average_sensitivity 

@@ -1,4 +1,6 @@
 function [L,a,b] = RGB2Lab_own(R,G,B)
+% The code is taken from:
+% https://es.mathworks.com/matlabcentral/fileexchange/24009-rgb2lab/content/RGB2Lab.m
 %RGB2LAB Convert an image from RGB to CIELAB
 %
 % function [L, a, b] = RGB2Lab(R, G, B)
