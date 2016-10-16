@@ -19,7 +19,7 @@ function time = Task3block1(path_images, Imgs, path_images_write, colorSpace)
 % time:(OP) number that represents the average of time that is needed for
 % execute the segmentation for a specific method.
 
-mkdir([path_images_write 'Masks'])
+mkdir([path_images_write '/Masks'])
 % Imgs = dir([path_images '/*.jpg']);
 
 ext='.jpg';

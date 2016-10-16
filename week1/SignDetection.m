@@ -1,12 +1,11 @@
-function [ metrix_method ] = SignDetection( pixel_method, files_train, directory )
+function [ metrix_method ] = SignDetection( pixel_method, files_train, directory, path_images_write )
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%  Module 1 Block 1 Task 4  %%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %Add folders of functions to path
 addpath('./evaluation')
-addpath('./colorspace')
-addpath('./circular_hough')
+
 
 % Folder_mask = './train/mask';
 % Files = ListFiles(Folder_mask);
@@ -32,22 +31,22 @@ FMeasure_images = zeros(files, 1);
 
 switch pixel_method
     case 1
-        path = strcat(directory, '/Masks/RGBManual/');
+        path = strcat(path_images_write, '/Masks/RGBManual/');
     case 2
-        path = strcat(directory, '/Masks/OtsuRGB/');
+        path = strcat(path_images_write, '/Masks/OtsuRGB/');
     case 3
-        path = strcat(directory, '/Masks/HSV/');
+        path = strcat(path_images_write, '/Masks/HSV/');
     case 4
-        path = strcat(directory, '/Masks/Lab/');
+        path = strcat(path_images_write, '/Masks/Lab/');
     case 5
-        path = strcat(directory, '/Masks/YUV/');
+        path = strcat(path_images_write, '/Masks/YUV/');
     case 6
-        path = strcat(directory, '/Masks/HSV&RGB/');
+        path = strcat(path_images_write, '/Masks/HSV&RGB/');
 end        
 
 path_images = directory;
 %Generate the masks for the given method
-average_time = Task3block1(path_images, List_of_images, pixel_method);
+average_time = Task3block1(path_images, List_of_images, path_images_write, pixel_method);
 
 for i = 1:files
     pixelAnnotation = imread(strcat(directory, '/mask/mask.', char(List_of_images(i).name), '.png'));

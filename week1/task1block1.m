@@ -5,8 +5,6 @@ function [ Sign_characteristics, Text_files ] = task1block1( directory )
 
 %Add folders of functions to path
 addpath('./evaluation')
-addpath('./colorspace')
-addpath('./circular_hough')
 
 
 %Read txt files from the directory of the ground truth files
