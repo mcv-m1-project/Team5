@@ -28,7 +28,7 @@ theTime = zeros(size(Imgs, 1),1);
 
 switch colorSpace
     case 1
-        mkdir([path_images 'Masks/RGBManual'])
+        mkdir([path_images '/Masks/RGBManual'])
         for numImagen=1:length(Imgs)
             tic
             
@@ -45,14 +45,14 @@ switch colorSpace
             % Combination of the red and blue segmentation -> binary image
             Mask = redMask | blueMask;
             
-            imwrite(Mask,[path_images 'Masks/RGBManual/' Imgswithoutext...
+            imwrite(Mask,[path_images '/Masks/RGBManual/' Imgswithoutext...
                 '_mask.jpg' ]);
             
             theTime(numImagen) = toc;
         end
         
     case 2
-        mkdir([path_images 'Masks/OtsuRGB'])
+        mkdir([path_images '/Masks/OtsuRGB'])
         for numImagen = 1:length(Imgs)
             tic
             close all;	% Close all figure windows
@@ -73,14 +73,14 @@ switch colorSpace
             
             Mask = redMask | blueMask;
             
-            imwrite(Mask,[path_images 'Masks/OtsuRGB/' Imgswithoutext...
+            imwrite(Mask,[path_images '/Masks/OtsuRGB/' Imgswithoutext...
                 '_mask.jpg' ]);
             theTime(numImagen) = toc;
             
         end
         
     case 3
-        mkdir([path_images 'Masks/HSV'])
+        mkdir([path_images '/Masks/HSV'])
         for numImagen=1:length(Imgs)
             tic
             rgbImage = imread(strcat(path_images, '/', strcat(Imgs(numImagen).name), '.jpg'));
@@ -111,13 +111,13 @@ switch colorSpace
             
             
             Mask = redMask | blueMask;
-            imwrite(Mask,[path_images 'Masks/HSV/' Imgswithoutext...
+            imwrite(Mask,[path_images '/Masks/HSV/' Imgswithoutext...
                 '_mask.jpg' ]);
             theTime(numImagen) = toc;
             
         end
     case 4
-        mkdir([path_images 'Masks/Lab'])
+        mkdir([path_images '/Masks/Lab'])
         for numImagen=1:length(Imgs)
             tic
             rgbImage = imread(strcat(path_images, '/', strcat(Imgs(numImagen).name), '.jpg'));
@@ -129,13 +129,13 @@ switch colorSpace
             blueMask = labImage(:,:,2)==0 & labImage(:,:,3)==0;
             
             Mask = redMask | blueMask;
-            imwrite(Mask,[path_images 'Masks/Lab/' Imgswithoutext...
+            imwrite(Mask,[path_images '/Masks/Lab/' Imgswithoutext...
                 '_mask.jpg' ]);
             theTime(numImagen) = toc;
         end
         
     case 5
-        mkdir([path_images 'Masks/YUV'])
+        mkdir([path_images '/Masks/YUV'])
         for numImagen=1:length(Imgs)
             tic
             rgbImage = imread(strcat(path_images, '/', strcat(Imgs(numImagen).name), '.jpg'));
@@ -150,13 +150,13 @@ switch colorSpace
                 yuvImage(:,:,3) > 100 & yuvImage(:,:,3) < 120;
             
             Mask = redMask | blueMask;
-            imwrite(Mask,[path_images 'Masks/YUV/' Imgswithoutext...
+            imwrite(Mask,[path_images '/Masks/YUV/' Imgswithoutext...
                 '_mask.jpg' ]);
             
             theTime(numImagen) = toc;
         end
     case 6
-        mkdir([path_images 'Masks/HSV&RGB'])
+        mkdir([path_images '/Masks/HSV&RGB'])
         for numImagen=1:length(Imgs)
             tic
             rgbImage = imread(strcat(path_images, '/', strcat(Imgs(numImagen).name), '.jpg'));
@@ -205,7 +205,7 @@ switch colorSpace
             Mask2 = redMask2 | blueMask2;
             Mask = Mask1 & Mask2;
             
-            imwrite(Mask,[path_images 'Masks/HSV&RGB/' Imgswithoutext...
+            imwrite(Mask,[path_images '/Masks/HSV&RGB/' Imgswithoutext...
                 '_mask.jpg' ]);
             theTime(numImagen) = toc;
         end
