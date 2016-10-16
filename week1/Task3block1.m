@@ -187,7 +187,7 @@ switch colorSpace
             
             Mask1 = redMask | blueMask;
             
-            rgbImage = imread(strcat(path_images,Imgs(numImagen).name));
+            rgbImage = imread(strcat(path_images, '/', strcat(Imgs(numImagen).name), '.jpg'));
             
             Imgswithoutext=strrep(Imgs(numImagen).name,ext,'');
             

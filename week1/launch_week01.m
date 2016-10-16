@@ -12,7 +12,6 @@ metrix_methods = zeros(10, 6);
 [ files_train ] = task2block1( directory );
 %Evaluate all methods ans save its metrices
 for i = 1:6
-    i
     pixel_method = colorSp(i);
     metr_method = SignDetection(pixel_method , files_train, directory );
     metrix_methods(:, i) = metr_method;
