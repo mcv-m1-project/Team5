@@ -17,6 +17,7 @@ function [pixelPrecision, pixelAccuracy, pixelSpecificity, pixelSensitivity,pixe
     pixelPrecision = pixelTP / (pixelTP+pixelFP);
     pixelAccuracy = (pixelTP+pixelTN) / (pixelTP+pixelFP+pixelFN+pixelTN);
     pixelSpecificity = pixelTN / (pixelTN+pixelFP);%True Negative Rate
-    pixelSensitivity = pixelTP / (pixelTP+pixelFN);    
+    pixelSensitivity = pixelTP / (pixelTP+pixelFN);
     pixelFMeasure = (2*pixelPrecision*pixelSensitivity)/(pixelPrecision+pixelSensitivity);
+    pixelFMeasure(isnan(pixelFMeasure))=0;
 end
