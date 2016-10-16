@@ -1,7 +1,8 @@
 
 %Directory where the images of the train images are placed
 directory = './train';
-
+%Path where the results are written
+path_images_write = '.';
 %Names of the different methods we have used for the segmentation
 colorSpaces = {'RGBManual' 'OtsuRGB' 'HSV' 'Lab' 'YUV' 'HSV&RGB'};
 colorSp = [         1           2      3     4     5        6   ];
@@ -17,3 +18,7 @@ for i = 1:6
     metrix_methods(:, i) = metr_method;
 end
 metrix_methods(:, i) = metr_method;
+
+
+%If you want to execute the methods with other images, files_train should
+%be an struct variable with name field

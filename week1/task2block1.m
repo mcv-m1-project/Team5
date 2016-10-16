@@ -215,5 +215,5 @@ for i = 1:size(files_to_delete, 2)
     
 end    
 
-save('Results/names_files_train', 'files_train');
+save('./Results/names_files_train', 'files_train');
 end

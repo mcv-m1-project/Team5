@@ -59,6 +59,6 @@ for i = 1:length(Text_files)
     
     ii=ii+signs_number;
 end
-mkdir('Results');
-save('Results/characteristics_signs', 'Sign_characteristics');
+mkdir('./Results');
+save('./Results/characteristics_signs', 'Sign_characteristics');
 end
