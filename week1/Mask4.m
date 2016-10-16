@@ -105,6 +105,9 @@ switch colorSpace
             % Convert RGB image to Lab space
             labImage = rgb2lab(rgbImage);
             
+            labImage = zeros(size(rgbImage));
+            [labImage(:, :, 1), labImage(:, :, 2), labImage(:, :, 3)] = RGB2Lab_own(rgbImage(:, :, 1), rgbImage(:, :, 2), rgbImage(:, :, 3));
+%             labImage = rgb2lab(rgbImage);
             redMask = labImage(:,:,2)==1 & labImage(:,:,3)==1;
             blueMask = labImage(:,:,2)==0 & labImage(:,:,3)==0;
             
