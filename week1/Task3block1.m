@@ -32,7 +32,7 @@ switch colorSpace
         for numImagen=1:length(Imgs)
             tic
             
-            rgbImage = imread(strcat(path_images, strcat(Imgs(numImagen).name), '.jpg'));
+            rgbImage = imread(strcat(path_images, '/', strcat(Imgs(numImagen).name), '.jpg'));
             Imgswithoutext = strrep(Imgs(numImagen).name,ext,'');
             
             % Red segmentation
@@ -56,7 +56,7 @@ switch colorSpace
         for numImagen = 1:length(Imgs)
             tic
             close all;	% Close all figure windows
-            rgbImage = imread(strcat(path_images,Imgs(numImagen).name));
+            rgbImage = imread(strcat(path_images, '/', strcat(Imgs(numImagen).name), '.jpg'));
             
             Imgswithoutext = strrep(Imgs(numImagen).name,ext,'');
             
@@ -83,7 +83,7 @@ switch colorSpace
         mkdir([path_images 'Masks/HSV'])
         for numImagen=1:length(Imgs)
             tic
-            rgbImage = imread(strcat(path_images,Imgs(numImagen).name));
+            rgbImage = imread(strcat(path_images, '/', strcat(Imgs(numImagen).name), '.jpg'));
             
             Imgswithoutext=strrep(Imgs(numImagen).name,ext,'');
             
@@ -120,7 +120,7 @@ switch colorSpace
         mkdir([path_images 'Masks/Lab'])
         for numImagen=1:length(Imgs)
             tic
-            rgbImage = imread(strcat(path_images,Imgs(numImagen).name));
+            rgbImage = imread(strcat(path_images, '/', strcat(Imgs(numImagen).name), '.jpg'));
             Imgswithoutext=strrep(Imgs(numImagen).name,ext,'');
             labImage = zeros(size(rgbImage));
             [labImage(:, :, 1), labImage(:, :, 2), labImage(:, :, 3)] = RGB2Lab_own(rgbImage(:, :, 1), rgbImage(:, :, 2), rgbImage(:, :, 3));
@@ -138,7 +138,7 @@ switch colorSpace
         mkdir([path_images 'Masks/YUV'])
         for numImagen=1:length(Imgs)
             tic
-            rgbImage = imread(strcat(path_images,Imgs(numImagen).name));
+            rgbImage = imread(strcat(path_images, '/', strcat(Imgs(numImagen).name), '.jpg'));
             %GT = imread(strcat(path_GT,Imgs_GT(numImagen).name));
             yuvImage = rgb2yuv(rgbImage);
             Imgswithoutext = strrep(Imgs(numImagen).name,ext,'');
@@ -159,7 +159,7 @@ switch colorSpace
         mkdir([path_images 'Masks/HSV&RGB'])
         for numImagen=1:length(Imgs)
             tic
-            rgbImage = imread(strcat(path_images,Imgs(numImagen).name));
+            rgbImage = imread(strcat(path_images, '/', strcat(Imgs(numImagen).name), '.jpg'));
             
             % Convert RGB image to HSV space
             

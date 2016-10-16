@@ -1,11 +1,11 @@
-function [ files_train ] = task2block1(  )
+function [ files_train ] = task2block1( directory )
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%  Module 1 Block 1 Task 2  %%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %Load the information from the previous task
 % cd(directory);
-[ Sign_characteristics, Text_files ] = task1block1( );
+[ Sign_characteristics, Text_files ] = task1block1( directory );
 Total_signs = size(Sign_characteristics, 1);
 
 files = size(Text_files, 1);

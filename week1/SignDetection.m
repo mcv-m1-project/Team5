@@ -1,4 +1,4 @@
-function [ metrix_method ] = SignDetection( pixel_method, files_train )
+function [ metrix_method ] = SignDetection( pixel_method, files_train, directory )
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%  Module 1 Block 1 Task 4  %%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -32,25 +32,25 @@ FMeasure_images = zeros(files, 1);
 
 switch pixel_method
     case 1
-        path = './train/Masks/RGBManual/';
+        path = strcat(directory, '/Masks/RGBManual/');
     case 2
-        path = './train/Masks/OtsuRGB/';
+        path = strcat(directory, '/Masks/OtsuRGB/');
     case 3
-        path = './train/Masks/HSV/';
+        path = strcat(directory, '/Masks/HSV/');
     case 4
-        path = './train/Masks/Lab/';
+        path = strcat(directory, '/Masks/Lab/');
     case 5
-        path = './train/Masks/YUV/';
+        path = strcat(directory, '/Masks/YUV/');
     case 6
-        path = './train/Masks/HSV&RGB/';
+        path = strcat(directory, '/Masks/HSV&RGB/');
 end        
 
-path_images = './train/';
+path_images = directory;
 %Generate the masks for the given method
 average_time = Task3block1(path_images, List_of_images, pixel_method);
 
 for i = 1:files
-    pixelAnnotation = imread(strcat('./train/mask/mask.', char(List_of_images(i).name), '.png'));
+    pixelAnnotation = imread(strcat(directory, '/mask/mask.', char(List_of_images(i).name), '.png'));
 
     pixelCandidates = imread(strcat(path, char(List_of_images(i).name), '_mask.jpg'));
     
