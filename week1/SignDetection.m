@@ -28,15 +28,17 @@ FMeasure_images = zeros(files, 1);
 
 switch pixel_method
     case 1
-        path = './train/Masks/OtsuRGB/';
-    case 2
-        path = './train/Masks/HSV/';
-    case 3
-        path = './train/Masks/Lab/';
-    case 4
-        path = './train/Masks/HSV&RGB/';
-    case 5
         path = './train/Masks/RGBManual/';
+    case 2
+        path = './train/Masks/OtsuRGB/';
+    case 3
+        path = './train/Masks/HSV/';
+    case 4
+        path = './train/Masks/Lab/';
+    case 5
+        path = './train/Masks/YUV/';
+    case 6
+        path = './train/Masks/HSV&RGB/';
 end        
 path_images = './train/';
 %Generate the masks for the given method

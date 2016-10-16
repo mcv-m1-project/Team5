@@ -1,7 +1,7 @@
 
 %Names of the different methods we have used for the segmentation
-colorSpaces = {'OtsuRGB' 'HSV' 'Lab' 'HSV&RGB' 'RGBManual'};
-colorSp = [         1       2     3      4           5    ];
+colorSpaces = {'RGBManual' 'OtsuRGB' 'HSV' 'Lab' 'YUV' 'HSV&RGB'};
+colorSp = [         1           2      3     4     5        6   ];
 %We create the colorSp vector because the switch works better with numbers
 metrix_methods = zeros(10, 5);
 %Compute the files of the train set

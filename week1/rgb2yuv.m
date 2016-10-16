@@ -1,14 +1,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %This function rgb2yuv converts the RB matrix of an image to an YUV format%
 %matrix for the image. It plots the images, if Plot Flag is eqaul to 1.   %
-%                                                                         %
-%Example                                                                  %
-%file=('C:\Image0474.jpg');                                               %
-%plotflag=1;                                                              %
-%RGB = imread(file);                                                      %
-%imshow(RGB);                                                             %
-%YUV=rgb2yuv(RGB);                                                        %
-%                                                                         %
+% Code from: Mathworks                                                           
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function YUV=rgb2yuv(RGB)
 
