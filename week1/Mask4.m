@@ -175,6 +175,27 @@ switch colorSpace
          theTime(numImagen) = toc;
         end
 
+    case 6
+        mkdir([path_images 'Masks/YUV'])
+        for numImagen=1:length(Imgs)
+        tic
+        rgbImage = imread(strcat(path_images,Imgs(numImagen).name));
+            %GT = imread(strcat(path_GT,Imgs_GT(numImagen).name));
+        yuvImage = rgb2yuv(rgbImage);
+        Imgswithoutext = strrep(Imgs(numImagen).name,ext,'');
+            
+                redMask = yuvImage(:,:,2) > 110 & yuvImage(:,:,2) < 130 & ...
+                yuvImage(:,:,3) > 135 & yuvImage(:,:,3) < 165;
+            
+                blueMask = yuvImage(:,:,2) > 140 & yuvImage(:,:,2) < 170 & ...
+                yuvImage(:,:,3) > 100 & yuvImage(:,:,3) < 120;
+            
+            Mask = redMask | blueMask;
+            imwrite(Mask,[path_images 'Masks/YUV/' Imgswithoutext...
+                '_mask.jpg' ]);
+   
+         theTime(numImagen) = toc;
+        end
 end
 time = mean(theTime);
 end

@@ -41,6 +41,8 @@ switch colorSpace
         path = './train/Masks/HSV&RGB/';
     case 5
         path = './train/Masks/RGBManual/';
+    case 6
+        path = './train/Masks/YUV/';
 end        
     
 for i = 1:files
