@@ -12,11 +12,11 @@ addpath('./circular_hough')
 % Files = ListFiles(Folder_mask);
 
 
-List_of_images =  ListFiles('./train/');
-files = size(List_of_images, 1);
+% List_of_images =  ListFiles('./train/');
+% files = size(List_of_images, 1);
 
-% files = size(files_train, 1);
-% List_of_images =  files_train;
+files = size(files_train, 1);
+List_of_images =  files_train;
 
 TP_images = zeros(files, 1);
 FP_images = zeros(files, 1);
@@ -32,35 +32,27 @@ FMeasure_images = zeros(files, 1);
 
 switch pixel_method
     case 1
-        path = './train/Masks/OtsuRGB/';
         path = './train/Masks/RGBManual/';
     case 2
-        path = './train/Masks/HSV/';
         path = './train/Masks/OtsuRGB/';
     case 3
-        path = './train/Masks/Lab/';
         path = './train/Masks/HSV/';
     case 4
-        path = './train/Masks/HSV&RGB/';
         path = './train/Masks/Lab/';
     case 5
-        path = './train/Masks/RGBManual/';
-    case 6
-        path = './train/Masks/YUV/';
-end
         path = './train/Masks/YUV/';
     case 6
         path = './train/Masks/HSV&RGB/';
 end        
->>>>>>> 89e31d649c4e877ecbae5cbc7bb492836b002c23
+
 path_images = './train/';
 %Generate the masks for the given method
-average_time = Task3block1(path_images, files_train, pixel_method);
+average_time = Task3block1(path_images, List_of_images, pixel_method);
 
 for i = 1:files
-    pixelAnnotation = imread(strcat('./train/mask/mask.', char(List_of_images(i).name(1:length(List_of_images(i).name)-4)), '.png'));
+    pixelAnnotation = imread(strcat('./train/mask/mask.', char(List_of_images(i).name), '.png'));
 
-    pixelCandidates = imread(strcat(path, char(List_of_images(i).name(1:length(List_of_images(i).name)-4)), '_mask.jpg'));
+    pixelCandidates = imread(strcat(path, char(List_of_images(i).name), '_mask.jpg'));
     
     [pixelTP, pixelFP, pixelFN, pixelTN] = PerformanceAccumulationPixel(pixelCandidates, pixelAnnotation);
     [pixelPrecision, pixelAccuracy, pixelSpecificity, pixelSensitivity, pixelFMeasure] = PerformanceEvaluationPixel(pixelTP, pixelFP, pixelFN, pixelTN);

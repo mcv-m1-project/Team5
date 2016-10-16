@@ -1,4 +1,4 @@
-function [ names_files_train ] = task2block1(  )
+function [ files_train ] = task2block1(  )
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%  Module 1 Block 1 Task 2  %%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -211,7 +211,7 @@ end
 
 files_train = Text_files;
 for i = 1:size(files_to_delete, 2)
-    files_train(i) = [];
+    files_train(files_to_delete(i)) = [];
     
 end    
 
