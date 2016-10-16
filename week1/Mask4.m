@@ -1,17 +1,10 @@
-
-% path_images = '/Users/lidiatalavera/Desktop/señales/';
-% colorSpace=2;
-% Mask(path_images,colorSpace)
-% function Mask2(path_images,path_GT,colorSpace)
-function theTime = Mask4(path_images, colorSpace)
-
-
+function time = Mask4(path_images, Imgs, colorSpace)
 mkdir([path_images 'Masks'])
 Imgs = dir([path_images '/*.jpg']);
-%Imgs_GT = dir([path_GT '/*.png']);
+
 ext='.jpg';
-theTime = zeros(362,1);
-% colorSpace=2;
+theTime = zeros(size(Imgs, 1),1); 
+
 
 switch colorSpace
     case 1
@@ -108,9 +101,6 @@ switch colorSpace
             tic
             rgbImage = imread(strcat(path_images,Imgs(numImagen).name));
             
-            Imgswithoutext=strrep(Imgs(numImagen).name,ext,'');
-            %imshow(rgbImage)
-            
             % Convert RGB image to HSV space
             
             hsvImage = rgb2hsv(rgbImage);
@@ -185,4 +175,6 @@ switch colorSpace
          theTime(numImagen) = toc;
         end
 
+end
+time = mean(theTime);
 end

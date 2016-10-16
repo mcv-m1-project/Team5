@@ -1,10 +1,12 @@
+function [ names_files_train ] = task2block1(  )
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%  Module 1 Block 1 Task 2  %%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %Load the information from the previous task
-task1block1
-clear annotations i ii Signs signs_number mask mask_area j Folder_gt
+% cd(directory);
+[ Sign_characteristics, Text_files ] = task1block1( );
+Total_signs = size(Sign_characteristics, 1);
 
 files = size(Text_files, 1);
 Files_multiple = cell(files, 1);
@@ -34,10 +36,10 @@ for i = 1:Total_signs
         Sign_characteristics_multiple(idx_multiple, :) = Sign_characteristics(i, :);
         idx_multiple = idx_multiple + 1;
     else
-       Sign_characteristics_single(idx_single, :) = Sign_characteristics(i, :);
+        Sign_characteristics_single(idx_single, :) = Sign_characteristics(i, :);
         idx_single = idx_single + 1;
-    end    
-end    
+    end
+end
 
 %Choose the files to pick from single files
 Signs_single_picked = zeros(size(Sign_characteristics_single, 1), 1);
@@ -62,7 +64,7 @@ end
 Signs_single_sorted = sortrows(Sign_characteristics_single, 5);
 for i = 1:6
     Signs_single_sorted(prev_signs(i) + 1:prev_signs(i+1), :) = sortrows(Signs_single_sorted(prev_signs(i) + 1:prev_signs(i+1) , :), 2);
-end    
+end
 
 
 Files_picked = containers.Map;
@@ -107,7 +109,7 @@ signs_type(3) = sum(strcmp(Sign_characteristics_multiple(:, 5), 'C'));
 signs_type(4) = sum(strcmp(Sign_characteristics_multiple(:, 5), 'D'));
 signs_type(5)= sum(strcmp(Sign_characteristics_multiple(:, 5), 'E'));
 signs_type(6) = sum(strcmp(Sign_characteristics_multiple(:, 5), 'F'));
- 
+
 
 prev_signs = zeros(7, 1);
 prev_signs(1) = 0;
@@ -121,7 +123,8 @@ for i = 1:6
     Signs_multiple_sorted(prev_signs(i) + 1:prev_signs(i+1), :) = sortrows(Signs_multiple_sorted(prev_signs(i) + 1:prev_signs(i+1) , :), 2);
 end
 
-
+%The multiple files are picked "randomly", starting from the signs with                                                                                124
+%lower area
 last_picked = zeros(6, 1);
 finished = 0;
 while not(finished)
@@ -129,23 +132,23 @@ while not(finished)
     for j = 1:6
         %In each iteration we will take the first sign not picked
         if last_picked(j) == -1
-           continue
+            continue
         else
             if last_picked(j) == signs_type(j)
                 last_picked(j) = -1;
                 continue
-            end    
-        end    
+            end
+        end
         %Take the index of the first sign in a type that we can take
         idx = last_picked(j) + 1 + prev_signs(j);
         while (Signs_cant_pick(idx, 1) == 1 || Signs_multiple_picked(idx, 1) == 1) && idx <= prev_signs(j + 1)
             idx = idx + 1;
-        end   
+        end
         if idx > prev_signs(j + 1)
             last_picked(j) = -1;
             continue
-        end    
-
+        end
+        
         Signs_multiple_picked(idx, 1) = 1;
         
         %Calculate the number of signs to pick if we pick the file that
@@ -182,11 +185,11 @@ while not(finished)
         
         if sum(Signs_cant_pick) == signs_type(j)
             last_picked(j) = -1;
-        end    
-    end  
+        end
+    end
     if sum(last_picked) == -6
-       finished = 1; 
-    end    
+        finished = 1;
+    end
 end
 
 
@@ -195,9 +198,10 @@ names_files_train = cell(sum(cell2mat(values(Files_picked))), 1);
 idx = 1;
 for i = 1:files
     if Files_picked(char(names_files(i))) == 1
-       names_files_train(idx) = {strcat('gt.', names_files(i), '.txt')};
-       idx = idx + 1;
-    end    
-end   
-mkdir('Results');
+        names_files_train(idx) = {strcat('gt.', names_files(i), '.txt')};
+        idx = idx + 1;
+    end
+end
+
 save('Results/names_files_train', 'names_files_train');
+end

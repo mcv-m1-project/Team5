@@ -1,3 +1,4 @@
+function [ Sign_characteristics, Text_files ] = task1block1( )
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%  Module 1 Block 1 Task 1  %%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -15,9 +16,9 @@ Text_files = dir(strcat(Folder_gt,'/*.txt'));
 %First, let's determine the total number of signs
 Total_signs = 0;
 for i = 1:length(Text_files)
-    [annotations, ~] = LoadAnnotations(strcat(Folder_gt,filesep,Text_files(i).name));            
+    [annotations, ~] = LoadAnnotations(strcat(Folder_gt,filesep,Text_files(i).name));
     Total_signs = Total_signs + size(annotations, 1);
-end    
+end
 
 
 %The characteristics will be saved in a matrix where each row corresponds
@@ -42,7 +43,7 @@ for i = 1:length(Text_files)
     
     %Char 2: Bounding box area
     Sign_characteristics(ii+1:ii+signs_number,2)=num2cell(([annotations(:).w].*[annotations(:).h]));
-
+    
     %Char 3: Form factor
     Sign_characteristics(ii+1:ii+signs_number,3)=num2cell(([annotations(:).w]./[annotations(:).h]));
     
@@ -52,9 +53,12 @@ for i = 1:length(Text_files)
         mask_area=sum(sum(mask(round(annotations(j).y):round(annotations(j).y+annotations(j).h),round(annotations(j).x):round(annotations(j).x+annotations(j).w))>0));
         Sign_characteristics(ii+j,4)={mask_area/Sign_characteristics{ii+j,2}};
     end
-
+    
     %Char 5: Sign type
     Sign_characteristics(ii+1:ii+signs_number,5)=Signs(:);
     
     ii=ii+signs_number;
+end
+mkdir('Results');
+save('Results/characteristics_signs', 'Sign_characteristics');
 end
