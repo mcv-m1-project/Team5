@@ -1,4 +1,25 @@
 function time = Task3block1(path_images, Imgs, colorSpace)
+% Task 3. Task3block1 is a function that perfoms a segmentation of the red
+% and blue colors over an input RGB image. The function has the next 
+% three input parameters (IP) and one output parameter (OP).
+% 
+% path_images:(IP) Is the path where we can find all the dataset.
+% Imgs:(IP) List of images that have been chosen as training set (Task 2)
+% on which segmentation will be performed.
+% colorSpace:(IP) number that represents the method applied to implement
+% the segmentation.
+%                                  ------Method------
+%       colorSpace 1 -> RGB with manual selection of the thresholds.
+%       colorSpace 2 -> RGB using Otsu?s segmentation method.
+%       colorSpace 3 -> Segmentation on HSV color space.
+%       colorSpace 4 -> Segmentation on Lab color space.
+%       colorSpace 5 -> Segmentation on YUV color space.
+%       colorSpace 6 -> Combination of HSV and RGB color spaces.
+%
+% time:(OP) number that represents the average of time that is needed for
+% execute the segmentation for a specific method.
+
+function time = Mask4(path_images, Imgs, colorSpace)
 mkdir([path_images 'Masks'])
 Imgs = dir([path_images '/*.jpg']);
 
@@ -8,6 +29,30 @@ theTime = zeros(size(Imgs, 1),1);
 
 switch colorSpace
     case 1
+        mkdir([path_images 'Masks/RGBManual'])
+        for numImagen=1:length(Imgs)
+            tic
+            
+            rgbImage = imread(strcat(path_images,Imgs(numImagen).name));
+            Imgswithoutext = strrep(Imgs(numImagen).name,ext,'');
+            
+            % Red segmentation
+            redMask = rgbImage(:,:,1) > 50 & rgbImage(:,:,2) < 40 &...
+                rgbImage(:,:,3) < 40;
+            % Blue segmentation
+            blueMask = rgbImage(:,:,1) < 50 & rgbImage(:,:,2) < 60 &...
+                rgbImage(:,:,3) > 60;
+            
+            % Combination of the red and blue segmentation -> binary image
+            Mask = redMask | blueMask;
+            
+            imwrite(Mask,[path_images 'Masks/RGBManual/' Imgswithoutext...
+                '_mask.jpg' ]);
+   
+         theTime(numImagen) = toc;
+        end
+
+    case 2
         mkdir([path_images 'Masks/OtsuRGB'])
         for numImagen = 1:length(Imgs)
             tic

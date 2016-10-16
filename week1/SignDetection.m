@@ -33,17 +33,26 @@ FMeasure_images = zeros(files, 1);
 switch pixel_method
     case 1
         path = './train/Masks/OtsuRGB/';
+        path = './train/Masks/RGBManual/';
     case 2
         path = './train/Masks/HSV/';
+        path = './train/Masks/OtsuRGB/';
     case 3
         path = './train/Masks/Lab/';
+        path = './train/Masks/HSV/';
     case 4
         path = './train/Masks/HSV&RGB/';
+        path = './train/Masks/Lab/';
     case 5
         path = './train/Masks/RGBManual/';
     case 6
         path = './train/Masks/YUV/';
 end
+        path = './train/Masks/YUV/';
+    case 6
+        path = './train/Masks/HSV&RGB/';
+end        
+>>>>>>> 89e31d649c4e877ecbae5cbc7bb492836b002c23
 path_images = './train/';
 %Generate the masks for the given method
 average_time = Task3block1(path_images, files_train, pixel_method);
