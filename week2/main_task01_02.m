@@ -2,26 +2,42 @@
 %%%%  Module 1 Block 2 Task 1 and 2  %%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%Our methods
 addpath('./Morphologic_operators');
 Img = imread('text.png');
-figure,imshow(Img)
+figure, imshow(Img)
 A = im2bw(Img);
-se = mystrel('square',3);
+se = mystrel('square', 3);
 
-imDilated=myDilation(A, se);
-figure,imshow(imDilated)
+myimDilated = myDilation(A, se);
+figure, imshow(myimDilated)
 
-imEroded=myErosion(A, se);
-figure,imshow(imEroded)
+myimEroded = myErosion(A, se);
+figure, imshow(myimEroded)
 
-imOpened=myOpening(A, se);
-figure,imshow(imOpened)
+myimOpened = myOpening(A, se);
+figure, imshow(myimOpened)
 
-imClosed = myClosing(A, se);
-figure,imshow(imClosed)
+myimClosed = myClosing(A, se);
+figure, imshow(myimClosed)
 
-imTopHat=myTopHat(A, se);
-figure,imshow(imTopHat)
+myimTopHat = myTopHat(A, se);
+figure, imshow(myimTopHat)
 
-imDualTopHat = myDualTopHat(A, se);
-figure,imshow(imDualTopHat)
+myimDualTopHat = myDualTopHat(A, se);
+figure, imshow(myimDualTopHat)
+%%
+%Matlab methods
+Img = imread('cameraman.tif');
+se = strel('line',11,90);
+
+IM2 = imdilate(Img, SE);
+
+
+IM2 = imerode(IM, SE);
+
+IM2 = imopen(IM,SE);
+
+IM2 = imclose(IM,SE);
+
+IM2 = imtophat(IM,SE);
