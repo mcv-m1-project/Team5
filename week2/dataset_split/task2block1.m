@@ -195,6 +195,9 @@ end
 names_files = keys(Files_picked);
 
 names_files_train = cell(sum(cell2mat(values(Files_picked))), 1);
+SC_train=Sign_characteristics;
+SC_validate=Sign_characteristics;
+
 idx = 1;
 files_not_delete = [];
 files_to_delete = [];
@@ -206,8 +209,10 @@ for i = 1:files
         names_files_train(idx) = {names_files(i)};
         files_not_delete = [i files_not_delete];
         idx = idx + 1;
+        SC_validate(find(strcmp(SC_validate, Text_files(i).name)),:)=[];
     else
         files_to_delete = [i files_to_delete]; 
+        SC_train(find(strcmp(SC_train, Text_files(i).name)),:)=[];
     end
 end
 
@@ -223,4 +228,7 @@ end
 
 save(strcat(directory_write, '/names_files_train'), 'files_train');
 save(strcat(directory_write, '/names_files_validate'), 'files_validate');
+
+save(strcat(directory_write, '/Sign_characteristics_validate'), 'SC_validate');
+save(strcat(directory_write, '/Sign_characteristics_train'), 'SC_train');
 end
