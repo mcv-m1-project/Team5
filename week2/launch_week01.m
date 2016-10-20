@@ -4,6 +4,9 @@ addpath('./color_segmentation');
 %Directory where the images of the train set are placed
 directory_read_train = '../Images/train';
 directory_write = '../Results';
+if ~exist(directory_write,'dir')
+  mkdir(directory_write);
+end
 %Directory where the images of the test set are placed
 directory_read_test = '../Images/test';
 %Path where the results are written
@@ -22,7 +25,7 @@ metrix_methods_train = zeros(10, 6);
 directory_write = '../Results/train_result';
 for i = 1:1
     pixel_method = colorSp(i);
-    metr_method = SignDetection(pixel_method , files_train, directory, directory_write );
+    metr_method = SignDetection(pixel_method , files_train, directory_read_train, directory_write );
     metrix_methods_train(:, i) = metr_method;
 end
 metrix_methods_train(:, i) = metr_method;
@@ -34,7 +37,7 @@ directory_write = '../Results/validate_result';
 metrix_methods_validate = zeros(10, 6);
 for i = 1:6
     pixel_method = colorSp(i);
-    metr_method = SignDetection(pixel_method , files_validate, directory, directory_write);
+    metr_method = SignDetection(pixel_method , files_validate, directory_read_train, directory_write);
     metrix_methods_validate(:, i) = metr_method;
 end
 metrix_methods_validate(:, i) = metr_method;
