@@ -1,0 +1,22 @@
+Explicacion week2 Parte Roque
+Se ha implementado un codigo para aplicar operaciones morfologicas a las mascaras obtenidas en la week1. 
+Se puede mejorar, si quereis.
+
+Cosas que faltan por hacer:
+1. Poner ese codigo con códigos relativos, para que todo funcione bien sin tener que viajar personalmente por los directorios.
+2. Ejecutar junto con la evaluacion para ver como mejoran los resultados.
+3. Recordad que los metodos a los que yo recomiendo aplicarselo es:
+	RGB manual
+	HSV
+	HSV&RGB
+	YUV
+Y luego a los siguientes con umbrales cambiados:
+	RGB manual con:
+		Para rojo RGB(:,:,1)>40
+		Para azul RGB(:,:,3) > 40
+		El resto igual
+	Para HSV (y HSV&RGB)
+		hred [340 30]
+		hblue [190 240]
+		que Lidia opine, ella sabe más
+
