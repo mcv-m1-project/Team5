@@ -26,8 +26,9 @@ end
 %3: form factor = width/height
 %4: filling ratio = mask_area / bbox_area
 %5: type of sign
+%6: Coordinates of the sign in the image
 
-Sign_characteristics = cell(Total_signs, 5);
+Sign_characteristics = cell(Total_signs, 6);
 
 ii=0;
 %For each image
@@ -54,6 +55,9 @@ for i = 1:length(Text_files)
     
     %Char 5: Sign type
     Sign_characteristics(ii+1:ii+signs_number,5)=Signs(:);
+    
+    %Char 6: Coordinates of the sign in the image
+    Sign_characteristics(ii+1:ii+signs_number,6)={annotations};
     
     ii=ii+signs_number;
 end

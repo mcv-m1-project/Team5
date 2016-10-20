@@ -23,8 +23,8 @@ end
 
 Files_multiple(idx_multiple:files) = [];
 
-Sign_characteristics_single = cell(Total_signs - signs_of_multiple, 5);
-Sign_characteristics_multiple = cell(signs_of_multiple, 5);
+Sign_characteristics_single = cell(Total_signs - signs_of_multiple, size(Sign_characteristics,2));
+Sign_characteristics_multiple = cell(signs_of_multiple, size(Sign_characteristics,2));
 
 %Save in separate variable "single" and "multiple" files
 idx_multiple = 1;
