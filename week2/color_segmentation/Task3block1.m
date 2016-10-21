@@ -35,11 +35,11 @@ switch colorSpace
             Imgswithoutext = strrep(Imgs(numImagen).name,ext,'');
             
             % Red segmentation
-            redMask = rgbImage(:,:,1) > 50 & rgbImage(:,:,2) < 40 &...
+            redMask = rgbImage(:,:,1) > 40 & rgbImage(:,:,2) < 40 &...
                 rgbImage(:,:,3) < 40;
             % Blue segmentation
             blueMask = rgbImage(:,:,1) < 50 & rgbImage(:,:,2) < 60 &...
-                rgbImage(:,:,3) > 60;
+                rgbImage(:,:,3) > 40;
             
             % Combination of the red and blue segmentation -> binary image
             Mask = redMask | blueMask;
@@ -94,8 +94,8 @@ switch colorSpace
             vImage = hsvImage(:,:,3);
             
             % A "threshold" of the hsv components of pixels must be an interval
-            hredInterval = [350 20]; % Range of hue values considered 'red'
-            hblueInterval = [200 230]; % Range of hue values considered 'blue'
+            hredInterval = [340 30]; % Range of hue values considered 'red'
+            hblueInterval = [190 240]; % Range of hue values considered 'blue'
             
             sInterval = [0.5 1]; % Minimum saturation value to exclude noise
             vInterval = [0.1 1];
@@ -169,8 +169,8 @@ switch colorSpace
             vImage = hsvImage(:,:,3);
             
             % A "threshold" of the hsv components of pixels must be an interval
-            hredInterval = [350 20]; % Range of hue values considered 'red'
-            hblueInterval = [200 230]; % Range of hue values considered 'blue'
+            hredInterval = [340 30]; % Range of hue values considered 'red'
+            hblueInterval = [190 240]; % Range of hue values considered 'blue'
             
             sInterval = [0.5 1]; % Minimum saturation value to exclude noise
             vInterval = [0.1 1];
