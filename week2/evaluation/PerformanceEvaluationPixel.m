@@ -1,4 +1,4 @@
-function [pixelPrecision, pixelAccuracy, pixelSpecificity, pixelSensitivity] = PerformanceEvaluationPixel(pixelTP, pixelFP, pixelFN, pixelTN)
+function [pixelPrecision, pixelAccuracy, pixelSpecificity, pixelSensitivity,pixelFMeasure] = PerformanceEvaluationPixel(pixelTP, pixelFP, pixelFN, pixelTN)
     % PerformanceEvaluationPixel
     % Function to compute different performance indicators (Precision, accuracy, 
     % specificity, sensitivity) at the pixel level
@@ -16,6 +16,8 @@ function [pixelPrecision, pixelAccuracy, pixelSpecificity, pixelSensitivity] = P
 
     pixelPrecision = pixelTP / (pixelTP+pixelFP);
     pixelAccuracy = (pixelTP+pixelTN) / (pixelTP+pixelFP+pixelFN+pixelTN);
-    pixelSpecificity = pixelTN / (pixelTN+pixelFP);
+    pixelSpecificity = pixelTN / (pixelTN+pixelFP);%True Negative Rate
     pixelSensitivity = pixelTP / (pixelTP+pixelFN);
+    pixelFMeasure = (2*pixelPrecision*pixelSensitivity)/(pixelPrecision+pixelSensitivity);
+    pixelFMeasure(isnan(pixelFMeasure))=0;
 end
