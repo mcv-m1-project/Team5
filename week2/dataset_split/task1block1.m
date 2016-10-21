@@ -51,13 +51,13 @@ for i = 1:length(Text_files)
     for j=1:signs_number
         mask_area=sum(sum(mask(round(annotations(j).y):round(annotations(j).y+annotations(j).h),round(annotations(j).x):round(annotations(j).x+annotations(j).w))>0));
         Sign_characteristics(ii+j,4)={mask_area/Sign_characteristics{ii+j,2}};
+                
+    %Char 6: Coordinates of the sign in the image
+        Sign_characteristics(ii+j,6)={annotations(j)};
     end
     
     %Char 5: Sign type
     Sign_characteristics(ii+1:ii+signs_number,5)=Signs(:);
-    
-    %Char 6: Coordinates of the sign in the image
-    Sign_characteristics(ii+1:ii+signs_number,6)={annotations};
     
     ii=ii+signs_number;
 end
