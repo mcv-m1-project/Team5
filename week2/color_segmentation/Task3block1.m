@@ -15,6 +15,7 @@ function time = Task3block1(path_images, Imgs, path_images_write, colorSpace)
 %       colorSpace 4 -> Segmentation on Lab color space.
 %       colorSpace 5 -> Segmentation on YUV color space.
 %       colorSpace 6 -> Combination of HSV and RGB color spaces.
+%       colorSpace 7 -> Histogram Back Projection on HSV color space.
 %
 % time:(OP) number that represents the average of time that is needed for
 % execute the segmentation for a specific method.
@@ -207,6 +208,10 @@ switch colorSpace
                 '_mask.jpg' ]);
             theTime(numImagen) = toc;
         end
+    case 7
+        prob_threshold=0.2;%The probability threshold will be this number multiplied by the maximum probability of the array
+        histogramBackProjectionSegmentation(prob_threshold,Imgs,path_images,path_images_write);
+
 
 end
 time = mean(theTime);

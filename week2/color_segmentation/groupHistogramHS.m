@@ -15,12 +15,12 @@ function H2D=groupHistogramHS(SC,nbins,images_dir)
         scol=round(ann.x):round(ann.x+ann.w);%Sign columns
         
         %Load and convert RGB image to HSV space
-        rgbImage = imread(strcat(images_dir, SC{i,1}, '.jpg'));
+        rgbImage = imread(strcat(images_dir,filesep,SC{i,1}, '.jpg'));
         %Use only the part of the image that corresponds to the sign
         hsvImage = rgb2hsv(rgbImage(srow,scol,:));
 
         %Load mask
-        mask=imread(strcat(images_dir, 'mask/mask.', SC{i,1}, '.png'))>0;
+        mask=imread(strcat(images_dir, '/mask/mask.', SC{i,1}, '.png'))>0;
         mask=mask(srow,scol);   
         
         h = hsvImage(:,:,1);
@@ -29,4 +29,12 @@ function H2D=groupHistogramHS(SC,nbins,images_dir)
         %2D histogram
         H2D=H2D+hist3([h(mask),s(mask)],nbins);
     end
+    
+    %Normalize histogram
+    H2D=H2D/sum(sum(H2D));
+    
+    %Plot histogram
+    figure();
+    bar3(H2D,'c');
+    axis([0 nbins(1) 0 nbins(2) 0 max(max(H2D))]);
 end
