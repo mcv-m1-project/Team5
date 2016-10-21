@@ -1,4 +1,13 @@
 function [H2D_group1,H2D_group2,H2D_group3] = histogramBackProjectionTrain(nbins,directory_write,directory_read_train)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%   Computes the 2D histogram for each group of signs using the training
+%   dataset.
+%
+%   'nbins' Number of bins of the 2D histogram
+%   'directory_write' Path of the results directory where the sign 
+%       characteristics matrix have been saved
+%   'directory_read_train' Path of the directory where the train images are
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     directory_write = strcat('./', directory_write);
     directory_read_train = strcat('./', directory_read_train);
     

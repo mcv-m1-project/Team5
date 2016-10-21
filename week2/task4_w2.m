@@ -1,6 +1,6 @@
 clear all; close all;
 
-directory_write = '../Results';
+directory_write = '../Results/week_01';
 directory_read_train = '../Images/train/';%images dir
 addpath('./color_segmentation');
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
