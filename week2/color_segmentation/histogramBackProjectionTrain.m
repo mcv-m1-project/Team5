@@ -1,11 +1,11 @@
-function [H2D_group1,H2D_group2,H2D_group3] = histogramBackProjectionTrain(nbins,directory_write,directory_read_train)
+function histogramBackProjectionTrain(nbins,directory_write,directory_read_train)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%   Computes the 2D histogram for each group of signs using the training
-%   dataset.
+%   Computes and saves the 2D histogram for each group of signs using the
+%   training dataset.
 %
 %   'nbins' Number of bins of the 2D histogram
 %   'directory_write' Path of the results directory where the sign 
-%       characteristics matrix have been saved
+%       characteristics matrix has been saved
 %   'directory_read_train' Path of the directory where the train images are
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     directory_write = strcat('./', directory_write);
@@ -31,23 +31,12 @@ function [H2D_group1,H2D_group2,H2D_group3] = histogramBackProjectionTrain(nbins
 
     %Compute the histogram for each group:
     H2D_group1=groupHistogramHS(SC_group1,nbins,directory_read_train);
-    figure();
-    bar3(H2D_group1,'c');
-    axis([0 100 0 100 0 max(max(H2D_group1))]);
-
     H2D_group2=groupHistogramHS(SC_group2,nbins,directory_read_train);
-    figure();
-    bar3(H2D_group2,'c');
-    axis([0 100 0 100 0 max(max(H2D_group2))]);
-
     H2D_group3=groupHistogramHS(SC_group3,nbins,directory_read_train);
-    figure();
-    bar3(H2D_group3,'c');
-    axis([0 100 0 100 0 max(max(H2D_group3))]);
-
-    %Normalize histograms
-    H2D_group1=H2D_group1/sum(sum(H2D_group1));
-    H2D_group2=H2D_group2/sum(sum(H2D_group2));
-    H2D_group3=H2D_group3/sum(sum(H2D_group3));
+    
+    %Save histograms
+    save(strcat(directory_write, '/Histogram_2D_group1'), 'H2D_group1');
+    save(strcat(directory_write, '/Histogram_2D_group2'), 'H2D_group2');
+    save(strcat(directory_write, '/Histogram_2D_group3'), 'H2D_group3');
 
 end

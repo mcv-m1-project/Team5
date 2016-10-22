@@ -42,6 +42,8 @@ switch pixel_method
         path = strcat(path_images_write, '/YUV/');
     case 6
         path = strcat(path_images_write, '/HSV&RGB/');
+    case 7
+        path = strcat(path_images_write, '/histBP/');
 end        
 
 path_images = directory;

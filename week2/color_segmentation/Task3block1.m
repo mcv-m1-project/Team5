@@ -15,6 +15,7 @@ function time = Task3block1(path_images, Imgs, path_images_write, colorSpace)
 %       colorSpace 4 -> Segmentation on Lab color space.
 %       colorSpace 5 -> Segmentation on YUV color space.
 %       colorSpace 6 -> Combination of HSV and RGB color spaces.
+%       colorSpace 7 -> Histogram Back Projection on HSV color space.
 %
 % time:(OP) number that represents the average of time that is needed for
 % execute the segmentation for a specific method.
@@ -34,11 +35,11 @@ switch colorSpace
             Imgswithoutext = strrep(Imgs(numImagen).name,ext,'');
             
             % Red segmentation
-            redMask = rgbImage(:,:,1) > 50 & rgbImage(:,:,2) < 40 &...
+            redMask = rgbImage(:,:,1) > 40 & rgbImage(:,:,2) < 40 &...
                 rgbImage(:,:,3) < 40;
             % Blue segmentation
             blueMask = rgbImage(:,:,1) < 50 & rgbImage(:,:,2) < 60 &...
-                rgbImage(:,:,3) > 60;
+                rgbImage(:,:,3) > 40;
             
             % Combination of the red and blue segmentation -> binary image
             Mask = redMask | blueMask;
@@ -93,8 +94,8 @@ switch colorSpace
             vImage = hsvImage(:,:,3);
             
             % A "threshold" of the hsv components of pixels must be an interval
-            hredInterval = [350 20]; % Range of hue values considered 'red'
-            hblueInterval = [200 230]; % Range of hue values considered 'blue'
+            hredInterval = [340 30]; % Range of hue values considered 'red'
+            hblueInterval = [190 240]; % Range of hue values considered 'blue'
             
             sInterval = [0.5 1]; % Minimum saturation value to exclude noise
             vInterval = [0.1 1];
@@ -168,8 +169,8 @@ switch colorSpace
             vImage = hsvImage(:,:,3);
             
             % A "threshold" of the hsv components of pixels must be an interval
-            hredInterval = [350 20]; % Range of hue values considered 'red'
-            hblueInterval = [200 230]; % Range of hue values considered 'blue'
+            hredInterval = [340 30]; % Range of hue values considered 'red'
+            hblueInterval = [190 240]; % Range of hue values considered 'blue'
             
             sInterval = [0.5 1]; % Minimum saturation value to exclude noise
             vInterval = [0.1 1];
@@ -207,7 +208,12 @@ switch colorSpace
                 '_mask.jpg' ]);
             theTime(numImagen) = toc;
         end
-
+    case 7
+        threshold=0.00006;%Between 0 and 1
+        circle_radius=3;%Radius of the circle to convolve
+        theTime=histogramBackProjectionSegmentation2(threshold,circle_radius,Imgs,path_images,path_images_write);
+        
+        
 end
 time = mean(theTime);
 end

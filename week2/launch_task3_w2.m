@@ -13,6 +13,8 @@ load(strcat(directory_read, '/names_files_validate'), 'files_validate');
 %Names of the different methods we have used for the segmentation
 colorSpaces = {'RGBManual' 'HSV' 'YUV' 'HSV&RGB'};
 colorSp = [         1        2     3       4     ];
+colorSpaces = {'RGBManual' 'HSV' 'YUV' 'HSV&RGB' 'histBP'};
+colorSp = [         1        2     3       4         5];
 %We create the colorSp vector because the switch works better with numbers
 
 %%
@@ -23,6 +25,8 @@ directory_write_train = strcat(directory_write, '/train_result');
 
 metrix_methods_train = zeros(10, 4);
 for i = 1:4
+metrix_methods_train = zeros(10, length(colorSp));
+for i = 1:length(colorSp)
     pixel_method = colorSp(i);
     metr_method = SignDetection_t3w2( pixel_method, files_train, directory_read_train, directory_write_train, directory_mask_train );
     metrix_methods_train(:, i) = metr_method;
@@ -36,6 +40,8 @@ directory_read_validate = strcat(directory_read, '/validate_result');
 directory_write_validate = strcat(directory_write, '/validate_result');
 metrix_methods_validate = zeros(10, 4);
 for i = 1:4
+metrix_methods_validate = zeros(10, length(colorSp));
+for i = 1:1
     pixel_method = colorSp(i);
     metr_method = SignDetection_t3w2( pixel_method, files_validate, directory_read_validate, directory_write_validate, directory_mask_train );
     metrix_methods_validate(:, i) = metr_method;
@@ -69,6 +75,9 @@ for i = 1:4
         case 4
             path_images_write = strcat(path_images_write, '/HSV&RGB/');
             path_masks = strcat(directory, '/HSV&RGB/');
+        case 5
+            path_images_write = strcat(path_images_write, '/histBP/');
+            path_masks = strcat(directory, '/histBP/');
     end
     if ~exist(path_images_write, 'dir')
         mkdir(path_images_write);
