@@ -57,19 +57,16 @@ function theTime = histogramBackProjectionSegmentation2(threshold,r,image_names,
         end
         
         B1=min(B1,1);
-        B1=reshape(B1,size(h));
         B1 = conv2(B1,circlem);
         B1=B1/max(max(B1));
         B1=B1>threshold;%mask group1
         
         B2=min(B2,1);
-        B2=reshape(B2,size(h));
         B2 = conv2(B2,circlem);
         B2=B2/max(max(B2));
         B2=B2>threshold;%mask group2
         
         B3=min(B3,1);
-        B3=reshape(B3,size(h));
         B3 = conv2(B3,circlem);
         B3=B3/max(max(B3));
         B3=B3>threshold;%mask group3
