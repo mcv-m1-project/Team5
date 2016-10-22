@@ -7,10 +7,11 @@ addpath('./Morphologic_operators');
 Img = imread('cameraman.tif');
 figure, imshow(Img)
 Img = im2bw(Img);
-myse = mystrel('square', 3);
+myse = mystrel('circle', 3);
 se = strel('square', 3);
 
-%%
+%% Morphological Operations
+%% Dilation 
 myimDilated = myDilation(Img, myse);
 figure, imshow(myimDilated)
 imDilated = imdilate(Img, se);
@@ -18,7 +19,7 @@ figure, imshow(imDilated)
 diff_dilate = double(imDilated) - myimDilated;
 figure, imshow(uint8(diff_dilate));
 
-%%
+%% Erosion
 myimEroded = myErosion(Img, myse);
 figure, imshow(myimEroded)
 imEroded = imerode(Img, se);
@@ -26,7 +27,7 @@ figure, imshow(imEroded)
 diff_erosion = double(imEroded) - myimEroded;
 figure, imshow(uint8(diff_erosion));
 
-%%
+%% Opening
 myimOpened = myOpening(Img, myse);
 figure, imshow(myimOpened)
 imOpened = imopen(Img,se);
@@ -34,7 +35,7 @@ figure, imshow(imOpened)
 diff_open = double(imOpened) - myimOpened;
 figure, imshow(uint8(diff_open));
 
-%%
+%% Closing
 myimClosed = myClosing(Img, myse);
 figure, imshow(myimClosed)
 imClosed = imclose(Img,se);
@@ -42,7 +43,7 @@ figure, imshow(imClosed)
 diff_close = double(imClosed) - myimClosed;
 figure, imshow(uint8(diff_close));
 
-%%
+%% TopHat
 myimTopHat = myTopHat(Img, myse);
 figure, imshow(myimTopHat)
 imTopHat = imtophat(Img,se);
@@ -50,7 +51,7 @@ figure, imshow(imTopHat)
 diff_tophat = double(imTopHat) - myimTopHat;
 figure, imshow(uint8(diff_tophat));
 
-%%
+%% DualTopHat
 myimDualTopHat = myDualTopHat(Img, myse);
 figure, imshow(myimDualTopHat)
 imDualTopHat = imbothat(Img,se);
