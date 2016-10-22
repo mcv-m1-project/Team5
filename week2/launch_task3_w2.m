@@ -35,7 +35,7 @@ save(strcat(directory_write, '/metrix_methods_train'), 'metrix_methods_train');
 directory_read_validate = strcat(directory_read, '/validate_result');
 directory_write_validate = strcat(directory_write, '/validate_result');
 metrix_methods_validate = zeros(10, 4);
-for i = 1:1
+for i = 1:4
     pixel_method = colorSp(i);
     metr_method = SignDetection_t3w2( pixel_method, files_validate, directory_read_validate, directory_write_validate, directory_mask_train );
     metrix_methods_validate(:, i) = metr_method;
@@ -54,7 +54,7 @@ for i = 1:size(files_test)
     files_test(i).name = files_test(i).name(1:length(files_test(i).name)-4);
 end   
 Masks = files_test;
-for i = 1:1
+for i = 1:4
     pixel_method = colorSp(i);
     switch pixel_method
         case 1

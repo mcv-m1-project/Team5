@@ -15,9 +15,10 @@ function [pixelPrecision, pixelAccuracy, pixelSpecificity, pixelSensitivity,pixe
     % The function returns the precision, accuracy, specificity and sensitivity
 
     pixelPrecision = pixelTP / (pixelTP+pixelFP);
+    pixelPrecision(isnan(pixelPrecision)) = 0;
     pixelAccuracy = (pixelTP+pixelTN) / (pixelTP+pixelFP+pixelFN+pixelTN);
     pixelSpecificity = pixelTN / (pixelTN+pixelFP);%True Negative Rate
     pixelSensitivity = pixelTP / (pixelTP+pixelFN);
     pixelFMeasure = (2*pixelPrecision*pixelSensitivity)/(pixelPrecision+pixelSensitivity);
-    pixelFMeasure(isnan(pixelFMeasure))=0;
+    pixelFMeasure(isnan(pixelFMeasure)) = 0;
 end
