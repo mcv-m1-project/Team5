@@ -30,6 +30,9 @@ switch pixel_method
     case 4
         path_images_write = strcat(path_images_write, '/HSV&RGB/');
         path_masks = strcat(directory, '/HSV&RGB/');
+    case 5
+        path_images_write = strcat(path_images_write, '/histBP/');
+        path_masks = strcat(directory, '/histBP/');
 end        
 if ~exist(path_images_write, 'dir')
     mkdir(path_images_write);
