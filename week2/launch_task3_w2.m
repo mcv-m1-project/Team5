@@ -59,7 +59,7 @@ end
 Masks = files_test;
 for i = 1:length(colorSp)
     pixel_method = colorSp(i);
-    
+    path_images_write = directory_write_test;
     switch pixel_method
         case 1
             path_images_write = strcat(path_images_write, '/RGBManual/');
