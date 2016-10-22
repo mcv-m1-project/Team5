@@ -211,7 +211,9 @@ switch colorSpace
     case 7
         threshold=0.00006;%Between 0 and 1
         circle_radius=3;%Radius of the circle to convolve
-        histogramBackProjectionSegmentation2(threshold,circle_radius,Imgs,path_images,path_images_write);
+        theTime=histogramBackProjectionSegmentation2(threshold,circle_radius,Imgs,path_images,path_images_write);
+        
+        
 end
 time = mean(theTime);
 end
