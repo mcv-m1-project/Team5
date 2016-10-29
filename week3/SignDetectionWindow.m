@@ -9,10 +9,12 @@ addpath('./evaluation')
 
 % Folder_mask = './train/mask';
 % Files = ListFiles(Folder_mask);
-
+methods = {'HSV_CCL' 'HSV&RGB_CCL' 'HSV_SW' 'HSV&RGB_SW' 'HSV_II' 'HSV&RGB_II'};
+meth = [      1      2       3           4           5               6   ];
 
 % List_of_images =  ListFiles('./train/');
 % files = size(List_of_images, 1);
+load('../Results/week_01/Sign_characteristics_train');
 
 files = size(files_train, 1);
 List_of_images =  files_train;
@@ -20,41 +22,55 @@ List_of_images =  files_train;
 TP_images = zeros(files, 1);
 FP_images = zeros(files, 1);
 FN_images = zeros(files, 1);
-TN_images = zeros(files, 1);
+%TN_images = zeros(files, 1);
 
 Precision_images = zeros(files, 1);
 Accuracy_images = zeros(files, 1);
-Specificit_images = zeros(files, 1);
+%Specificit_images = zeros(files, 1);
 Sensitivity_images = zeros(files, 1);
 FMeasure_images = zeros(files, 1);
   
-%revise
+
+% switch window_method
+%     case 1
+%         path = strcat(path_images_write, '/BBox/Slicing/');
+%     case 2
+%         path = strcat(path_images_write, '/Masks/Integral/');
+% end        
 switch window_method
     case 1
-        path = strcat(path_images_write, '/BBox/Slicing/');
+        path = strcat(path_images_write, '/week_03/train_result/HSV_CCL/');
     case 2
-        path = strcat(path_images_write, '/Masks/Integral/');
-end        
+        path = strcat(path_images_write, '/week_03/train_result/HSV&RGB_CCL/');
+    case 3
+        path = strcat(path_images_write, '/week_03/train_result/HSV_SW/');
+    case 4
+        path = strcat(path_images_write, '/week_03/train_result/HSV&RGB_SW/');
+    case 5
+        path = strcat(path_images_write, '/week_03/train_result/HSV_II/');
+    case 6
+        path = strcat(path_images_write, '/week_03/train_result/HSV&RGB_II/');
+       
+
+end
 
 path_images = directory;
 %Generate the masks for the given method
-average_time = Task3block1(path_images, List_of_images, path_images_write, window_method);
+% average_time = Task3block1(path_images, List_of_images, path_images_write, window_method);
 
-for i = 1:files
+for i = 3:files
     %revise
-    windowAnnotation = List_of_images(i);
-
-    windowCandidates = List_of_images(i);
+    windowAnnotation = SC_train{i,6};
     
-    [windowTP, windowFP, windowFN, windowTN] = PerformanceAccumulationwindow(windowCandidates, windowAnnotation);
-    [windowPrecision, windowAccuracy, windowSpecificity, windowSensitivity, windowFMeasure] = PerformanceEvaluationwindow(windowTP, windowFP, windowFN, windowTN);
+    windowCandidates = load(strcat(path,List_of_images(i).name));
+    
+    [windowTP, windowFN, windowFP] = PerformanceAccumulationWindow(windowCandidates, windowAnnotation);
+    [windowPrecision, windowAccuracy,windowSensitivity, windowFMeasure] = PerformanceEvaluationWindow(windowTP, windowFN, windowFP);
     TP_images(i) = windowTP;
     FP_images(i) = windowFP;
     FN_images(i) = windowFN;
-    TN_images(i) = windowTN;
     Precision_images(i) = windowPrecision;
     Accuracy_images(i) = windowAccuracy;
-    Specificit_images(i) = windowSpecificity;
     Sensitivity_images(i) = windowSensitivity;
     FMeasure_images(i) = windowFMeasure;
 end
@@ -62,12 +78,11 @@ end
 average_TP = mean(TP_images);
 average_FP = mean(FP_images);
 average_FN = mean(FN_images);
-average_TN = mean(TN_images);
+
 
 % Precision_images(isnan(Precision_images))=0;
 average_Precision = mean(Precision_images);
 average_Accuracy = mean(Accuracy_images);
-average_Specificit = mean(Specificit_images);
 average_sensitivity = mean(Sensitivity_images);
 average_FMeasure = mean(FMeasure_images);
 
@@ -84,7 +99,7 @@ average_FMeasure = mean(FMeasure_images);
 % 9 average_TN
 % 10 average_time
 
-metrix_method = [average_Precision; average_Accuracy; average_sensitivity; average_FMeasure; average_Specificit];
-metrix_method = [metrix_method; average_TP; average_FP; average_FN; average_TN; average_time];
+metrix_method = [average_Precision; average_Accuracy; average_sensitivity; average_FMeasure];% average_Specificit];
+metrix_method = [metrix_method; average_TP; average_FP; average_FN];% average_TN; average_time];
 end
 
