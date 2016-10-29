@@ -38,7 +38,7 @@ for i = 1:length(Text_files)
     
     %Compute the characteristics
     %Char 1: File name
-    Sign_characteristics(ii+1:ii+signs_number,1)={Text_files(i).name(4:length(Text_files(i).name)-4)};
+    Sign_characteristics(ii+1:ii+signs_number,1)={Text_files(i).name(4:end-4)};
     
     %Char 2: Bounding box area
     Sign_characteristics(ii+1:ii+signs_number,2)=num2cell(([annotations(:).w].*[annotations(:).h]));
