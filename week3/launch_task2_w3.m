@@ -2,6 +2,7 @@ clear all
 close all
 clc
 addpath('./Window_detection');
+addpath('./evaluation');
 %Directory where the masks of the different sets are placed
 directory_read = '../Results';
 directory_write = '../Results/week_03';
@@ -33,3 +34,4 @@ switch pixel_method
     case 5
         path_images_read = strcat(path_images_read, '/week_02/train_result/histBP/');
 end
+[ Characteristics ] = trainSC_Window( SC_train );
