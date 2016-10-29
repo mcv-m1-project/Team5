@@ -5,7 +5,8 @@ windowHeight = 3;
 windowWidth = 5;
 windowArea = windowHeight*windowWidth;
 
-validation_crit = Validation_criteria( SC_train );
+% validation_crit = Validation_criteria( SC_train );
+params = trainSignCharacteristicsCCL(SC_train);
 
     switch pixel_method
         case 1
@@ -50,10 +51,10 @@ validation_crit = Validation_criteria( SC_train );
                 filling = bbSum/(windowArea);
 %                 window = image(k:k + (windowHeight - 1), l:l + (windowWidth - 1));
 
-                if filling > validation_crit(1, 1) && filling < validation_crit(1, 2) ||... % Triangles
-                   filling > validation_crit(2, 1) && filling < validation_crit(2, 2) ||... % Circles
-                   filling > validation_crit(3, 1) && filling < validation_crit(3, 2)       % Squares
-
+%                 if filling > validation_crit(1, 1) && filling < validation_crit(1, 2) ||... % Triangles
+%                    filling > validation_crit(2, 1) && filling < validation_crit(2, 2) ||... % Circles
+%                    filling > validation_crit(3, 1) && filling < validation_crit(3, 2)       % Squares
+                if filling > params.minfr && filling < params.maxfr 
                         BBox(idx_BB).x = k;
                         BBox(idx_BB).y = l;
                         BBox(idx_BB).w = windowWidth;
@@ -62,7 +63,6 @@ validation_crit = Validation_criteria( SC_train );
                 end
             end
         end
-
         save(strcat(directory_write, '/IntegralImage/', imagename, '_boxes'), 'BBox');
     end
 end
