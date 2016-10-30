@@ -8,7 +8,5 @@ if filling > Char.min_fill_ratio && filling < Char.max_fill_ratio
     validate = 1;
 end
 
-
-
 end
 

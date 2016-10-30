@@ -71,4 +71,4 @@ for i = 1:length(colorSp)
     metrix_methods_test(:, i) = metr_method;
 end
 metrix_methods_test(:, i) = metr_method;
-save('../Results/metrix_methods_validate', 'metrix_methods_test');
+save('../Results/metrix_methods_test', 'metrix_methods_test');

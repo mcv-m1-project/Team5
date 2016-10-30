@@ -31,7 +31,7 @@ for i = 1:size(types, 1)
 end    
 
 Characteristics = struct('min_w', value, 'max_w', value, 'min_h',value, 'max_h', value,...
-     'mean_form_factor', value, 'min_fill_ratio', value, 'max_fill_ratio', value,...
+     'mean_form_factor', value, 'std_form_factor', value, 'min_fill_ratio', value, 'max_fill_ratio', value,...
      'mean_fill_ratio', value, 'std_fill_ratio', value);
 
 
@@ -51,6 +51,7 @@ for i = 1:3
     Characteristics(i).max_h = max(W_and_H(:, 2));
     
     Characteristics(i).mean_form_factor = mean(cell2mat(SC_train_sorted(prev_signs(typ_idx(1)) + 1:prev_signs(typ_idx(end) + 1), 3)));
+    Characteristics(i).std_form_factor = mean(cell2mat(SC_train_sorted(prev_signs(typ_idx(1)) + 1:prev_signs(typ_idx(end) + 1), 3)));
     
     Characteristics(i).min_fill_ratio = min(cell2mat(SC_train_sorted(prev_signs(typ_idx(1)) + 1:prev_signs(typ_idx(end) + 1), 4)));
     Characteristics(i).max_fill_ratio = max(cell2mat(SC_train_sorted(prev_signs(typ_idx(1)) + 1:prev_signs(typ_idx(end) + 1), 4)));
