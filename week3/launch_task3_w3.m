@@ -19,7 +19,7 @@ params.type_set = set_type;
 params.directory_read_mask = strcat(directory_read_results, '/week_02/', params.type_set, '_result');
 params.directory_write_results = strcat(directory_read_results, '/week_03/', params.type_set, '_result');
 
-if ~strcmp(params.type_set, 'test')
+if ~strcmp(params.type_set, 'train')
     params.directory_read_BBox = strcat(directory_all_images, '/train/gt/');
 else
     params.directory_read_BBox = strcat(directory_all_images, '/test');

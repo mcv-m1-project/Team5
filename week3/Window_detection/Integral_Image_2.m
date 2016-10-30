@@ -16,7 +16,7 @@ for j = 1:size(files, 1)
     
     imagename = char(files(j).name);
     sprintf(imagename)
-    Mask = imread(strcat(params.directory_read_mask, imagename,'_morf.jpg'));
+    Mask = imread(strcat(params.directory_read_mask, imagename,'_mask.jpg'));
     Mask = Mask/max(Mask(:));
     %We will compute different type of windows for each type of signal,
     %because they have different form factor. t correponds to the type of
@@ -94,7 +94,7 @@ for j = 1:size(files, 1)
     
      windowCandidates = Clear_overlap(BBox_final, Mask);
 
-    save(strcat(params.directory_write_results, '/', imagename, '_boxes.mat'), 'windowCandidates');
+    save(strcat(params.directory_write_results, '/', imagename, '_mask.mat'), 'windowCandidates');
 end
 empty = [];
 end
