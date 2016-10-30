@@ -5,10 +5,10 @@ function [ metrix_method ] = SignDetectionIntegralImage( params, files, Characte
 switch params.colorSpace
     case 1
         params.directory_read_mask = strcat(params.directory_read_mask, '/HSV/');
-        params.directory_write_results = strcat(params.directory_write_results, '/HSV_SW/');
+        params.directory_write_results = strcat(params.directory_write_results, '/HSV_II/');
     case 2
         params.directory_read_mask = strcat(params.directory_read_mask, '/HSV&RGB/');
-        params.directory_write_results = strcat(params.directory_write_results, '/HSV&RGB_SW/');
+        params.directory_write_results = strcat(params.directory_write_results, '/HSV&RGB_II/');
 end
 
 %Compute the BBoxes for all the images of the list of files

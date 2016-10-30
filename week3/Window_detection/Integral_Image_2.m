@@ -51,18 +51,18 @@ for j = 1:size(files, 1)
 %             ii_pad = padarray(ii,[window_height-1 window_width-1],'replicate','post');
 %             dim = size(ii_pad);
             
-            %dim = size(Mask);
+            dim = size(Mask);
             
             %Movimiento por columnas
-            for y = 1:step_window:(dim(1) - window_width)
+            for y = 1:step_window:(dim(1) - window_height)
                 %Movimiento por filas
-                for x = 1:step_window:(dim(2) - window_height)
+                for x = 1:step_window:(dim(2) - window_width)
                     
                     bbSum = ii(y + (window_height-1),x + (window_width-1))...
                     - ii(y, x + (window_width-1)) - ii(y + (window_height-1),x)...
                     + ii(y,x);
                     
-                    windowArea = window_height*window_width;
+%                     windowArea = window_height*window_width;
                     filling = bbSum/(windowArea);
                     
 %                     Window = Mask(y:window_width + y, x:window_height + x);
