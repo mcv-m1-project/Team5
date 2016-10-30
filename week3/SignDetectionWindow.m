@@ -22,21 +22,14 @@ List_of_images =  files_train;
 TP_images = zeros(files, 1);
 FP_images = zeros(files, 1);
 FN_images = zeros(files, 1);
-%TN_images = zeros(files, 1);
+
 
 Precision_images = zeros(files, 1);
 Accuracy_images = zeros(files, 1);
-%Specificit_images = zeros(files, 1);
 Sensitivity_images = zeros(files, 1);
 FMeasure_images = zeros(files, 1);
   
-
-% switch window_method
-%     case 1
-%         path = strcat(path_images_write, '/BBox/Slicing/');
-%     case 2
-%         path = strcat(path_images_write, '/Masks/Integral/');
-% end        
+     
 switch window_method
     case 1
         path = strcat(path_images_write, '/week_03/train_result/HSV_CCL/');
@@ -63,8 +56,12 @@ for i = 3:files
     windowAnnotation = SC_train{i,6};
     
     windowCandidates = load(strcat(path,List_of_images(i).name));
+    siz = size(windowCandidates.windowCandidates);
     
-    [windowTP, windowFN, windowFP] = PerformanceAccumulationWindow(windowCandidates, windowAnnotation);
+    for j = 1: siz(2)
+    [windowTP, windowFN, windowFP] = PerformanceAccumulationWindow(windowCandidates.windowCandidates(j), windowAnnotation);
+    end
+    
     [windowPrecision, windowAccuracy,windowSensitivity, windowFMeasure] = PerformanceEvaluationWindow(windowTP, windowFN, windowFP);
     TP_images(i) = windowTP;
     FP_images(i) = windowFP;
