@@ -9,7 +9,7 @@ directory_all_images = '../Images';
 directory_write = '../Results/week_03';
 
 %Set to evaluate: train, validate or test
-set_type = 'test';
+set_type = 'train';
 
 
 params = struct('directory_read_mask', '', 'directory_read_BBox', '', ...
@@ -19,7 +19,7 @@ params.type_set = set_type;
 params.directory_read_mask = strcat(directory_read_results, '/week_02/', params.type_set, '_result');
 params.directory_write_results = strcat(directory_read_results, '/week_03/', params.type_set, '_result');
 
-if ~strcmp(params.type_set, 'test')
+if ~strcmp(params.type_set, 'train')
     params.directory_read_BBox = strcat(directory_all_images, '/train/gt/');
 else
     params.directory_read_BBox = strcat(directory_all_images, '/test');
