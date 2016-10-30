@@ -6,18 +6,9 @@ function [ metrix_method ] = SignDetectionWindow( window_method, files_train, di
 %Add folders of functions to path
 addpath('./evaluation')
 
-
-% Folder_mask = './train/mask';
-% Files = ListFiles(Folder_mask);
-methods = {'HSV_CCL' 'HSV&RGB_CCL' 'HSV_SW' 'HSV&RGB_SW' 'HSV_II' 'HSV&RGB_II'};
-meth = [      1      2       3           4           5               6   ];
-
-% List_of_images =  ListFiles('./train/');
-% files = size(List_of_images, 1);
 load('../Results/week_01/Sign_characteristics_train');
 
 files = size(files_train, 1);
-List_of_images =  files_train;
 
 TP_images = zeros(files, 1);
 FP_images = zeros(files, 1);
@@ -47,20 +38,17 @@ switch window_method
 
 end
 
-path_images = directory;
 %Generate the masks for the given method
 % average_time = Task3block1(path_images, List_of_images, path_images_write, window_method);
 
 for i = 1:files
-    %revise
-    windowAnnotation = SC_train{i,6};
+    index_SC=not(cellfun('isempty', strfind(SC_train(:,1), files_train(i).name(1:end-9))));
+    SC_current_image=SC_train(index_SC,:);
+    windowAnnotations = SC_current_image{:,6};
     
-    load(strcat(path,List_of_images(i).name));
-    siz = size((windowCandidates),2);
+    load(strcat(path,files_train(i).name));
     if ~isempty(windowCandidates(1).x)
-        for j = 1: siz
-            [windowTP, windowFN, windowFP] = PerformanceAccumulationWindow(windowCandidates(j), windowAnnotation);
-        end
+    	[windowTP, windowFN, windowFP] = PerformanceAccumulationWindow(windowCandidates, windowAnnotations);
     end
     [windowPrecision, windowAccuracy,windowSensitivity, windowFMeasure] = PerformanceEvaluationWindow(windowTP, windowFN, windowFP);
     TP_images(i) = windowTP;
