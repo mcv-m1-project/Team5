@@ -45,11 +45,11 @@ for j = 1:size(files, 1)
             idx_BB = 1;
             window_width = width_sizes(n);
             window_height = height_sizes(n);
+            windowArea = window_width * window_height;
             
             
-            
-            ii_pad = padarray(ii,[window_height-1 window_width-1],'replicate','post');
-            dim = size(ii_pad);
+%             ii_pad = padarray(ii,[window_height-1 window_width-1],'replicate','post');
+%             dim = size(ii_pad);
             
             %dim = size(Mask);
             
@@ -81,7 +81,6 @@ for j = 1:size(files, 1)
                 end
             end
             BBox(idx_BB:length(BBox)) = [];
-            Mask = ii_pad(1:end-(window_height-1),1:end-(window_width-1));
                        
         end
         %With a concrete size we have find many windows,we eliminate
