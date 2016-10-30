@@ -16,7 +16,7 @@ meth = [      1      2       3           4           5               6   ];
 %Evaluate all methods ans save its metrices for train set
 metrix_methods_train = zeros(10, 6);
 path_images_write = './train_result';
-for i = 1:6
+for i = 1:2
     window_method = meth(i);
     metr_method = SignDetectionWindow(window_method , files_train, directory, path_images_write );
     metrix_methods_train(:, i) = metr_method;
