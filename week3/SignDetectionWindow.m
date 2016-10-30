@@ -51,17 +51,17 @@ path_images = directory;
 %Generate the masks for the given method
 % average_time = Task3block1(path_images, List_of_images, path_images_write, window_method);
 
-for i = 3:files
+for i = 1:files
     %revise
     windowAnnotation = SC_train{i,6};
     
-    windowCandidates = load(strcat(path,List_of_images(i).name));
-    siz = size(windowCandidates.windowCandidates);
-    
-    for j = 1: siz(2)
-    [windowTP, windowFN, windowFP] = PerformanceAccumulationWindow(windowCandidates.windowCandidates(j), windowAnnotation);
+    load(strcat(path,List_of_images(i).name));
+    siz = size((windowCandidates),2);
+    if ~isempty(windowCandidates(1).x)
+        for j = 1: siz
+            [windowTP, windowFN, windowFP] = PerformanceAccumulationWindow(windowCandidates(j), windowAnnotation);
+        end
     end
-    
     [windowPrecision, windowAccuracy,windowSensitivity, windowFMeasure] = PerformanceEvaluationWindow(windowTP, windowFN, windowFP);
     TP_images(i) = windowTP;
     FP_images(i) = windowFP;

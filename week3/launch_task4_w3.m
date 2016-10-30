@@ -37,6 +37,6 @@ switch window_method
 
 end
 
-direct = dir(path_images_read);
+direct = dir(strcat(path_images_read,'*.mat'));
 
 Metrica = SignDetectionWindow( window_method, direct, directory_read, directory_write );
