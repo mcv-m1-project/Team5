@@ -9,7 +9,7 @@ directory_all_images = '../Images';
 directory_write = '../Results/week_03';
 
 %Set to evaluate: train, validate or test
-set_type = 'test';
+set_type = 'train';
 
 
 params = struct('directory_read_mask', '', 'directory_read_BBox', '', ...
@@ -60,11 +60,11 @@ end
 metrix_methods = zeros(7, 2);
 for i = 1:2
     params.colorSpace = colorSp(i);
-    metrix = SignDetectionSlideWindow( params, files, Characteristics );
+    metrix = SignDetectionCCL( params, files, Characteristics );
     if ~isempty(metrix)
         metrix_methods(:, i) = metrix;
     end
 end
 
-sprintf(set_type)
+sprintf('train')
 

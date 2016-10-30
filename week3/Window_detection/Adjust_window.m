@@ -5,7 +5,7 @@ x = BBox.x;
 y = BBox.y;
 h = BBox.h;
 w = BBox.w;
-Window = Mask(y:w + y, x:h + x);
+Window = Mask(y:min(w + y, size(Mask, 1)), x:min(h + x, size(Mask, 2)));
 
 c1 = 1;
 c2 = size(Window, 2);

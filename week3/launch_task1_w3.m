@@ -15,15 +15,15 @@ train_param=trainSignCharacteristicsCCL(SC_train);
  
 %Get Bounding Boxes by Connected Component Labeling
 methods=dir(results_dir);
-for k=1:length(methods)
+for k=3:length(methods)
     mask_files=dir(strcat(results_dir,filesep,methods(k).name,'/*.jpg'));%Get masks
-    if ~exist(strcat(directory_write,filesep,methods(k).name),'dir')
-      mkdir(strcat(directory_write,filesep,methods(k).name));%Directory where the mat files are saved
+    if ~exist(strcat(directory_write,filesep,methods(k).name, '_CCl'),'dir')
+      mkdir(strcat(directory_write,filesep,methods(k).name, '_CCl'));%Directory where the mat files are saved
     end
     
     for i=1:length(mask_files)
         mask = imread(strcat(results_dir,filesep,methods(k).name,filesep,mask_files(i).name));
         windowCandidates = CCL(mask,train_param);
-        save(strcat(directory_write,filesep,methods(k).name,filesep,mask_files(i).name(1:end-4),'.mat'), 'windowCandidates');
+        save(strcat(directory_write,filesep,methods(k).name , '_CCl',filesep,mask_files(i).name(1:end-4),'.mat'), 'windowCandidates');
     end
 end
