@@ -60,7 +60,7 @@ end
 metrix_methods = zeros(7, 2);
 for i = 1:2
     params.colorSpace = colorSp(i);
-    metrix = SignDetectionSlideWindow( params, files, Characteristics );
+    metrix = SignDetectionIntegralImage( params, files, Characteristics );
     if ~isempty(metrix)
         metrix_methods(:, i) = metrix;
     end
