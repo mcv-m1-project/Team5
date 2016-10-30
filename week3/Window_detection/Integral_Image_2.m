@@ -21,7 +21,8 @@ for j = 1:size(files, 1)
     %We will compute different type of windows for each type of signal,
     %because they have different form factor. t correponds to the type of
     %sign: 1-triangle, 2-circle and 3-square
-    
+    [row, col] = size(Mask);
+    image = Mask;
     for k = 1:row
         for l = 1:col
                 ii(k,l) = cumsum(cumsum(double(image(k,l))),2);
@@ -57,17 +58,18 @@ for j = 1:size(files, 1)
                 %Movimiento por filas
                 for x = 1:step_window:(dim(2) - window_height)
                     
-                    bbSum = ii_pad(y + (windowHeight-1),x + (windowWidth-1))...
-                    - ii_pad(y, x + (windowWidth-1)) - ii_pad(y + (windowHeight-1),x)...
-                    + ii_pad(y,x);
-
+                    bbSum = ii(y + (window_height-1),x + (window_width-1))...
+                    - ii(y, x + (window_width-1)) - ii(y + (window_height-1),x)...
+                    + ii(y,x);
+                    
+                    windowArea = window_height*window_width;
                     filling = bbSum/(windowArea);
                     
 %                     Window = Mask(y:window_width + y, x:window_height + x);
 %                     validate = Validate_window(Window, Characteristics(t));
                     
 %                     if validate
-                    if filling > Characteristics.min_fill_ratio && filling < Characteristics.max_fill_ratio 
+                    if filling > Characteristics(t).min_fill_ratio && filling < Characteristics(t).max_fill_ratio 
                         
                         BBox(idx_BB).y = y;
                         BBox(idx_BB).x = x;

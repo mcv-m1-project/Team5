@@ -2,9 +2,9 @@ clear all; close all;
 addpath('./Window_detection');
 
 %Directory where the different methods directories are:
-results_dir='../Results/week_02/train_result';
+results_dir='../Results/week_02/validate_result';
 %Where the mat files are saved (a folder with the method name will be created, if it doesn't exist):
-directory_write='../Results/week_03/train_result';
+directory_write='../Results/week_03/validate_result';
 
 
 %Use the training set as a reference for the filling ratio, etc to discard
