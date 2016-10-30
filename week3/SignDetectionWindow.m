@@ -49,6 +49,10 @@ for i = 1:files
     load(strcat(path,files_train(i).name));
     if ~isempty(windowCandidates(1).x)
     	[windowTP, windowFN, windowFP] = PerformanceAccumulationWindow(windowCandidates, windowAnnotations);
+    else
+        windowTP=0;
+        windowFN=size(windowAnnotations,2);
+        windowFP=0;
     end
     [windowPrecision, windowAccuracy,windowSensitivity, windowFMeasure] = PerformanceEvaluationWindow(windowTP, windowFN, windowFP);
     TP_images(i) = windowTP;
