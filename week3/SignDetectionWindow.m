@@ -55,6 +55,12 @@ for i = 1:files
         windowFP=0;
     end
     [windowPrecision, windowAccuracy,windowSensitivity, windowFMeasure] = PerformanceEvaluationWindow(windowTP, windowFN, windowFP);
+    if isnan(windowPrecision)
+        windowPrecision=0;
+    end
+    if isnan(windowFMeasure)
+        windowFMeasure=0;
+    end
     TP_images(i) = windowTP;
     FP_images(i) = windowFP;
     FN_images(i) = windowFN;
