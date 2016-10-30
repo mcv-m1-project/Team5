@@ -1,7 +1,7 @@
 launch_task2_w3
 
 
-files = files(1);
+files = files(1:5);
 
 
 %%

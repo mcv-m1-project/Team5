@@ -54,16 +54,17 @@ else
     end
 end
 
-% %%
-% [ Characteristics ] = trainSC_Window( SC_train );
-% metrix_methods = zeros(7, 2);
-% for i = 1:2
-%     params.colorSpace = colorSp(i);
-%     metrix = SignDetectionSlideWindow( params, files, Characteristics );
-%     if ~isempty(metrix)
-%         metrix_methods(:, i) = metrix;
-%     end
-% end
+%%
+
+[ Characteristics ] = trainSC_Window( SC_train );
+metrix_methods = zeros(7, 2);
+for i = 1:2
+    params.colorSpace = colorSp(i);
+    metrix = SignDetectionSlideWindow( params, files, Characteristics );
+    if ~isempty(metrix)
+        metrix_methods(:, i) = metrix;
+    end
+end
 
 
 

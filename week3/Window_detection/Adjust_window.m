@@ -31,7 +31,7 @@ while not_adjusted
         del_c1 = 1;
     end    
     %Delete up row
-    if sum(Window(:, r1)) == 0
+    if sum(Window(r1, :)) == 0
         r1 = r1 + 1;
         if r1 == r2
             exist = 0;
@@ -51,7 +51,7 @@ while not_adjusted
         del_c2 = 1;
     end 
     %Delete down row
-    if sum(Window(:, r2)) == 0
+    if sum(Window(r2, :)) == 0
         r2 = r2 - 1;
         if r1 == r2
             exist = 0;
@@ -63,6 +63,6 @@ while not_adjusted
 end    
     
 
-new_BBox = struct('x', x + c1 - 1, 'y', y +r1 - 1, 'w', c2 - c1 + 1, 'h', r2 - r1 + 1);
+new_BBox = struct('x', x + c1 - 1, 'y', y +r1 - 1, 'w', c2 - c1 , 'h', r2 - r1 );
 end
 

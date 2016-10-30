@@ -11,6 +11,9 @@ for i = 1:dim(1)
     else
         for j = i + 1:dim(1)
             roi01 = BBox(i);
+            if BBox(j).x == 0
+                continue
+            end 
             roi02 = BBox(j);
             overlap = RoiOverlapping(roi01, roi02);
             %Si dos ventanas se solapan, guardamos la nueva ventana en el
@@ -18,10 +21,10 @@ for i = 1:dim(1)
             %eliminamos 'j'
             if overlap > 0.5
                 
-                BBox(i).x = min(roi01.x + roi02.x);
-                BBox(i).y = min(roi01.y + roi02.y);
-                BBox(i).w = max(roi01.w + roi02.w);
-                BBox(i).h = max(roi01.h + roi02.h);
+                BBox(i).x = min(roi01.x, roi02.x);
+                BBox(i).y = min(roi01.y, roi02.y);
+                BBox(i).w = max(roi01.w, roi02.w);
+                BBox(i).h = max(roi01.h, roi02.h);
                 
                 %And delete 'j'
                 BBox(j).x = 0;

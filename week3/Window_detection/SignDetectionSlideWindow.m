@@ -52,7 +52,11 @@ if ~strcmp(params.type_set, 'test')
     average_FN = mean(FN_images);
     
     
-    % Precision_images(isnan(Precision_images))=0;
+    Precision_images(isnan(Precision_images))=0;
+    Accuracy_images(isnan(Accuracy_images))=0;
+    Sensitivity_images(isnan(Sensitivity_images))=0;
+    FMeasure_images(isnan(FMeasure_images))=0;
+    
     average_Precision = mean(Precision_images);
     average_Accuracy = mean(Accuracy_images);
     average_sensitivity = mean(Sensitivity_images);

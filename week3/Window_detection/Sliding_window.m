@@ -15,6 +15,7 @@ for i = 1:size(files, 1)
     idx_BB_final = 1;
     
     imagename = char(files(i).name);
+    sprintf(imagename)
     Mask = imread(strcat(params.directory_read_mask, imagename,'_morf.jpg'));
     Mask = Mask/max(Mask(:));
     %We will compute different type of windows for each type of signal,
@@ -25,6 +26,7 @@ for i = 1:size(files, 1)
         if width_sizes(end) < Characteristics(t).max_w
             width_sizes = [width_sizes round(Characteristics(t).max_w)];
         end
+        
         height_sizes = round(Characteristics(t).mean_form_factor*width_sizes);
         for n = size(width_sizes, 1);
             %For each size of window, find signs
@@ -44,7 +46,7 @@ for i = 1:size(files, 1)
                     Window = Mask(y:window_width + y, x:window_height + x);
                     validate = Validate_window(Window, Characteristics(t));
                     
-                    if validate > 0.5
+                    if validate 
                         
                         BBox(idx_BB).y = y;
                         BBox(idx_BB).x = x;
@@ -61,12 +63,13 @@ for i = 1:size(files, 1)
         %With a concrete size we have find many windows,we eliminate
         %overlaps
         BBox = Clear_overlap(BBox, Mask);
-        BBox_final(idx_BB_final + (1:length(BBox))) = BBox;
+        BBox_final(idx_BB_final + (1:length(BBox))- 1) = BBox;
         %This variable saves all the windows of different sizes
         idx_BB_final = idx_BB_final + length(BBox);
+    
     end
     
-     windowCandidates = Clear_overlap(BBox_final);
+     windowCandidates = Clear_overlap(BBox_final, Mask);
 
     save(strcat(params.directory_write_results, '/', imagename, '_boxes.mat'), 'windowCandidates');
 end
