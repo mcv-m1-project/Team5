@@ -1,8 +1,7 @@
-function [ new_BBox ] = Clear_overlap( BBox )
+function [ new_BBox ] = Clear_overlap( BBox, Mask )
 dim = size(BBox);
 value = num2cell(zeros(dim));
 new_BBox = struct('x', value, 'y', value, 'w', value, 'h', value);
-% final_BBox = struct('x', value, 'y', value, 'w', value, 'h', value);
 idx_BB = 1;
 
 
@@ -19,10 +18,10 @@ for i = 1:dim(1)
             %eliminamos 'j'
             if overlap > 0.5
                 
-                BBox(i).x = (roi01.x + roi02.x)/2;
-                BBox(i).y = (roi01.y + roi02.y)/2;
-                BBox(i).w = (roi01.w + roi02.w)/2;
-                BBox(i).h = (roi01.h + roi02.h)/2;
+                BBox(i).x = min(roi01.x + roi02.x);
+                BBox(i).y = min(roi01.y + roi02.y);
+                BBox(i).w = max(roi01.w + roi02.w);
+                BBox(i).h = max(roi01.h + roi02.h);
                 
                 %And delete 'j'
                 BBox(j).x = 0;
@@ -35,15 +34,18 @@ for i = 1:dim(1)
 end
 %Guardamos en otra variable los que no hemos eliminado
 for i = 1:dim(1)
+    
     if BBox(i).x ~= 0
-        
-        new_BBox(idx_BB).x = round(BBox(i).x);
-        new_BBox(idx_BB).y = round(BBox(i).y);
-        new_BBox(idx_BB).w = round(BBox(i).w);
-        new_BBox(idx_BB).h = round(BBox(i).h);
-        idx_BB = idx_BB + 1;
-
-    end    
+        [ bbox, exist ] = Adjust_window( BBox(i), Mask );
+        BBox(i) = bbox;
+        if exist
+            new_BBox(idx_BB).x = round(BBox(i).x);
+            new_BBox(idx_BB).y = round(BBox(i).y);
+            new_BBox(idx_BB).w = round(BBox(i).w);
+            new_BBox(idx_BB).h = round(BBox(i).h);
+            idx_BB = idx_BB + 1;
+        end
+    end
 end
 new_BBox(idx_BB:dim(1)) = [];
 end
