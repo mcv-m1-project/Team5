@@ -1,7 +1,7 @@
 function windowCandidates = CCL(mask,train_param)
 %Given a mask, returns a list of bounding boxes detected by Connected 
 %Component Labeling
-windowCandidates = struct('x', [], 'y', [], 'w',[], 'h', []);
+windowCandidates = struct('x', 0, 'y', 0, 'w',0, 'h', 0);
 
 if max(max(mask))>0
     CC = bwconncomp(mask);
@@ -15,6 +15,7 @@ if max(max(mask))>0
         windowCandidates(j).w=windowProps(j).BoundingBox(3);
         windowCandidates(j).h=windowProps(j).BoundingBox(4);    
     end
+    windowCandidates=windowCandidates';
 end
 
 end
