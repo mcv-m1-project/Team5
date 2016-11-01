@@ -6,7 +6,6 @@ addpath('./evaluation');
 %Directory where the masks of the different sets are placed
 directory_read_results = '../Results';
 directory_all_images = '../Images';
-directory_write = '../Results/week_03';
 
 %Set to evaluate: train, validate or test
 set_type = 'validate';
@@ -19,7 +18,7 @@ params.type_set = set_type;
 params.directory_read_mask = strcat(directory_read_results, '/week_02/', params.type_set, '_result');
 params.directory_write_results = strcat(directory_read_results, '/week_03/', params.type_set, '_result');
 
-if ~strcmp(params.type_set, 'test')
+if ~strcmp(params.type_set, 'train')
     params.directory_read_BBox = strcat(directory_all_images, '/train/gt/');
 else
     params.directory_read_BBox = strcat(directory_all_images, '/test');
@@ -60,11 +59,11 @@ end
 metrix_methods = zeros(7, 2);
 for i = 1:2
     params.colorSpace = colorSp(i);
-    metrix = SignDetectionCCL( params, files, Characteristics );
+    metrix = SignDetectionIntegralImage( params, files, Characteristics );
     if ~isempty(metrix)
         metrix_methods(:, i) = metrix;
     end
 end
 
-sprintf('train')
+
 

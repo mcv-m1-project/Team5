@@ -9,7 +9,7 @@ directory_all_images = '../Images';
 directory_write = '../Results/week_03';
 
 %Set to evaluate: train, validate or test
-set_type = 'train';
+set_type = 'validate';
 
 
 params = struct('directory_read_mask', '', 'directory_read_BBox', '', ...
