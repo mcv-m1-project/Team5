@@ -1,0 +1,18 @@
+Como podeis ver, he reestructurado todo el proyecto y ahora esta todo en carpetas. Para seguir con la estructura que he montado, hay que hacer lo siguiente:
+-Tarea de crear las plantillas de señales: hay una carpeta llamada Templates. En ella se crean los scripts que hagan falta para crear las plantillas
+Una vez creadas, se tienen que guardar en la carpeta '/Results/week_04/Templates', ya que asi despues se pueden leer bien por las demas funciones.
+
+-Task 1 (correlation): hay una carpeta llamada Correlation. En ella hay dos scripts, Correlation y SignDetectionCorrelation. El primero ejecuta
+la correlacion con las plantillas (de la forma que se quiera) y el segundo calcula las metricas (menos cuando sea el test set). Si es necesario añadir cualquier
+funcion, metedla en esa carpeta. Ademas, al principio del SignDetectionCorrelation hay un switch en el que hay que añadir todos los paths para cada metodo 
+utilizado. Para ejecutar todo esto, utilizar el launch_w4_t1, teniendo en cuenta que hay algunos espacios a rellenar. Para elegir el conjunto a ejecutar,
+ cambiar la variable set_type (train, validate o test). Si quereis añadir algun path mas, añadidlo dentro de la funcion compute parammeterw4 en el 
+struct llamado params (alli estan tambien todos los path creados por ahora)
+
+-Task 2(Distance transform): lo mismo que en el caso anterior, pero la carpeta se llama distance Transform.
+
+
+
+
+Por otra parte, si quereis ejcutar todos los resultados de las tres primeras semanas, ejecutad el launch_all (AVISO: tarda mucho en terminar)
+Si no entendeis algo, no dudeis en preguntar.
