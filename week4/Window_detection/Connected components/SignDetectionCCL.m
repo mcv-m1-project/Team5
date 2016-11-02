@@ -1,4 +1,4 @@
-function [ metrix_method ] = SignDetectionCCL( params, files, ~ )
+function [ metrix_method ] = SignDetectionCCL( params, files, SC_train )
 
 
 %Set the directories to read and write, according to the colorSpace
@@ -10,6 +10,12 @@ switch params.colorSpace
         params.directory_read_mask = strcat(params.directory_read_mask, '/HSV&RGB/');
         params.directory_write_results = strcat(params.directory_write_results, '/HSV&RGB_CCL/');
 end
+
+if ~exist(params.directory_write_results, 'dir')
+  mkdir(params.directory_write_results);
+end
+
+Connected_components(params, files , SC_train);
 
 
 %When the BBoxes are computed, if the set is not the test set, we compute
@@ -31,7 +37,7 @@ if ~strcmp(params.type_set, 'test')
         image_name = files(i).name;
 %         windowAnnotation = load(strcat(params.directory_read_BBox, 'gt.', image_name, '.txt'));
         [windowAnnotation, ~] = LoadAnnotations(strcat(params.directory_read_BBox, 'gt.', image_name, '.txt'));
-        load(strcat(params.directory_write_results, image_name, '_morf.mat'));
+        load(strcat(params.directory_write_results, image_name, '_mask.mat'));
         
         if ~isempty(windowCandidates(1).x)
             [windowTP, windowFN, windowFP] = PerformanceAccumulationWindow(windowCandidates, windowAnnotation);

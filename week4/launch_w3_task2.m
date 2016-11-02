@@ -1,7 +1,7 @@
-clear all
-close all
-clc
-addpath(genpath('.'))
+% clear all
+% close all
+% clc
+% addpath(genpath('.'))
 
 %Directory where the masks of the different sets are placed
 directory_results = '../Results';
@@ -14,15 +14,15 @@ set_type = 'train';
 colorSpaces = { 'HSV'  'HSV&RGB' };
 colorSp = [       1        2    ];
 
-[ params, files, Characteristics ] = compute_paremeters_w3( directory_results, directory_images, set_type );
+[ params, files, SC_train ] = compute_paremeters_w3( directory_results, directory_images, set_type );
 
 
 %%
-files = files(1);
+
 metrix_methods = zeros(7, 2);
 for i = 1:2
     params.colorSpace = colorSp(i);
-    metrix = SignDetectionSlideWindow( params, files, Characteristics );
+    metrix = SignDetectionSlideWindow( params, files, SC_train );
     if ~isempty(metrix)
         metrix_methods(:, i) = metrix;
     end

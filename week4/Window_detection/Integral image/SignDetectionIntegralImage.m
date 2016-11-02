@@ -1,4 +1,4 @@
-function [ metrix_method ] = SignDetectionIntegralImage( params, files, Characteristics )
+function [ metrix_method ] = SignDetectionIntegralImage( params, files, SC_train )
 
 
 %Set the directories to read and write, according to the colorSpace
@@ -11,8 +11,12 @@ switch params.colorSpace
         params.directory_write_results = strcat(params.directory_write_results, '/HSV&RGB_II/');
 end
 
-%Compute the BBoxes for all the images of the list of files
+if ~exist(params.directory_write_results, 'dir')
+  mkdir(params.directory_write_results);
+end
 
+%Compute the BBoxes for all the images of the list of files
+[ Characteristics ] = trainSC_Window( SC_train );
 Integral_Image_2(params, files, Characteristics );
 
 %When the BBoxes are computed, if the set is not the test set, we compute

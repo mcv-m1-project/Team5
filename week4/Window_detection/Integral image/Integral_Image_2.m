@@ -16,7 +16,7 @@ for j = 1:size(files, 1)
     
     imagename = char(files(j).name);
     sprintf(imagename)
-    Mask = imread(strcat(params.directory_read_mask, imagename,'_morf.jpg'));
+    Mask = imread(strcat(params.directory_read_mask, imagename,'_morf.png'));
 %     Mask = Mask/max(Mask(:));
     %We will compute different type of windows for each type of signal,
     %because they have different form factor. t correponds to the type of

@@ -1,29 +1,31 @@
-clear all; close all;
-addpath(genpath('./Window_detection'))
+% clear all
+% close all
+% clc
+% addpath(genpath('.'))
 
-%Directory where the different methods directories are:
-results_dir='../Results/week_02/validate_result';
-%Where the mat files are saved (a folder with the method name will be created, if it doesn't exist):
-directory_write='../Results/week_03/validate_result';
+%Directory where the masks of the different sets are placed
+directory_results = '../Results';
+directory_images = '../Images';
 
+%Set to evaluate: train, validate or test
+set_type = 'train';
 
-%Use the training set as a reference for the filling ratio, etc to discard
-%false positives
-load('../Results/week_01/Sign_characteristics_train');
-train_param = trainSignCharacteristicsCCL(SC_train);
+%Names of the different methods we have used for the segmentation
+colorSpaces = { 'HSV'  'HSV&RGB' };
+colorSp = [       1        2    ];
 
- 
-%Get Bounding Boxes by Connected Component Labeling
-methods=dir(results_dir);
-for k = 3:length(methods)
-    mask_files=dir(strcat(results_dir,filesep,methods(k).name,'/*.jpg'));%Get masks
-    if ~exist(strcat(directory_write,filesep,methods(k).name, '_CCL'),'dir')
-      mkdir(strcat(directory_write,filesep,methods(k).name, '_CCL'));%Directory where the mat files are saved
-    end
-    
-    for i = 1:length(mask_files)
-        mask = imread(strcat(results_dir, filesep, methods(k).name, filesep, mask_files(i).name));
-        windowCandidates = CCL(mask, train_param);
-        save(strcat(directory_write, filesep,methods(k).name , '_CCL', filesep,mask_files(i).name(1:end-4), '.mat'), 'windowCandidates');
+[ params, files, SC_train ] = compute_paremeters_w3( directory_results, directory_images, set_type );
+
+%%
+
+metrix_methods = zeros(7, 2);
+for i = 1:2
+    params.colorSpace = colorSp(i);
+    metrix = SignDetectionCCL( params, files, SC_train );
+    if ~isempty(metrix)
+        metrix_methods(:, i) = metrix;
     end
 end
+save(strcat(params.directory_write_results, '/metrix_methods_', params.type_set, '_CCL'), 'metrix_methods');
+sprintf(params.type_set)
+

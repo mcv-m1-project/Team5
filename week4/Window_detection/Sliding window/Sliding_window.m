@@ -16,8 +16,8 @@ for i = 1:size(files, 1)
     
     imagename = char(files(i).name);
     sprintf(imagename)
-    Mask = imread(strcat(params.directory_read_mask, imagename,'_morf.jpg'));
-    Mask = Mask/max(Mask(:));
+    Mask = imread(strcat(params.directory_read_mask, imagename,'_morf.png'));
+%     Mask = Mask/max(Mask(:));
     %We will compute different type of windows for each type of signal,
     %because they have different form factor. t correponds to the type of
     %sign: 1-triangle, 2-circle and 3-square
