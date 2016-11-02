@@ -17,7 +17,7 @@ for j = 1:size(files, 1)
     imagename = char(files(j).name);
     sprintf(imagename)
     Mask = imread(strcat(params.directory_read_mask, imagename,'_morf.png'));
-%     Mask = Mask/max(Mask(:));
+    %     Mask = Mask/max(Mask(:));
     %We will compute different type of windows for each type of signal,
     %because they have different form factor. t correponds to the type of
     %sign: 1-triangle, 2-circle and 3-square
@@ -25,10 +25,10 @@ for j = 1:size(files, 1)
     image = Mask;
     for k = 1:row
         for l = 1:col
-                ii(k,l) = cumsum(cumsum(double(image(k,l))),2);
+            ii(k,l) = cumsum(cumsum(double(image(k,l))),2);
         end
     end
-
+    
     
     for t = 1:3
         width_sizes = round(Characteristics(t).min_w):step_window:round(Characteristics(t).max_w);
@@ -48,8 +48,8 @@ for j = 1:size(files, 1)
             windowArea = window_width * window_height;
             
             
-%             ii_pad = padarray(ii,[window_height-1 window_width-1],'replicate','post');
-%             dim = size(ii_pad);
+            %             ii_pad = padarray(ii,[window_height-1 window_width-1],'replicate','post');
+            %             dim = size(ii_pad);
             
             dim = size(Mask);
             
@@ -59,17 +59,17 @@ for j = 1:size(files, 1)
                 for x = 1:step_window:(dim(2) - window_width)
                     
                     bbSum = ii(y + (window_height-1),x + (window_width-1))...
-                    - ii(y, x + (window_width-1)) - ii(y + (window_height-1),x)...
-                    + ii(y,x);
+                        - ii(y, x + (window_width-1)) - ii(y + (window_height-1),x)...
+                        + ii(y,x);
                     
-%                     windowArea = window_height*window_width;
+                    %                     windowArea = window_height*window_width;
                     filling = bbSum/(windowArea);
                     
-%                     Window = Mask(y:window_width + y, x:window_height + x);
-%                     validate = Validate_window(Window, Characteristics(t));
+                    %                     Window = Mask(y:window_width + y, x:window_height + x);
+                    %                     validate = Validate_window(Window, Characteristics(t));
                     
-%                     if validate
-                    if filling > Characteristics(t).min_fill_ratio && filling < Characteristics(t).max_fill_ratio 
+                    %                     if validate
+                    if filling > Characteristics(t).min_fill_ratio && filling < Characteristics(t).max_fill_ratio
                         
                         BBox(idx_BB).y = y;
                         BBox(idx_BB).x = x;
@@ -81,7 +81,7 @@ for j = 1:size(files, 1)
                 end
             end
             BBox(idx_BB:length(BBox)) = [];
-                       
+            
         end
         %With a concrete size we have find many windows,we eliminate
         %overlaps
@@ -89,11 +89,12 @@ for j = 1:size(files, 1)
         BBox_final(idx_BB_final + (1:length(BBox))- 1) = BBox;
         %This variable saves all the windows of different sizes
         idx_BB_final = idx_BB_final + length(BBox);
-    
+        
     end
     
-     windowCandidates = Clear_overlap(BBox_final, Mask);
-
+    windowCandidates = Clear_overlap(BBox_final, Mask);
+    new_mask = create_mask_of_window( windowCandidates, Mask );
+    imwrite(new_mask, strcat(params.directory_write_results, '/', imagename, '_mask.png'));
     save(strcat(params.directory_write_results, '/', imagename, '_mask.mat'), 'windowCandidates');
 end
 empty = [];

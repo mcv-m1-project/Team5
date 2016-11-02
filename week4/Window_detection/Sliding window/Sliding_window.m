@@ -17,7 +17,7 @@ for i = 1:size(files, 1)
     imagename = char(files(i).name);
     sprintf(imagename)
     Mask = imread(strcat(params.directory_read_mask, imagename,'_morf.png'));
-%     Mask = Mask/max(Mask(:));
+    %     Mask = Mask/max(Mask(:));
     %We will compute different type of windows for each type of signal,
     %because they have different form factor. t correponds to the type of
     %sign: 1-triangle, 2-circle and 3-square
@@ -46,7 +46,7 @@ for i = 1:size(files, 1)
                     Window = Mask(y:window_width + y, x:window_height + x);
                     validate = Validate_window(Window, Characteristics(t));
                     
-                    if validate 
+                    if validate
                         
                         BBox(idx_BB).y = y;
                         BBox(idx_BB).x = x;
@@ -66,12 +66,13 @@ for i = 1:size(files, 1)
         BBox_final(idx_BB_final + (1:length(BBox))- 1) = BBox;
         %This variable saves all the windows of different sizes
         idx_BB_final = idx_BB_final + length(BBox);
-    
+        
     end
     
-     windowCandidates = Clear_overlap(BBox_final, Mask);
-
-    save(strcat(params.directory_write_results, '/', imagename, '_boxes.mat'), 'windowCandidates');
+    windowCandidates = Clear_overlap(BBox_final, Mask);
+    new_mask = create_mask_of_window( windowCandidates, Mask );
+    imwrite(new_mask, strcat(params.directory_write_results, '/', imagename, '_mask.png'));
+    save(strcat(params.directory_write_results, '/', imagename, '_mask.mat'), 'windowCandidates');
 end
 empty = [];
 end
