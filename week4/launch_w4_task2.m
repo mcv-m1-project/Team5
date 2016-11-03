@@ -17,7 +17,7 @@ methods = {  };
 meth = [    ];
 % = [       1        2    ];
 
-[ params, files, Templates ] = compute_paremeters_w4( directory_results, directory_images, directory_templates, set_type );
+[params, files, Templates] = compute_paremeters_w4( directory_results, directory_images, directory_templates, set_type );
 
 
 %%
@@ -25,7 +25,7 @@ meth = [    ];
 metrix_methods = zeros(7, ??);
 for i = 1:2
     params.colorSpace = colorSp(i);
-    metrix = SignDetectionCorrelation( params, files, Templates );
+    metrix = Distance_transform( params, files, Templates );
     if ~isempty(metrix)
         metrix_methods(:, i) = metrix;
     end
