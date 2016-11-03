@@ -4,10 +4,10 @@ function [ metrix_method ] = SignDetectionCCL( params, files, SC_train )
 %Set the directories to read and write, according to the colorSpace
 switch params.colorSpace
     case 1
-        params.directory_read_mask = strcat(params.directory_read_mask, '/HSV/');
+        params.directory_read_mask = strcat(params.directory_read_mask, '/HSV');
         params.directory_write_results = strcat(params.directory_write_results, '/HSV_CCL/');
     case 2
-        params.directory_read_mask = strcat(params.directory_read_mask, '/HSV&RGB/');
+        params.directory_read_mask = strcat(params.directory_read_mask, '/HSV&RGB');
         params.directory_write_results = strcat(params.directory_write_results, '/HSV&RGB_CCL/');
 end
 
