@@ -1,18 +1,17 @@
-function [ params, files, Templates ] = compute_paremeters_w4( directory_results, directory_images, directory_templates, set_type )
+function [ params, files] = compute_paremeters_w4( directory_results, directory_images, set_type )
 
 params = struct('directory_read_mask', '', ...
     'directory_read_images', '', ...
     'directory_write_results', '',...
     'directory_read_BBox', '',...
-    'directory_read_templates', '',...
-    'type_set', '', 'method', 0);
+    'type_set', '', 'method', 1);
 
 params.type_set = set_type;
 params.directory_read_mask = strcat(directory_results, '/week_02/', params.type_set, '_result');
 params.directory_read_BBox = strcat(directory_results, '/week_03/', params.type_set, '_result');
 params.directory_write_results = strcat(directory_results, '/week_04/', params.type_set, '_result');
 
-params.directory_read_templates = directory_templates;
+% params.directory_read_templates = directory_templates;
 
 if ~exist(params.directory_write_results, 'dir')
   mkdir(params.directory_write_results);
@@ -41,12 +40,12 @@ else
         files = files_validate;
     end
 end
-
-Templates = ListFiles(directory_templates);
-for i = 1:size(Templates)
-	Templates(i).name = Templates(i).name(1:end - 4);
-end
-
+% % 
+% % Templates = ListFiles(directory_templates);
+% for i = 1:size(Templates)
+% 	Templates(i).name = Templates(i).name(1:end - 4);
+% end
+% 
 
 end
 

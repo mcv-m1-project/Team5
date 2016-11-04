@@ -12,20 +12,19 @@ directory_templates = '../Results/week_04/Templates';
 set_type = 'train';
 
 %Names of the previous work to compute the correlation
-methods = {  };
-% = { 'HSV'  'HSV&RGB' };
-meth = [    ];
-% = [       1        2    ];
 
-[params, files, Templates] = compute_paremeters_w4( directory_results, directory_images, directory_templates, set_type );
+colorSpaces = {'HSV_CCL' 'HSV&RGB_CCL'};
+colorSp = [       1        2    ];
+
+[params, files] = compute_paremeters_w4( directory_results, directory_images, set_type );
 
 
 %%
 
-metrix_methods = zeros(7, ??);
+metrix_methods = zeros(7, 2);
 for i = 1:2
     params.colorSpace = colorSp(i);
-    metrix = Distance_transform( params, files, Templates );
+    metrix = SignDetectionDistTransform( params, files);
     if ~isempty(metrix)
         metrix_methods(:, i) = metrix;
     end

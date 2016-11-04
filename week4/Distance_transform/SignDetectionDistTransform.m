@@ -1,15 +1,15 @@
-function [ metrix_method ] = SignDetectionDistTransform( params, files, Templates )
+function [ metrix_method ] = SignDetectionDistTransform( params, files)
 
 
 %Set the directories to read and write, according to the method used
 switch params.method
     case 1
         %Directory to read results from week 2
-        params.directory_read_mask = strcat(params.directory_read_mask, '/folder??/');
+        params.directory_read_mask = strcat(params.directory_read_mask, '/HSV/');
         %Directory to read results from week 3
-        params.directory_read_BBox = strcat(params.directory_read_BBox, '/folder??/');
+        params.directory_read_BBox = strcat(params.directory_read_BBox, '/HSV_CCL/');
         %Directory to write results
-        params.directory_write_results = strcat(params.directory_write_results, '/folder??/');
+        params.directory_write_results = strcat(params.directory_write_results, '/HSV_DT/');
         
 end
 
@@ -18,7 +18,7 @@ if ~exist(params.directory_write_results, 'dir')
 end
 
 %Compute the results using correlation and a method from a previous week
-Distance_transform(params, files, Templates );
+Distance_transform(params, files);
 
 %When the BBoxes are computed, if the set is not the test set, we compute
 %the metrixes according to the results obtained
@@ -42,7 +42,7 @@ if ~strcmp(params.type_set, 'test')
         
         
         %Add extension of the file to load
-        load(strcat(params.directory_write_results, image_name, '???'));
+        load(strcat(params.directory_write_results, image_name, '_mask.mat'));
         
         [windowTP, windowFN, windowFP] = PerformanceAccumulationWindow(windowCandidates, windowAnnotation);
         [windowPrecision, windowAccuracy, windowSensitivity, windowFMeasure] = PerformanceEvaluationWindow(windowTP, windowFN, windowFP);
