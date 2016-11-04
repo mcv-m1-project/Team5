@@ -6,7 +6,7 @@ function params = trainSignCharacteristicsCCL(SC)
 
 form_factor=[SC{:,3}];
 filling_ratio=[SC{:,4}];
-BB_area=[SC{:,2}]
+BB_area=[SC{:,2}];
 
 stdff=std(form_factor);
 maxff=max(form_factor)+stdff;
