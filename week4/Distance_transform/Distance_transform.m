@@ -18,7 +18,7 @@ distance = bwdist(image_canny);
 distance = distance/max(max(distance));
    
 %Tolerancia de pixeles
-tol=10;
+tol=4;
 
 sumCircle_signal = zeros(5,441);
 sumTriangle_signal = zeros(5,441);
@@ -26,7 +26,7 @@ sumTriangleInv_signal = zeros(5,441);
 sumSquare_signal = zeros(5,441);
 
 idx = 1;
-
+padd = false;
     for n_BBox = 1:size(windowCandidates,1)
     % Resize the template to fit with the window
 %     template_rCircle = imresize(template,[windowC.h,windowC.w]);
@@ -41,7 +41,11 @@ idx = 1;
 
         for tol_y = windowCandidates.y-tol:windowCandidates.y+tol
             for tol_x = windowCandidates.x-tol:windowCandidates.x+tol  
-                
+               if (tol_y+size(template_rCircle,1)>= size (mask,1)|| tol_y+size(template_rCircle,1)>= size (mask,1))
+                   padd = true;
+                   distance = paddarray(distance,[round(size(template_rCircle,1)/2) round(size(template_rCircle,2)/2)]);
+               
+               end
                 Circle_signal = template_rCircle.*distance(tol_y+1:tol_y+size(template_rCircle,1),...
                     tol_x+1:tol_x+size(template_rCircle,2));
                 
