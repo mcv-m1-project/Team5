@@ -3,7 +3,7 @@ function [empty] = Distance_transform(params, files)
     BBox = struct('x', value, 'y', value, 'w',value, 'h', value);
 
 %For each image, do something
-for i = 1:44%size(files, 1)
+for i = 1:size(files, 1)
     
 imagename = char(files(i).name);
 sprintf(imagename)
@@ -42,8 +42,8 @@ idx = 1;
         for tol_y = windowCandidates.y-tol:windowCandidates.y+tol
             for tol_x = windowCandidates.x-tol:windowCandidates.x+tol  
                 
-                Circle_signal = template_rCircle.*distance(tol_x+1:tol_x+size(template_rCircle,1),...
-                    tol_y+1:tol_y+size(template_rCircle,2));
+                Circle_signal = template_rCircle.*distance(tol_y+1:tol_y+size(template_rCircle,1),...
+                    tol_x+1:tol_x+size(template_rCircle,2));
                 
                 sumCircle_signal(1,idx) = sum(sum(Circle_signal));
                 sumCircle_signal(2,idx) = tol_x;
@@ -52,8 +52,8 @@ idx = 1;
                 sumCircle_signal(5,idx) = windowCandidates.w;
 %                 sumCircle_signal(1,idx) = [sum(sum(Circle_signal)) tol_x tol_y windowCandidates.h windowCandidates.w];
 
-                Triangle_signal = template_rTriangle.*distance(tol_x+1:tol_x+size(template_rTriangle,1),...
-                    tol_y+1:tol_y+size(template_rTriangle,2));
+                Triangle_signal = template_rTriangle.*distance(tol_y+1:tol_y+size(template_rTriangle,1),...
+                    tol_x+1:tol_x+size(template_rTriangle,2));
  
                 sumTriangle_signal(1,idx) = sum(sum(Triangle_signal));
                 sumTriangle_signal(2,idx) = tol_x;
@@ -63,8 +63,8 @@ idx = 1;
                 
 %                 sumTriangle_signal(1,idx) = sum(sum(Triangle_signal));
 
-                TriangleInv_signal = template_rTriangleInv.*distance(tol_x+1:tol_x+size(template_rTriangleInv,1),...
-                    tol_y+1:tol_y+size(template_rTriangleInv,2));
+                TriangleInv_signal = template_rTriangleInv.*distance(tol_y+1:tol_y+size(template_rTriangleInv,1),...
+                    tol_x+1:tol_x+size(template_rTriangleInv,2));
 
                 sumTriangleInv_signal(1,idx) = sum(sum( TriangleInv_signal));
                 sumTriangleInv_signal(2,idx) = tol_x;
@@ -73,8 +73,8 @@ idx = 1;
                 sumTriangleInv_signal(5,idx) = windowCandidates.w;
 %                 sumTriangleInv_signal(1,idx) = sum(sum(TriangleInv_signal));
 
-                Square_signal = template_rSquare.*distance(tol_x+1:tol_x+size(template_rSquare,1),...
-                    tol_y+1:tol_y+size(template_rSquare,2));
+                Square_signal = template_rSquare.*distance(tol_y+1:tol_y+size(template_rSquare,1),...
+                    tol_x+1:tol_x+size(template_rSquare,2));
                 
                 sumSquare_signal(1,idx) = sum(sum(Square_signal));
                 sumSquare_signal(2,idx) = tol_x;
