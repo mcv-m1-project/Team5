@@ -39,13 +39,13 @@ if ~strcmp(params.type_set, 'test')
         [windowAnnotation, ~] = LoadAnnotations(strcat(params.directory_read_BBox, 'gt.', image_name, '.txt'));
         load(strcat(params.directory_write_results, image_name, '_mask.mat'));
         
-        if ~isempty(windowCandidates(1).x)
+%         if ~isempty(windowCandidates(1).x)
             [windowTP, windowFN, windowFP] = PerformanceAccumulationWindow(windowCandidates, windowAnnotation);
-        else
-            windowTP = 0;
-            windowFN = length(windowCandidates);
-            windowFP = 0;
-        end    
+%         else
+%             windowTP = 0;
+%             windowFN = length(windowCandidates);
+%             windowFP = 0;
+%         end    
         
         [windowPrecision, windowAccuracy, windowSensitivity, windowFMeasure] = PerformanceEvaluationWindow(windowTP, windowFN, windowFP);
         TP_images(i) = windowTP;

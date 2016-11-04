@@ -14,9 +14,9 @@ if max(max(mask))>0
         windowCandidates(j).w=windowProps(j).BoundingBox(3);
         windowCandidates(j).h=windowProps(j).BoundingBox(4);    
     end
-    windowCandidates=windowCandidates';
+    windowCandidates = windowCandidates';
 else
-    windowCandidates =[];
+    windowCandidates = [];
 end
 
 end
