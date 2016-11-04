@@ -38,7 +38,7 @@ if ~strcmp(params.type_set, 'test')
         image_name = files(i).name;
 %         windowAnnotation = load(strcat(params.directory_read_BBox, 'gt.', image_name, '.txt'));
         [windowAnnotation, ~] = LoadAnnotations(strcat(params.directory_read_BBox, 'gt.', image_name, '.txt'));
-        load(strcat(params.directory_write_results, image_name, '_boxes.mat'));
+        load(strcat(params.directory_write_results, image_name, '_mask.mat'));
         
         [windowTP, windowFN, windowFP] = PerformanceAccumulationWindow(windowCandidates, windowAnnotation);
         [windowPrecision, windowAccuracy, windowSensitivity, windowFMeasure] = PerformanceEvaluationWindow(windowTP, windowFN, windowFP);

@@ -17,10 +17,11 @@ colorSp = [       1        2    ];
 [ params, files, SC_train ] = compute_paremeters_w3( directory_results, directory_images, set_type );
 
 %%
-
+% files = files(45);
 metrix_methods = zeros(7, 2);
 for i = 1:2
     params.colorSpace = colorSp(i);
+    sprintf(colorSpaces{i})
     metrix = SignDetectionCCL( params, files, SC_train );
     if ~isempty(metrix)
         metrix_methods(:, i) = metrix;

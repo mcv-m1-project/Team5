@@ -3,10 +3,12 @@ function [empty] = Sliding_window(params, files, Characteristics )
 %     'directory_write_results', '', 'type_set', '', 'colorSpace', 0);
 
 step_window = 5;
-
+step_width = 20;
 
 %For each image, compute windows
 for i = 1:size(files, 1)
+    idx = 0;
+    i = 1;
     %Expected maximum number of windows
     samples = 1000;
     value = num2cell(zeros( samples, 1));
@@ -22,13 +24,13 @@ for i = 1:size(files, 1)
     %because they have different form factor. t correponds to the type of
     %sign: 1-triangle, 2-circle and 3-square
     for t = 1:3
-        width_sizes = round(Characteristics(t).min_w):step_window:round(Characteristics(t).max_w);
+        width_sizes = round(Characteristics(t).min_w):step_width:round(Characteristics(t).max_w);
         if width_sizes(end) < Characteristics(t).max_w
             width_sizes = [width_sizes round(Characteristics(t).max_w)];
         end
         
         height_sizes = round(Characteristics(t).mean_form_factor*width_sizes);
-        for n = size(width_sizes, 1);
+        for n = 1:2%:size(width_sizes, 2)
             %For each size of window, find signs
             %BBox save the windos find with a certain window and a certain
             %threshold and from factor
@@ -38,6 +40,7 @@ for i = 1:size(files, 1)
             window_height = height_sizes(n);
             
             dim = size(Mask);
+            idx = idx + 1;
             %Movimiento por columnas
             for y = 1:step_window:(dim(1) - window_width)
                 %Movimiento por filas
@@ -68,8 +71,9 @@ for i = 1:size(files, 1)
         idx_BB_final = idx_BB_final + length(BBox);
         
     end
-    
+    BBox_final(idx_BB_final:length(BBox_final)) = [];
     windowCandidates = Clear_overlap(BBox_final, Mask);
+    
     new_mask = create_mask_of_window( windowCandidates, Mask );
     imwrite(new_mask, strcat(params.directory_write_results, '/', imagename, '_mask.png'));
     save(strcat(params.directory_write_results, '/', imagename, '_mask.mat'), 'windowCandidates');
