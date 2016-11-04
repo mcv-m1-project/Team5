@@ -13,16 +13,19 @@ stdff=std(form_factor);
 % minff=min(form_factor)-stdff;
 maxff=max(form_factor);
 minff=min(form_factor);
+meanff = mean(form_factor);
 stdfr=std(filling_ratio);
 maxfr=max(filling_ratio);
 minfr=min(filling_ratio);
+meanfr = mean(filling_ratio);
 % maxfr=max(filling_ratio)+stdfr;
 % minfr=min(filling_ratio)-stdfr;
 maxarea=max(BB_area);
 minarea=min(BB_area);
 
 params = struct('maxff', maxff, 'minff', minff, 'stdff', stdff,...
-    'maxfr',maxfr, 'minfr', minfr, 'stdfr', stdfr, 'maxarea', maxarea, 'minarea', minarea);
+    'maxfr', maxfr, 'minfr', minfr, 'stdfr', stdfr, 'maxarea', maxarea, ...
+    'minarea', minarea, 'meanff', meanff, 'meanfr', meanfr);
 
 
 
