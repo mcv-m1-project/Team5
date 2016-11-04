@@ -14,17 +14,18 @@ set_type = 'train';
 %Names of the different methods we have used for the segmentation
 colorSpaces = {'RGBManual' 'OtsuRGB' 'HSV' 'Lab' 'YUV' 'HSV&RGB' 'histBP'};
 colorSp = [         1           2      3     4     5        6       7];
+
 %We create the colorSp vector because the switch works better with numbers
 
 [ params, files] = compute_paremeters_w1( directory_results, directory_images, set_type );
-
+%%
 
 
 %Evaluate all methods ans save its metrices 
 metrix_methods = zeros(10, length(colorSp));
 
 for i = 1:length(colorSp)
-    sprintf(char(colorSpaces(i)))
+    sprintf(char(colorSpaces(colorSp(i))))
     params.colorSpace = colorSp(i);
     metr_method = SignDetection(params, files);
 

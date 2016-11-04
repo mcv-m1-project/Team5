@@ -8,11 +8,16 @@ form_factor=[SC{:,3}];
 filling_ratio=[SC{:,4}];
 
 stdff=std(form_factor);
-maxff=max(form_factor)+stdff;
-minff=min(form_factor)-stdff;
+% maxff=max(form_factor)+stdff;
+% minff=min(form_factor)-stdff;
+maxff=max(form_factor);
+minff=min(form_factor);
 stdfr=std(filling_ratio);
-maxfr=max(filling_ratio)+stdfr;
-minfr=min(filling_ratio)-stdfr;
+maxfr=max(filling_ratio);
+minfr=min(filling_ratio);
+% maxfr=max(filling_ratio)+stdfr;
+% minfr=min(filling_ratio)-stdfr;
 
-params = struct('maxff', maxff, 'minff', minff, 'maxfr',maxfr, 'minfr', minfr);
+params = struct('maxff', maxff, 'minff', minff, 'stdff', stdff,...
+    'maxfr',maxfr, 'minfr', minfr, 'stdfr', stdfr);
 end

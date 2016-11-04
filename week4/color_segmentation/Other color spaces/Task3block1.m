@@ -37,13 +37,30 @@ switch colorSpace
             rgbImage = imread(strcat(path_images, '/', strcat(Imgs(numImagen).name), '.jpg'));
             Imgswithoutext = strrep(Imgs(numImagen).name,ext,'');
             
+            
+%             redMask = rgbImage(:,:,1) > 50 & rgbImage(:,:,2) < 40 &...
+%             redMask = rgbImage(:,:,1) > 40 & rgbImage(:,:,2) < 40 &...
+%             rgbImage(:,:,3) < 40;
+            % Blue segmentation
+            
+
+            
+            
             % Red segmentation
+            %Old
+%             redMask = rgbImage(:,:,1) > 50 & rgbImage(:,:,2) < 40 &...
+            %New
+%             redMask = rgbImage(:,:,1) > 40 & rgbImage(:,:,2) < 40 &...
+
             redMask = rgbImage(:,:,1) > 40 & rgbImage(:,:,2) < 40 &...
                 rgbImage(:,:,3) < 40;
             % Blue segmentation
             blueMask = rgbImage(:,:,1) < 50 & rgbImage(:,:,2) < 60 &...
                 rgbImage(:,:,3) > 40;
-            
+            % Old
+%             rgbImage(:,:,3) > 60;
+            %New
+%             rgbImage(:,:,3) > 40;
             % Combination of the red and blue segmentation -> binary image
             Mask = redMask | blueMask;
             
@@ -105,7 +122,13 @@ switch colorSpace
             % A "threshold" of the hsv components of pixels must be an interval
             hredInterval = [340 30]; % Range of hue values considered 'red'
             hblueInterval = [190 240]; % Range of hue values considered 'blue'
-            
+            %Old
+%             hredInterval = [350 20]; % Range of hue values considered 'red'
+%             hblueInterval = [200 230]; % Range of hue values considered 'blue'
+            %New
+%             hredInterval = [340 30]; % Range of hue values considered 'red'
+%             hblueInterval = [190 240]; % Range of hue values considered 'blue'
+
             sInterval = [0.5 1]; % Minimum saturation value to exclude noise
             vInterval = [0.1 1];
             
@@ -189,6 +212,14 @@ switch colorSpace
             % A "threshold" of the hsv components of pixels must be an interval
             hredInterval = [340 30]; % Range of hue values considered 'red'
             hblueInterval = [190 240]; % Range of hue values considered 'blue'
+            
+            %Old
+%             hredInterval = [350 20]; % Range of hue values considered 'red'
+%             hblueInterval = [200 230]; % Range of hue values considered 'blue'
+            %New
+%             hredInterval = [340 30]; % Range of hue values considered 'red'
+%             hblueInterval = [190 240]; % Range of hue values considered 'blue'
+
             
             sInterval = [0.5 1]; % Minimum saturation value to exclude noise
             vInterval = [0.1 1];

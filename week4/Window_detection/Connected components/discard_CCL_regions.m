@@ -6,5 +6,7 @@ h = arrayfun(@(x) x.BoundingBox(4), windowProps);
 fr=[windowProps(:).FilledArea]'./(w.*h);%Filling ratio
 ff=w./h;%Form factor
 
-newWindowProps=windowProps((fr>tp.minfr)&(fr<tp.maxfr)&(ff>tp.minff)&(ff<tp.maxff));
+%Threshold 1
+newWindowProps = windowProps((fr > tp.minfr - tp.stdfr)&(fr < tp.maxfr + tp.stdfr)...
+    &(ff > tp.minff - tp.stdfr)&(ff < tp.maxff + tp.stdff));
 end
