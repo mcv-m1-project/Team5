@@ -2,6 +2,7 @@ function [empty] = Distance_transform(params, files)
     value = num2cell(zeros( 1000, 1));
     BBox = struct('x', value, 'y', value, 'w',value, 'h', value);
 
+    padd = false;
 %For each image, do something
 for i = 1:size(files, 1)
     
@@ -18,7 +19,7 @@ distance = bwdist(image_canny);
 distance = distance/max(max(distance));
    
 %Tolerancia de pixeles
-tol=10;
+tol=4;
 
 sumCircle_signal = zeros(5,441);
 sumTriangle_signal = zeros(5,441);
@@ -40,8 +41,12 @@ idx = 1;
     template_rSquare = Template(2,[windowCandidates.h,windowCandidates.w]);
 
         for tol_y = windowCandidates.y-tol:windowCandidates.y+tol
-            for tol_x = windowCandidates.x-tol:windowCandidates.x+tol  
-                
+            for tol_x = windowCandidates.x-tol:windowCandidates.x+tol
+                if tol_y + size(template_rCircle,1)>= size(mask,1) || tol_x + size(template_rCircle,2)>= size(mask,2)
+                    padd = true;
+                    distance = padarray(distance,[round(size(template_rCircle,1)/2) round(size(template_rCircle,2)/2)]);
+                end
+                    
                 Circle_signal = template_rCircle.*distance(tol_y+1:tol_y+size(template_rCircle,1),...
                     tol_x+1:tol_x+size(template_rCircle,2));
                 
@@ -84,10 +89,15 @@ idx = 1;
 %                 sumSquare_signal(1,idx) = sum(sum(Square_signal));
 
                 idx = idx + 1;
-
-            end
+            end 
         end
     
+        if padd
+            distance = distance((size(template_rCircle,1)/2)+1:end-size(template_rCircle,1),...
+                (size(template_rCircle,2)/2)+1:end-size(template_rCircle,2));     
+        end
+         padd = false;
+         
         [C,c] = min(sumCircle_signal(1,:));
         [T,t] = min(sumTriangle_signal(1,:));
         [TI,ti] = min(sumTriangleInv_signal(1,:));
