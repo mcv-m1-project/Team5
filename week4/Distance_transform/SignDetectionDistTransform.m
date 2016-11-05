@@ -2,7 +2,7 @@ function [ metrix_method ] = SignDetectionDistTransform( params, files)
 
 
 %Set the directories to read and write, according to the method used
-switch params.method
+switch params.colorSpace
     case 1
         %Directory to read results from week 2
         params.directory_read_mask = strcat(params.directory_read_mask, '/HSV/');
@@ -10,6 +10,14 @@ switch params.method
         params.directory_read_BBox = strcat(params.directory_read_BBox, '/HSV_CCL/');
         %Directory to write results
         params.directory_write_results = strcat(params.directory_write_results, '/HSV_DT/');
+        
+    case 2
+        %Directory to read results from week 2
+        params.directory_read_mask = strcat(params.directory_read_mask, '/HSV&RGB/');
+        %Directory to read results from week 3
+        params.directory_read_BBox = strcat(params.directory_read_BBox, '/HSV&RGB_CCL/');
+        %Directory to write results
+        params.directory_write_results = strcat(params.directory_write_results, '/HSV&RGB_DT/');
         
 end
 
