@@ -1,4 +1,4 @@
-function [ metrix_method ] = SignDetectionDistTransform( params, files)
+function [ metrix_method ] = SignDetectionDistTransform( params, files, templates)
 
 
 %Set the directories to read and write, according to the method used
@@ -11,22 +11,30 @@ switch params.colorSpace
         %Directory to write results
         params.directory_write_results = strcat(params.directory_write_results, '/HSV_DT/');
         
+        
     case 2
         %Directory to read results from week 2
-        params.directory_read_mask = strcat(params.directory_read_mask, '/HSV&RGB/');
+        params.directory_read_mask = strcat(params.directory_read_mask, '/HSV/');
         %Directory to read results from week 3
-        params.directory_read_BBox = strcat(params.directory_read_BBox, '/HSV&RGB_CCL/');
+        params.directory_read_BBox = strcat(params.directory_read_BBox, '/HSV_CCL/');
         %Directory to write results
-        params.directory_write_results = strcat(params.directory_write_results, '/HSV&RGB_DT/');
+        params.directory_write_results = strcat(params.directory_write_results, '/HSV_DT_changed/');
         
+    case 3
+        %Directory to read results from week 2
+        params.directory_read_mask = strcat(params.directory_read_mask, '/HSV/');
+        %Directory to read results from week 3
+        params.directory_read_BBox = strcat(params.directory_read_BBox, '/HSV_CCL/');
+        %Directory to write results
+        params.directory_write_results = strcat(params.directory_write_results, '/HSV_DT_templates/');
 end
 
 if ~exist(params.directory_write_results, 'dir')
-  mkdir(params.directory_write_results);
+    mkdir(params.directory_write_results);
 end
+Distance_transform(params, files, templates);
+%Compute the results
 
-%Compute the results using correlation and a method from a previous week
-Distance_transform(params, files);
 
 %When the BBoxes are computed, if the set is not the test set, we compute
 %the metrixes according to the results obtained
@@ -43,13 +51,12 @@ if ~strcmp(params.type_set, 'test')
     Sensitivity_images = zeros(num_files, 1);
     FMeasure_images = zeros(num_files, 1);
     for i = 1:num_files
-
+        
         image_name = files(i).name;
-
+        
         [windowAnnotation, ~] = LoadAnnotations(strcat(params.directory_read_images, '/gt/gt.', image_name, '.txt'));
         
         
-        %Add extension of the file to load
         load(strcat(params.directory_write_results, image_name, '_mask.mat'));
         
         [windowTP, windowFN, windowFP] = PerformanceAccumulationWindow(windowCandidates, windowAnnotation);
