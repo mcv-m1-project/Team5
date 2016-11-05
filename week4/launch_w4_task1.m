@@ -30,5 +30,7 @@ for i = 1:2
         metrix_methods(:, i) = metrix;
     end
 end
-save(strcat(params.directory_write_results, '/metrix_methods_', params.type_set, '_corr'), 'metrix_methods');
+if ~isempty(metrix)
+    save(strcat(params.directory_write_results, '/metrix_methods_', params.type_set, '_corr'), 'metrix_methods');
+end
 sprintf(params.type_set)
