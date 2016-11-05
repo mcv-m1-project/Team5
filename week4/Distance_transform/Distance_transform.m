@@ -57,9 +57,9 @@ for i = 1:size(files, 1)
         %original window (in any direction). This are the possible limits
         %for each dimension of the image
         limit_left = max(1, y - tol);
-        limit_right = min(dim_mask(1), y + h + tol); 
+        limit_right = min(dim_mask(1), y + h + tol) - h; 
         limit_up = max(1, x - tol);
-        limit_down = min(dim_mask(2), x + w + tol);
+        limit_down = min(dim_mask(2), x + w + tol) - w;
         
         for tol_y = limit_left:limit_right
             for tol_x = limit_up:limit_down
