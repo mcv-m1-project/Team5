@@ -1,10 +1,10 @@
-function [windowCandidates,mask]=TemplateMatchingCorrelationGlobal(im,templates)
+function [windowCandidates,mask]=TemplateMatchingCorrelationGlobal(im,templates,corr_threshold)
     windowCandidates = [];
     mask=zeros(size(im));
     for i=1:length(templates)
         correlation = normxcorr2(templates{i},im);
         
-        if max(max(correlation))>0.6
+        if max(max(correlation))>corr_threshold
             %TODO: threshold (several wc), not only the max corr
             [ypeak, xpeak] = find(correlation==max(correlation(:)));
 
