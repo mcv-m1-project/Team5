@@ -54,7 +54,7 @@ for i = 1:size(files, 1)
                 sumCircle_signal(3,idx) = tol_y;
                 sumCircle_signal(4,idx) = windowCandidates(n_BBox).h;
                 sumCircle_signal(5,idx) = windowCandidates(n_BBox).w;
-                %                 sumCircle_signal(1,idx) = [sum(sum(Circle_signal)) tol_x tol_y windowCandidates.h windowCandidates.w];
+%                 sumCircle_signal(1,idx) = [sum(sum(Circle_signal)) tol_x tol_y windowCandidates.h windowCandidates.w];
                 
                 Triangle_signal = template_rTriangle.*distance(tol_y+1:tol_y+size(template_rTriangle,1),...
                     tol_x+1:tol_x+size(template_rTriangle,2));
@@ -65,7 +65,7 @@ for i = 1:size(files, 1)
                 sumTriangle_signal(4,idx) = windowCandidates.h;
                 sumTriangle_signal(5,idx) = windowCandidates.w;
                 
-                %                 sumTriangle_signal(1,idx) = sum(sum(Triangle_signal));
+%                 sumTriangle_signal(1,idx) = sum(sum(Triangle_signal));
                 
                 TriangleInv_signal = template_rTriangleInv.*distance(tol_y+1:tol_y+size(template_rTriangleInv,1),...
                     tol_x+1:tol_x+size(template_rTriangleInv,2));
@@ -75,7 +75,7 @@ for i = 1:size(files, 1)
                 sumTriangleInv_signal(3,idx) = tol_y;
                 sumTriangleInv_signal(4,idx) = windowCandidates(n_BBox).h;
                 sumTriangleInv_signal(5,idx) = windowCandidates(n_BBox).w;
-                %                 sumTriangleInv_signal(1,idx) = sum(sum(TriangleInv_signal));
+%                 sumTriangleInv_signal(1,idx) = sum(sum(TriangleInv_signal));
                 
                 Square_signal = template_rSquare.*distance(tol_y+1:tol_y+size(template_rSquare,1),...
                     tol_x+1:tol_x+size(template_rSquare,2));
@@ -85,7 +85,7 @@ for i = 1:size(files, 1)
                 sumSquare_signal(3,idx) = tol_y;
                 sumSquare_signal(4,idx) = windowCandidates(n_BBox).h;
                 sumSquare_signal(5,idx) = windowCandidates(n_BBox).w;
-                %                 sumSquare_signal(1,idx) = sum(sum(Square_signal));
+%                 sumSquare_signal(1,idx) = sum(sum(Square_signal));
                 
                 idx = idx + 1;
                 
@@ -98,7 +98,7 @@ for i = 1:size(files, 1)
         [S,s] = min(sumSquare_signal(1,:));
         matches = [C, T, TI,S];
         [min_Signal, type_sign] = min([C, T, TI,S]);
-        %         [min_Signal, type_sign] = min([min(sumCircle_signal(1,:)), min(sumTriangle_signal(1,:)), min(sumTriangleInv_signal(1,:)),min(sumSquare_signal(1,:))]);
+%         [min_Signal, type_sign] = min([min(sumCircle_signal(1,:)), min(sumTriangle_signal(1,:)), min(sumTriangleInv_signal(1,:)),min(sumSquare_signal(1,:))]);
         
         if min_Signal < 15
             switch type_sign
@@ -132,9 +132,9 @@ for i = 1:size(files, 1)
             end
             
         end
-
-    save(strcat(params.directory_write_results, '/', imagename, '_mask.mat'));
-end
-empty = [];
+        
+        save(strcat(params.directory_write_results, '/', imagename, '_mask.mat'));
+    end
+    empty = [];
 end
 
