@@ -1,24 +1,30 @@
-function [ metrix_method ] = SignDetectionCorrelation( params, files, Templates )
+function [ metrix_method ] = SignDetectionCorrelation( params, files, templates)
 
 
 %Set the directories to read and write, according to the method used
 switch params.method
     case 1
-        %Directory to read results from week 2
-        params.directory_read_mask = strcat(params.directory_read_mask, '/folder??/');
-        %Directory to read results from week 3
-        params.directory_read_BBox = strcat(params.directory_read_BBox, '/folder??/');
-        %Directory to write results
-        params.directory_write_results = strcat(params.directory_write_results, '/folder??/');
+        corr_threshold=.6;
+        run_TM_Correlation_Global(templates,params.directory_write_results,params.directory_read_images,files,corr_threshold);
         
+        %Where the .mat files are
+        params.directory_write_results = strcat(params.directory_write_results, '/TM_Correlation_Global/');
+        
+    case 2
+        corr_threshold=.65;
+        CCL_method='HSV_CCL';
+        run_TM_Correlation_CCL(templates,params.directory_write_results,params.directory_read_images,files,corr_threshold,params.directory_read_BBox,CCL_method);
+        
+        %Where the .mat files are
+        params.directory_write_results = strcat(params.directory_write_results, '/TM_Correlation_HSV_CCL/');
+    case 3
+        corr_threshold=.65;
+        CCL_method='HSV&RGB_CCL';
+        run_TM_Correlation_CCL(templates,params.directory_write_results,params.directory_read_images,files,corr_threshold,params.directory_read_BBox,CCL_method);
+        
+        %Where the .mat files are
+        params.directory_write_results = strcat(params.directory_write_results, '/TM_Correlation_HSV&RGB_CCL/');
 end
-
-if ~exist(params.directory_write_results, 'dir')
-  mkdir(params.directory_write_results);
-end
-
-%Compute the results using correlation and a method from a previous week
-Correlation(params, files, Templates );
 
 %When the BBoxes are computed, if the set is not the test set, we compute
 %the metrixes according to the results obtained
@@ -42,7 +48,7 @@ if ~strcmp(params.type_set, 'test')
         
         
         %Add extension of the file to load
-        load(strcat(params.directory_write_results, image_name, '???'));
+        load(strcat(params.directory_write_results, image_name, '_mask.mat'));
         
         [windowTP, windowFN, windowFP] = PerformanceAccumulationWindow(windowCandidates, windowAnnotation);
         [windowPrecision, windowAccuracy, windowSensitivity, windowFMeasure] = PerformanceEvaluationWindow(windowTP, windowFN, windowFP);
