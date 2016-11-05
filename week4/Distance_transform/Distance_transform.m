@@ -11,6 +11,7 @@ for i = 1:size(files, 1)
     imagename = char(files(i).name);
     sprintf(imagename)
     mask = imread(strcat(params.directory_read_mask, imagename,'_morf.png'));
+    original = (imread(strcat(params.directory_read_images, imagename,'.jpg')));
     
     load(strcat(params.directory_read_BBox, imagename,'_mask.mat'));
     
@@ -22,12 +23,7 @@ for i = 1:size(files, 1)
     
     %Tolerancia de pixeles
     tol = 4;
-    
-    sumCircle_signal = zeros(5,441);
-    sumTriangle_signal = zeros(5,441);
-    sumTriangleInv_signal = zeros(5,441);
-    sumSquare_signal = zeros(5,441);
-    
+
     idx = 1;
     
     for n_BBox = 1:size(windowCandidates,1)
@@ -104,11 +100,11 @@ for i = 1:size(files, 1)
         [T,t] = min(sumTriangle_signal(1,:));
         [TI,ti] = min(sumTriangleInv_signal(1,:));
         [S,s] = min(sumSquare_signal(1,:));
-        matches = [C, T, TI,S];
+        matches = [C, T, TI,S]
         [min_Signal, type_sign] = min([C, T, TI, S]);
 %         [min_Signal, type_sign] = min([min(sumCircle_signal(1,:)), min(sumTriangle_signal(1,:)), min(sumTriangleInv_signal(1,:)),min(sumSquare_signal(1,:))]);
         
-        if min_Signal < 15
+        if min_Signal < 2
             switch type_sign
                 case 1
                     
