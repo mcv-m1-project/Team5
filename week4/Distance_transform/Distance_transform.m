@@ -144,6 +144,7 @@ for i = 1:size(files, 1)
         
         
     end
+  
     BBox(idx_BBox:end) = [];
     windowCandidates = BBox;
     new_mask = create_mask_of_window( windowCandidates, mask );

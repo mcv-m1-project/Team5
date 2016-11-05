@@ -1,4 +1,4 @@
-function [ params, files] = compute_paremeters_w4( directory_results, directory_images, set_type )
+function [ params, files, templates] = compute_paremeters_w4( directory_results, directory_images, set_type, directory_templates )
 
 params = struct('directory_read_mask', '', ...
     'directory_read_images', '', ...
@@ -26,7 +26,7 @@ end
 
 %Compute the list of files
 if strcmp(params.type_set, 'test')
-    files_test = ListFiles(params.directory_read_BBox);
+    files_test = ListFiles(params.directory_read_images);
     for i = 1:size(files_test)
         files_test(i).name = files_test(i).name(1:end - 4);
     end
@@ -40,12 +40,8 @@ else
         files = files_validate;
     end
 end
-% % 
-% % Templates = ListFiles(directory_templates);
-% for i = 1:size(Templates)
-% 	Templates(i).name = Templates(i).name(1:end - 4);
-% end
-% 
+
+templates = computeTrainTemplates(directory_templates,strcat(directory_images,filesep,'train'));
 
 end
 
