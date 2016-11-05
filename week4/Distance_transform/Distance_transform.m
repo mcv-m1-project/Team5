@@ -1,5 +1,12 @@
 function [empty] = Distance_transform(params, files)
 
+%Threshold to discard regions that are not signal
+distance_tolerance = 2;
+
+%Tolerancia de pixeles
+tol = 4;
+
+
 
 %For each image, do something
 for i = 1:size(files, 1)
@@ -11,7 +18,8 @@ for i = 1:size(files, 1)
     imagename = char(files(i).name);
     sprintf(imagename)
     mask = imread(strcat(params.directory_read_mask, imagename,'_morf.png'));
-    original = (imread(strcat(params.directory_read_images, imagename,'.jpg')));
+    dim_mask = size(mask);
+%     original = (imread(strcat(params.directory_read_images, imagename,'.jpg')));
     
     load(strcat(params.directory_read_BBox, imagename,'_mask.mat'));
     
@@ -21,13 +29,15 @@ for i = 1:size(files, 1)
     distance = bwdist(image_canny);
     distance = distance/max(distance(:));
     
-    %Tolerancia de pixeles
-    tol = 4;
-
     idx = 1;
-    
+    %For each windowCandidate from the given method
     for n_BBox = 1:size(windowCandidates,1)
-        %For each windowCaandidate from the given method
+        
+        %Dimensions of the window
+        y = windowCandidates(n_BBox).y;
+        x = windowCandidates(n_BBox).x;
+        w = windowCandidates(n_BBox).w;
+        h = windowCandidates(n_BBox).h;
         
         % Resize the template to fit with the window
         %     template_rCircle = imresize(template,[windowC.h,windowC.w]);
@@ -35,35 +45,39 @@ for i = 1:size(files, 1)
         %     template_rTriangleInv = imresize(template,[windowC.h,windowC.w]);
         %     template_rSquare = imresize(template,[windowC.h,windowC.w]);
         
-        template_rCircle = Template(1,[windowCandidates(n_BBox).h,windowCandidates(n_BBox).w]);
-        template_rTriangle = Template(3,[windowCandidates(n_BBox).h,windowCandidates(n_BBox).w]);
-        template_rTriangleInv = Template(4,[windowCandidates(n_BBox).h,windowCandidates(n_BBox).w]);
-        template_rSquare = Template(2,[windowCandidates(n_BBox).h,windowCandidates(n_BBox).w]);
+        %Create template for each shape, accordin to the size of the window
+        %to evaluate
+        template_rCircle = Template(1, [h, w]);
+        template_rTriangle = Template(3, [h, w]);
+        template_rTriangleInv = Template(4, [h, w]);
+        template_rSquare = Template(2, [h, w]);
         
-        if (windowCandidates(n_BBox).y - tol <= 0||windowCandidates(n_BBox).x - tol <= 0)
-            tol = 0;
-        end
         
-        for tol_y = windowCandidates(n_BBox).y - tol:windowCandidates(n_BBox).y + tol
-            for tol_x = windowCandidates(n_BBox).x - tol:windowCandidates(n_BBox).x + tol
-                if((tol_y+size(template_rCircle,1)>=size(distance,1)||tol_x+size(template_rCircle,2)>=size(distance,2)))
-                    continue;
-                end
+        %We admit that the sign could be better placed 'tol' moved from the
+        %original window (in any direction). This are the possible limits
+        %for each dimension of the image
+        limit_left = max(1, y - tol);
+        limit_right = min(dim_mask(1), y + h + tol); 
+        limit_up = max(1, x - tol);
+        limit_down = min(dim_mask(2), x + w + tol);
+        
+        for tol_y = limit_left:limit_right
+            for tol_x = limit_up:limit_down
                 
-                Circle_signal = template_rCircle.*distance(tol_y+1:tol_y+size(template_rCircle,1),...
-                    tol_x+1:tol_x+size(template_rCircle,2));
+                window_distance = distance(tol_y + 1:tol_y + h, tol_x + 1:tol_x + w);
                 
-                sumCircle_signal(1,idx) = sum(sum(Circle_signal));
+                Circle_signal = template_rCircle.*window_distance;
+                
+                sumCircle_signal(1,idx) = sum(Circle_signal(:));
                 sumCircle_signal(2,idx) = tol_x;
                 sumCircle_signal(3,idx) = tol_y;
                 sumCircle_signal(4,idx) = windowCandidates(n_BBox).h;
                 sumCircle_signal(5,idx) = windowCandidates(n_BBox).w;
 %                 sumCircle_signal(1,idx) = [sum(sum(Circle_signal)) tol_x tol_y windowCandidates.h windowCandidates.w];
                 
-                Triangle_signal = template_rTriangle.*distance(tol_y+1:tol_y+size(template_rTriangle,1),...
-                    tol_x+1:tol_x+size(template_rTriangle,2));
+                Triangle_signal = template_rTriangle.*window_distance;
                 
-                sumTriangle_signal(1,idx) = sum(sum(Triangle_signal));
+                sumTriangle_signal(1,idx) = sum(Triangle_signal(:));
                 sumTriangle_signal(2,idx) = tol_x;
                 sumTriangle_signal(3,idx) = tol_y;
                 sumTriangle_signal(4,idx) = windowCandidates.h;
@@ -71,20 +85,18 @@ for i = 1:size(files, 1)
                 
 %                 sumTriangle_signal(1,idx) = sum(sum(Triangle_signal));
                 
-                TriangleInv_signal = template_rTriangleInv.*distance(tol_y+1:tol_y+size(template_rTriangleInv,1),...
-                    tol_x+1:tol_x+size(template_rTriangleInv,2));
+                TriangleInv_signal = template_rTriangleInv.*window_distance;
                 
-                sumTriangleInv_signal(1,idx) = sum(sum( TriangleInv_signal));
+                sumTriangleInv_signal(1,idx) = sum( TriangleInv_signal(:));
                 sumTriangleInv_signal(2,idx) = tol_x;
                 sumTriangleInv_signal(3,idx) = tol_y;
                 sumTriangleInv_signal(4,idx) = windowCandidates(n_BBox).h;
                 sumTriangleInv_signal(5,idx) = windowCandidates(n_BBox).w;
 %                 sumTriangleInv_signal(1,idx) = sum(sum(TriangleInv_signal));
                 
-                Square_signal = template_rSquare.*distance(tol_y+1:tol_y+size(template_rSquare,1),...
-                    tol_x+1:tol_x+size(template_rSquare,2));
+                Square_signal = template_rSquare.*window_distance;
                 
-                sumSquare_signal(1,idx) = sum(sum(Square_signal));
+                sumSquare_signal(1,idx) = sum(Square_signal(:));
                 sumSquare_signal(2,idx) = tol_x;
                 sumSquare_signal(3,idx) = tol_y;
                 sumSquare_signal(4,idx) = windowCandidates(n_BBox).h;
@@ -96,15 +108,16 @@ for i = 1:size(files, 1)
             end
         end
         
-        [C,c] = min(sumCircle_signal(1,:));
-        [T,t] = min(sumTriangle_signal(1,:));
-        [TI,ti] = min(sumTriangleInv_signal(1,:));
-        [S,s] = min(sumSquare_signal(1,:));
+        [C, c] = min(sumCircle_signal(1, :));
+        [T, t] = min(sumTriangle_signal(1, :));
+        [TI, ti] = min(sumTriangleInv_signal(1, :));
+        [S, s] = min(sumSquare_signal(1, :));
         matches = [C, T, TI,S]
         [min_Signal, type_sign] = min([C, T, TI, S]);
 %         [min_Signal, type_sign] = min([min(sumCircle_signal(1,:)), min(sumTriangle_signal(1,:)), min(sumTriangleInv_signal(1,:)),min(sumSquare_signal(1,:))]);
-        
-        if min_Signal < 2
+        %If the product with the distance image is smaller than a given
+        %threshold, we save the coordinates of the bbox
+        if min_Signal < distance_tolerance
             switch type_sign
                 case 1
                     
