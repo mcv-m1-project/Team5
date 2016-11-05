@@ -41,7 +41,7 @@ else
     end
 end
 
-templates = computeTrainTemplates(directory_templates,strcat(directory_images,filesep,'train'));
+templates = computeTrainTemplates(directory_templates, strcat(directory_images, filesep, 'train'));
 
 end
 

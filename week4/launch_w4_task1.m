@@ -17,7 +17,7 @@ methods = {  };
 meth = [    ];
 % = [       1        2    ];
 
-[ params, files, Templates ] = compute_paremeters_w4( directory_results, directory_images, directory_templates, set_type );
+[ params, files, templates] = compute_paremeters_w4( directory_results, directory_images, set_type, directory_templates );
 
 
 %%

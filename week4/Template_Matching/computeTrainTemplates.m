@@ -1,4 +1,4 @@
-function templates = computeTrainTemplates(writing_dir,train_images_dir)
+function templates = computeTrainTemplates(writing_dir, train_images_dir)
 %Create and save mean grayscale image for each sign group using the 
 %training set images.
 %   templates: cell containing each template as an element

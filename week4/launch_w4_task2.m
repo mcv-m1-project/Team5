@@ -16,7 +16,7 @@ set_type = 'test';
 colorSpaces = {'HSV_CCL' 'HSV&RGB_CCL'};
 colorSp = [       1        2    ];
 
-[params, files] = compute_paremeters_w4( directory_results, directory_images, set_type );
+[ params, files, templates] = compute_paremeters_w4( directory_results, directory_images, set_type, directory_templates  );
 
 
 %%
