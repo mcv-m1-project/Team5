@@ -1,9 +1,12 @@
 function [empty] = Distance_transform(params, files)
-value = num2cell(zeros( 1000, 1));
-BBox = struct('x', value, 'y', value, 'w',value, 'h', value);
+
 
 %For each image, do something
 for i = 1:size(files, 1)
+    %Create variable to save results
+    value = num2cell(zeros( 1000, 1));
+    BBox = struct('x', value, 'y', value, 'w',value, 'h', value);
+    idx_BBox = 1;
     
     imagename = char(files(i).name);
     sprintf(imagename)
@@ -15,10 +18,10 @@ for i = 1:size(files, 1)
     image_canny = edge(mask,'canny');
     
     distance = bwdist(image_canny);
-    distance = distance/max(max(distance));
+    distance = distance/max(distance(:));
     
     %Tolerancia de pixeles
-    tol=4;
+    tol = 4;
     
     sumCircle_signal = zeros(5,441);
     sumTriangle_signal = zeros(5,441);
@@ -28,6 +31,8 @@ for i = 1:size(files, 1)
     idx = 1;
     
     for n_BBox = 1:size(windowCandidates,1)
+        %For each windowCaandidate from the given method
+        
         % Resize the template to fit with the window
         %     template_rCircle = imresize(template,[windowC.h,windowC.w]);
         %     template_rTriangle = imresize(template,[windowC.h,windowC.w]);
@@ -38,14 +43,17 @@ for i = 1:size(files, 1)
         template_rTriangle = Template(3,[windowCandidates(n_BBox).h,windowCandidates(n_BBox).w]);
         template_rTriangleInv = Template(4,[windowCandidates(n_BBox).h,windowCandidates(n_BBox).w]);
         template_rSquare = Template(2,[windowCandidates(n_BBox).h,windowCandidates(n_BBox).w]);
-        if (windowCandidates(n_BBox).y-tol<=0||windowCandidates(n_BBox).x-tol<=0)
+        
+        if (windowCandidates(n_BBox).y - tol <= 0||windowCandidates(n_BBox).x - tol <= 0)
             tol = 0;
         end
-        for tol_y = windowCandidates(n_BBox).y-tol:windowCandidates(n_BBox).y+tol
-            for tol_x = windowCandidates(n_BBox).x-tol:windowCandidates(n_BBox).x+tol
+        
+        for tol_y = windowCandidates(n_BBox).y - tol:windowCandidates(n_BBox).y + tol
+            for tol_x = windowCandidates(n_BBox).x - tol:windowCandidates(n_BBox).x + tol
                 if((tol_y+size(template_rCircle,1)>=size(distance,1)||tol_x+size(template_rCircle,2)>=size(distance,2)))
                     continue;
                 end
+                
                 Circle_signal = template_rCircle.*distance(tol_y+1:tol_y+size(template_rCircle,1),...
                     tol_x+1:tol_x+size(template_rCircle,2));
                 
@@ -97,44 +105,55 @@ for i = 1:size(files, 1)
         [TI,ti] = min(sumTriangleInv_signal(1,:));
         [S,s] = min(sumSquare_signal(1,:));
         matches = [C, T, TI,S];
-        [min_Signal, type_sign] = min([C, T, TI,S]);
+        [min_Signal, type_sign] = min([C, T, TI, S]);
 %         [min_Signal, type_sign] = min([min(sumCircle_signal(1,:)), min(sumTriangle_signal(1,:)), min(sumTriangleInv_signal(1,:)),min(sumSquare_signal(1,:))]);
         
         if min_Signal < 15
             switch type_sign
                 case 1
                     
-                    BBox(n_BBox).y = sumCircle_signal(3,c);
-                    BBox(n_BBox).x = sumCircle_signal(2,c);
-                    BBox(n_BBox).w = sumCircle_signal(5,c);
-                    BBox(n_BBox).h = sumCircle_signal(4,c);
+                    BBox(idx_BBox).y = sumCircle_signal(3,c);
+                    BBox(idx_BBox).x = sumCircle_signal(2,c);
+                    BBox(idx_BBox).w = sumCircle_signal(5,c);
+                    BBox(idx_BBox).h = sumCircle_signal(4,c);
+                    idx_BBox = idx_BBox + 1;
                     
                 case 2
                     
-                    BBox(n_BBox).y = sumTriangle_signal(3,t);
-                    BBox(n_BBox).x = sumTriangle_signal(2,t);
-                    BBox(n_BBox).w = sumTriangle_signal(5,t);
-                    BBox(n_BBox).h = sumTriangle_signal(4,t);
+                    BBox(idx_BBox).y = sumTriangle_signal(3,t);
+                    BBox(idx_BBox).x = sumTriangle_signal(2,t);
+                    BBox(idx_BBox).w = sumTriangle_signal(5,t);
+                    BBox(idx_BBox).h = sumTriangle_signal(4,t);
+                    idx_BBox = idx_BBox + 1;
                     
                 case 3
                     
-                    BBox(n_BBox).y = sumTriangleInv_signal(3,ti);
-                    BBox(n_BBox).x = sumTriangleInv_signal(2,ti);
-                    BBox(n_BBox).w = sumTriangleInv_signal(5,ti);
-                    BBox(n_BBox).h = sumTriangleInv_signal(4,ti);
+                    BBox(idx_BBox).y = sumTriangleInv_signal(3,ti);
+                    BBox(idx_BBox).x = sumTriangleInv_signal(2,ti);
+                    BBox(idx_BBox).w = sumTriangleInv_signal(5,ti);
+                    BBox(idx_BBox).h = sumTriangleInv_signal(4,ti);
+                    idx_BBox = idx_BBox + 1;
                     
                 case 4
                     
-                    BBox(n_BBox).y = sumSquare_signal(3,s);
-                    BBox(n_BBox).x = sumSquare_signal(2,s);
-                    BBox(n_BBox).w = sumSquare_signal(5,s);
-                    BBox(n_BBox).h = sumSquare_signal(4,s);
+                    BBox(idx_BBox).y = sumSquare_signal(3,s);
+                    BBox(idx_BBox).x = sumSquare_signal(2,s);
+                    BBox(idx_BBox).w = sumSquare_signal(5,s);
+                    BBox(idx_BBox).h = sumSquare_signal(4,s);
+                    idx_BBox = idx_BBox + 1;
+                    
             end
             
         end
         
-        save(strcat(params.directory_write_results, '/', imagename, '_mask.mat'));
+        
     end
-    empty = [];
-end
+    BBox(idx_BBox:end) = [];
+    windowCandidates = BBox;
+    new_mask = create_mask_of_window( windowCandidates, mask );
+    imwrite(new_mask, strcat(params.directory_write_results, '/', imagename, '_mask.png'));
+    save(strcat(params.directory_write_results, '/', imagename, '_mask.mat'), 'windowCandidates');
 
+end
+empty = [];
+end

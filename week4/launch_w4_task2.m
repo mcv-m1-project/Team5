@@ -9,7 +9,7 @@ directory_images = '../Images';
 directory_templates = '../Results/week_04/Templates';
 
 %Set to evaluate: train, validate or test
-set_type = 'validate';
+set_type = 'train';
 
 %Names of the previous work to compute the correlation
 
@@ -22,7 +22,7 @@ colorSp = [       1        2    ];
 %%
 
 metrix_methods = zeros(7, 2);
-for i = 1:2
+for i = 1:1
     params.colorSpace = colorSp(i);
     metrix = SignDetectionDistTransform( params, files);
     if ~isempty(metrix)
