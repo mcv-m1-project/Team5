@@ -1,5 +1,5 @@
 function template = template_model2(siz)
 %Square Template
 template = zeros(siz(1), siz(2));
-template(2:end-1,2:siz(2)-1)= 1;
+template(3:end-2,3:siz(2)-2)= 1;
 end

@@ -9,7 +9,7 @@ directory_images = '../Images';
 directory_templates = '../Results/week_04/Templates';
 
 %Set to evaluate: train, validate or test
-set_type = 'train';
+set_type = 'validate';
 
 %Names of the previous work to compute the correlation
 
