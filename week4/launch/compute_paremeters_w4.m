@@ -17,10 +17,14 @@ if ~exist(params.directory_write_results, 'dir')
   mkdir(params.directory_write_results);
 end
 
+if ~exist(directory_templates, 'dir')
+  mkdir(directory_templates);
+end
+
 if ~strcmp(params.type_set, 'test')
-    params.directory_read_images = strcat(directory_images, '/train/');
+    params.directory_read_images = strcat(directory_images, '/train');
 else
-    params.directory_read_images = strcat(directory_images, '/test/');
+    params.directory_read_images = strcat(directory_images, '/test');
 end    
 
 
