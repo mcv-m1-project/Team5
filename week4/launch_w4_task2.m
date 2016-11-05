@@ -22,7 +22,7 @@ colorSp = [       1        2    ];
 %%
 
 metrix_methods = zeros(7, 2);
-for i = 1:2
+for i = 1:1
     params.colorSpace = colorSp(i);
     metrix = SignDetectionDistTransform( params, files);
     if ~isempty(metrix)

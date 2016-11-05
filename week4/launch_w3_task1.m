@@ -8,7 +8,7 @@ directory_results = '../Results';
 directory_images = '../Images';
 
 %Set to evaluate: train, validate or test
-set_type = 'validate';
+set_type = 'test';
 
 %Names of the different methods we have used for the segmentation
 colorSpaces = { 'HSV'  'HSV&RGB' };
