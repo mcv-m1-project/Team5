@@ -13,14 +13,15 @@ set_type = 'test';
 
 %Names of the previous work to compute the correlation
 methods = { 'Global' 'CCLHSV'  'CCLHSVRGB'};
-meth = [               2               3 ];
+meth = [       1        2           3     ];
+
 
 [params, files, templates] = compute_paremeters_w4( directory_results, directory_images, set_type, directory_templates );
 
 %%
 metrix_methods = zeros(7, length(meth));
-for i = 1:length(meth)
     params.method = meth(i);
+for i = 2:length(meth)
     metrix = SignDetectionCorrelation( params, files, templates);
     if ~isempty(metrix)
         metrix_methods(:, i) = metrix;
