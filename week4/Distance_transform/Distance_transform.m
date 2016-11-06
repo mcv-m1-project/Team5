@@ -6,8 +6,6 @@ distance_tolerance = 2;
 %Tolerancia de pixeles
 tol = 4;
 
-
-
 %For each image, do something
 for i = 1:size(files, 1)
     %Create variable to save results
@@ -112,7 +110,7 @@ for i = 1:size(files, 1)
         [T, t] = min(sumTriangle_signal(1, :));
         [TI, ti] = min(sumTriangleInv_signal(1, :));
         [S, s] = min(sumSquare_signal(1, :));
-        matches = [C, T, TI,S]
+        matches = [C, T, TI,S];
         [min_Signal, type_sign] = min([C, T, TI, S]);
 %         [min_Signal, type_sign] = min([min(sumCircle_signal(1,:)), min(sumTriangle_signal(1,:)), min(sumTriangleInv_signal(1,:)),min(sumSquare_signal(1,:))]);
         %If the product with the distance image is smaller than a given
