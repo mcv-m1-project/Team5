@@ -45,14 +45,15 @@ for i = 1:size(files, 1)
 % 
 %         
 %                 template_rCircle.*distance(tol_y + 1:tol_y + h, tol_x + 1:tol_x + w)
-        
+        idx_pixel_candidate = 1;
         % Recorre la imagen
             for y = 1:dim_mask(1) - h
                 for  x = 1:dim_mask(2) - w
                     % Si no hay ningun cero seguro que no hay señal y pasa al
                     % siguiente pixel
                     if (nnz(mask(y:y+w,x:x+h)) ~= 0)
-
+                         idx_pixel_candidate = idx_pixel_candidate + 1;
+                        
                          circle = templateC.*distance(y:y+w-1,x:x+h-1);
                          square = templateS.*distance(y:y+w-1,x:x+h-1);
                          triang = templateT.*distance(y:y+w-1,x:x+h-1);
@@ -72,18 +73,19 @@ for i = 1:size(files, 1)
         %                  detection(:,:,3) = [0,value];
         %                  detection(:,:,4) = [0,type];
 
-                         detection.coordinates = [y,x];
-                         detection.windosSize  = [h,w];
-                         detection.value = value;
-                         detection.type = type;
+                         detection(idx_pixel_candidate).coordinates = [y,x];
+                         detection(idx_pixel_candidate).windowsize  = [h,w];
+                         detection(idx_pixel_candidate).value = value;
+                         detection(idx_pixel_candidate).type = type;
                          
-                         detected(detection.coordinates(1),detection.coordinates(2)) =...
-                         detection.value < distance_tolerance;
+                         detected(detection(idx_pixel_candidate).coordinates(1),detection(idx_pixel_candidate).coordinates(2)) =...
+                         detection(idx_pixel_candidate).value < distance_tolerance;
 
                     end
                 end
-            end   
-        save(strcat(params.directory_write_results, '/', imagename, '_mask.png'), 'detected');
+            end
+        imwrite(detected, strcat(params.directory_write_results,  imagename, '_','mask.png'));
+        save(strcat(params.directory_write_results, imagename, '_', 'mask.mat'), 'detection');
     end
 end
 empty = [];
