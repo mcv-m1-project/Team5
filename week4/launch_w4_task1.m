@@ -13,7 +13,7 @@ set_type = 'validate';
 
 %Names of the previous work to compute the correlation
 methods = { 'Global' 'CCLHSV'  'CCLHSVRGB'};
-meth = [       1             ];
+meth =    [    1        2           3     ];
 
 
 [params, files, templates] = compute_paremeters_w4( directory_results, directory_images, set_type, directory_templates );
