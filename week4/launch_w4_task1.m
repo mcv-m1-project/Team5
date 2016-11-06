@@ -9,19 +9,20 @@ directory_images = '../Images';
 directory_templates = '../Results/week_04/Templates';
 
 %Set to evaluate: train, validate or test
-set_type = 'test';
+set_type = 'validate';
 
 %Names of the previous work to compute the correlation
 methods = { 'Global' 'CCLHSV'  'CCLHSVRGB'};
-meth = [       1        2           3     ];
+meth = [       1             ];
 
 
 [params, files, templates] = compute_paremeters_w4( directory_results, directory_images, set_type, directory_templates );
 
 %%
 metrix_methods = zeros(7, length(meth));
+ 
+for i = 1:length(meth)
     params.method = meth(i);
-for i = 2:length(meth)
     metrix = SignDetectionCorrelation( params, files, templates);
     if ~isempty(metrix)
         metrix_methods(:, i) = metrix;

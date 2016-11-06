@@ -12,8 +12,8 @@ directory_templates = '../Results/week_04/Templates';
 set_type = 'validate';
 
 %Names of the previous work to compute the correlation
-colorSpaces = {'HSV_CCL_DT' 'HSV_CCL_DT_changed' 'HSV_CCL_DT_templates' 'CCLHSV'};
-colorSp = [         1                2                     3                4];
+colorSpaces = {'HSV_CCL_DT' 'HSV_CCL_DT_changed' 'HSV_CCL_DT_templates' 'CCLHSV' 'Global_correlation'};
+colorSp = [         1                2                     3                4          5];
 
 
 [ params, files, templates] = compute_paremeters_w4( directory_results, directory_images, set_type, directory_templates );
@@ -22,8 +22,8 @@ colorSp = [         1                2                     3                4];
 
 %%
 
-metrix_methods = zeros(7, 4);
-for i = 1:4
+metrix_methods = zeros(7, 5);
+for i = 1:5
     params.colorSpace = colorSp(i);
     metrix = SignDetection_Pixel_Evaluation_W4(params, files);
     if ~isempty(metrix)

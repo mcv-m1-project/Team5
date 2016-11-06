@@ -25,6 +25,8 @@ switch params.colorSpace
         params.directory_write_results = strcat(params.directory_write_results, '/HSV_DT_templates/');
     case 4
         params.directory_write_results = strcat(params.directory_write_results, '/TM_Correlation_HSV_CCL/');
+    case 5    
+        params.directory_write_results = strcat(params.directory_write_results, '/TM_Correlation_Global/');
 end
 
 path = params.directory_write_results;
