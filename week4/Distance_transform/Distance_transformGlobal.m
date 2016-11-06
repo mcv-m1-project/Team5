@@ -30,21 +30,7 @@ for i = 1:size(files, 1)
         templateT = Template(3, [h,w]);
         templateiT = Template(4, [h,w]);
         templateS = Template(2, [h,w]);
-        %detecciones = 1000*ones(dim_mask,5,2);
- 
-        
-%         limit_left = max(1, y - tol);
-%         limit_right = min(dim_mask(1), y + h + tol) - h; 
-%         limit_up = max(1, x - tol);
-%         limit_down = min(dim_mask(2), x + w + tol) - w;
-%         
-%         for tol_y = limit_left:limit_right
-%             for tol_x = limit_up:limit_down
-%                 
-%      
-% 
-%         
-%                 template_rCircle.*distance(tol_y + 1:tol_y + h, tol_x + 1:tol_x + w)
+
         idx_pixel_candidate = 1;
         % Recorre la imagen
             for y = 1:dim_mask(1) - h
@@ -80,13 +66,25 @@ for i = 1:size(files, 1)
                          
                          detected(detection(idx_pixel_candidate).coordinates(1),detection(idx_pixel_candidate).coordinates(2)) =...
                          detection(idx_pixel_candidate).value < distance_tolerance;
+                            
+                            if(detected(y,x) ==1)
+                                  
+                                BBox(idx_BBox).y = y;
+                                BBox(idx_BBox).x = x;
+                                BBox(idx_BBox).w = w;
+                                BBox(idx_BBox).h = h;
+                                idx_BBox = idx_BBox + 1;
 
+                            end
                     end
                 end
             end
-        imwrite(detected, strcat(params.directory_write_results,  imagename, '_','mask.png'));
-        save(strcat(params.directory_write_results, imagename, '_', 'mask.mat'), 'detection');
-    end
+        BBox(idx_BBox:end) = [];
+        windowCandidates = BBox;
+        new_mask = create_mask_of_window( windowCandidates, mask );
+        imwrite(new_mask, strcat(params.directory_write_results,  imagename, '_','mask.png'));
+        save(strcat(params.directory_write_results, imagename, '_', 'mask.mat'), 'windowCandidates');
+    
 end
 empty = [];
 end
