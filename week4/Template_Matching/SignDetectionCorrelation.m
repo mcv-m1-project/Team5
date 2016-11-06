@@ -4,7 +4,7 @@ function [ metrix_method ] = SignDetectionCorrelation( params, files, templates)
 %Set the directories to read and write, according to the method used
 switch params.method
     case 1
-        corr_threshold=.6;
+        corr_threshold=.65;
         run_TM_Correlation_Global(templates,params.directory_write_results,params.directory_read_images,files,corr_threshold);
         
         %Where the .mat files are
