@@ -8,7 +8,7 @@ directory_results = '../Results';
 directory_images = '../Images';
 
 %Set to evaluate: train, validate or test
-set_type = 'test';
+set_type = 'validate';
 
 
 %Names of the different methods we have used for the segmentation
@@ -38,4 +38,6 @@ if ~strcmp(params.type_set, 'test')
     save(strcat(params.directory_write_results, '/metrix_methods_morph_operators'), 'metrix_methods');
 end 
 
-
+%Precision Recall curve
+f = Recall_Precision_Curve(colorSpaces,metrix_methods(3,:),metrix_methods(1,:));
+saveas(f, strcat(params.directory_write_results,filesep,'PrecisionRecall.png'));
