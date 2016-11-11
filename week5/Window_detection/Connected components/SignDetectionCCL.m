@@ -9,6 +9,9 @@ switch params.colorSpace
     case 2
         params.directory_read_mask = strcat(params.directory_read_mask, '/HSV&RGB');
         params.directory_write_results = strcat(params.directory_write_results, '/HSV&RGB_CCL/');
+    case 3
+        params.directory_read_mask = strcat(params.directory_read_mask, '/histBP');
+        params.directory_write_results = strcat(params.directory_write_results, '/histBP/');
 end
 
 if ~exist(params.directory_write_results, 'dir')

@@ -8,18 +8,18 @@ directory_results = '../Results';
 directory_images = '../Images';
 
 %Set to evaluate: train, validate or test
-set_type = 'test';
+set_type = 'validate';
 
 %Names of the different methods we have used for the segmentation
-colorSpaces = { 'HSV'  'HSV&RGB' };
-colorSp = [       1        2    ];
+colorSpaces = { 'HSV'  'HSV&RGB' 'histBP'};
+colorSp = [       1        2         3];
 
 [ params, files, SC_train ] = compute_paremeters_w3( directory_results, directory_images, set_type );
 
 %%
 % files = files(45);
-metrix_methods = zeros(7, 2);
-for i = 1:2
+metrix_methods = zeros(7, length(colorSp));
+for i = 1:length(colorSp)
     params.colorSpace = colorSp(i);
     sprintf(colorSpaces{i})
     metrix = SignDetectionCCL( params, files, SC_train );
@@ -30,3 +30,6 @@ end
 save(strcat(params.directory_write_results, '/metrix_methods_', params.type_set, '_CCL'), 'metrix_methods');
 sprintf(params.type_set)
 
+%Precision Recall curve
+f = Recall_Precision_Curve(colorSpaces,metrix_methods(3,:),metrix_methods(1,:));
+saveas(f, strcat(params.directory_write_results,filesep,'PrecisionRecall.png'));
