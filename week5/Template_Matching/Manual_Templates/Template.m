@@ -15,12 +15,12 @@ function template = Template(signType,siz)
 %             imshow(template);
         case 3
             template = template_model3(siz);
-            template = edge(template,'canny');
+%             template = edge(template,'canny');
             %  figure();
             % imshow(template);
         case 4
             template = template_model4(siz);
-            template = edge(template,'canny');
+%             template = edge(template,'canny');
 %             figure();
 %             imshow(template);
     end

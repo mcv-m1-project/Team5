@@ -8,7 +8,7 @@ step_width = 20;
 %For each image, compute windows
 for i = 1:size(files, 1)
     idx = 0;
-    i = 1;
+
     %Expected maximum number of windows
     samples = 1000;
     value = num2cell(zeros( samples, 1));
