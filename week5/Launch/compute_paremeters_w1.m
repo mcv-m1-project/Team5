@@ -57,7 +57,7 @@ end
 
 
 %Computes and saves the 2D histogram for each group of signs using the training dataset
-nbins = [50, 50];  %Number of bins for the 2D histogram
+nbins = [30, 30];  %Number of bins for the 2D histogram
 histogramBackProjectionTrain(nbins, strcat(directory_results, '/week_01'), strcat(directory_images, '/train'));
 
 end

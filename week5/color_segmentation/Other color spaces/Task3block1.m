@@ -258,8 +258,8 @@ switch colorSpace
             theTime(numImagen) = toc;
         end
     case 7
-        threshold = 0.00006;%Between 0 and 1
-        circle_radius = 3;%Radius of the circle to convolve
+        threshold = 0.00004;%Between 0 and 1
+        circle_radius = 2;%Radius of the circle to convolve
         theTime = histogramBackProjectionSegmentation2(threshold, circle_radius, Imgs, path_images, path_images_write);
         
         
