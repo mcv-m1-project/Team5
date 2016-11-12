@@ -35,7 +35,7 @@ for k = 1:length(Masks)
     
     maskOpL = imopen (maskOpL, se3);
     
-    imwrite(maskOpL, strcat(path_images_write, imagename,'_morf.png'));
+    imwrite(maskOpL, strcat(path_images_write, imagename,'_mask.png'));
     theTime(k) = toc;
 end
 time = mean(theTime);

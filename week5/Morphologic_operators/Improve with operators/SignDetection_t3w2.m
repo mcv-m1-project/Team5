@@ -47,7 +47,7 @@ if ~strcmp(params.type_set, 'test')
     for i = 1:num_files
         pixelAnnotation = imread(strcat(params.directory_read_images, '/mask/mask.', char(Masks(i).name), '.png'));
         
-        pixelCandidates = imread(strcat(path_images_write, char(Masks(i).name), '_morf.png'));
+        pixelCandidates = imread(strcat(path_images_write, char(Masks(i).name), '_mask.png'));
         
         [pixelTP, pixelFP, pixelFN, pixelTN] = PerformanceAccumulationPixel(pixelCandidates, pixelAnnotation);
         [pixelPrecision, pixelAccuracy, pixelSpecificity, pixelSensitivity, pixelFMeasure] = PerformanceEvaluationPixel(pixelTP, pixelFP, pixelFN, pixelTN);
