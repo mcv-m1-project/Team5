@@ -1,6 +1,6 @@
 % Set-up UCM
 cd MCG-PreTrained
-install
+% install
 cd ..
 
 ima_name = '00.001460.jpg';
@@ -19,10 +19,17 @@ for i=1:length(Unique_img)
     aux_img = seg==i;
     CC = bwconncomp(aux_img);
     windowProps=regionprops(CC,'All');
-    windowProps=discard_CCL_regions(windowProps,train_param);%Discard BBs
-    aux_img2 = aux_img|aux_img2;
+    
+    fr=windowProps.FilledArea/(windowProps.BoundingBox(3)*windowProps.BoundingBox(4));%Filling ratio
+    ff = windowProps.BoundingBox(3)/windowProps.BoundingBox(4);
+    if windowProps.Area >= train_param.minarea && windowProps.Area <= train_param.maxarea...
+            && ff >= train_param.minff && ff <= train_param.maxff...
+            && fr >= train_param.minfr && fr <= train_param.maxfr...
+        aux_img2 = aux_img|aux_img2;
+        figure,imshow(aux_img2)
+    end   
+    %windowProps=discard_CCL_regions(windowProps,train_param);%Discard BBs
 end
-
 figure,imshow(aux_img2)
 % 
 % for i=1:length(candidates.bboxes)
