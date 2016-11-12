@@ -26,7 +26,7 @@ colorSp = [      1         2] ;
 metrix_methods = zeros(7, length(colorSp));
 for i = 1:length(colorSp)
     params.colorSpace = colorSp(i);
-    metrix = SignDetectionWeek5(params, files, SC_train);
+    metrix = SignDetectionUCM(params, files, SC_train);
     if ~isempty(metrix)
         metrix_methods(:, i) = metrix;
     end

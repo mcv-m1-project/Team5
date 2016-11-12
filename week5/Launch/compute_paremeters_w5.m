@@ -2,11 +2,12 @@ function [ params, files, SC_train ] = compute_paremeters_w5( directory_results,
 
 params = struct('directory_read_mask', '', 'directory_read_BBox', '', ...
     'directory_read_images', '', 'directory_write_results', '', 'type_set', ...
-    '', 'colorSpace', 0, 'compute_metrics', 0);
+    '', 'colorSpace', 0, 'compute_metrics', 0, 'directory_read_window', '');
 
 params.type_set = set_type;
 params.compute_metrics = compute_metrics;
 params.directory_read_mask = strcat(directory_results, '/week_02/', params.type_set, '_result');
+params.directory_read_window = strcat(directory_results, '/week_03/', params.type_set, '_result');
 params.directory_write_results = strcat(directory_results, '/week_05/', params.type_set, '_result');
 
 if ~exist(params.directory_write_results, 'dir')

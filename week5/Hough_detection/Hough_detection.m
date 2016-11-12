@@ -1,120 +1,199 @@
-function [ empty ] = Hough_detection( params, files, SC_train )
+% function [ empty ] = Hough_detection( params, files, SC_train )
 
 
 Thresholds = Thresholds_hough( SC_train );
 
 
-for n = size(files, 1)
-    
+% for n = size(files, 1)
+    n = 17;
     %Read image
     imagename = char(files(n).name);
     sprintf(imagename)
-    switch params.colorSpace
-        case 1
-            mask_original = imread(strcat(params.directory_read_mask, imagename,'_mask.png'));
-        case 2
-            mask_original = imread(strcat(params.directory_read_images, imagename,'.jpg'));
-    end
+    
+    %Read image from HSV colorspace
+    mask_original = imread(strcat(params.directory_read_mask, imagename,'_morf.png'));
+    %Read image from CCL window method
+    load(strcat(params.directory_read_window, imagename,'_mask.mat'));
+    
     
     dim_mask = size(mask_original);
     mask_edges = edge(mask_original,'canny');
     
-    samples = 1000;
-    value = num2cell(zeros( samples, 1));
+    value = num2cell(zeros( size(windowCandidates,1), 1));
     
     BBox_final = struct('x', value, 'y', value, 'w',value, 'h', value);
     idx_BB = 1;
     
-    for y = 1:dim_mask(1)
-        for x = 1:dim_mask(2)
-            %(y, x): center of the rectangle
-            %for each point, compute the Hough transform of its neighbourhood ring
-            up_limit = max(y - Thresholds.max_D_rect, 1);
-            down_limit = min(y + Thresholds.max_D_rect, dim_mask(1));
-            left_limit = max(x - Thresholds.max_D_rect, 1);
-            right_limit = min(x + Thresholds.max_D_rect, dim_mask(2));
-            
-            Window = mask_edges(up_limit:down_limit, left_limit:right_limit);
-            [HT, theta, rho] = hough(Window);
-            %Determine the peaks using T_c (we will allow maximum 30 peaks)
-            Peaks = houghpeaks(HT, 30, 'Threshold', Thre.T_c);
-            P_k = zeros(15, 6);
-            idx_p_k = 1;
-            for i = 1:size(Peaks, 1)
-                for j = i + 1:size(Peaks, 1)
-                    rho_i = rho(Peaks(i, 1));
-                    theta_i = theta(Peaks(i, 2));
-                    
-                    rho_j = rho(Peaks(j, 1));
-                    theta_j = theta(Peaks(j, 2));
-                    
-                    Delta_theta = abs(theta_i - theta_j);
-                    Delta_rho = abs(rho_i + rho_j);
-                    
-                    Delta_C_1 = abs(HT(Peaks(i)) - HT(Peaks(j)));
-                    Delta_C_2 = (HT(Peaks(i)) + HT(Peaks(j)))/2;
-                    
-                    %For each peak, find pairs that satisfy some thresholds
-                    if Delta_theta < Thresholds.T_theta && Delta_rho < Thresholds.T_rho ...
-                            && Delta_C_1 < Thresholds.T_L*Delta_C_2
-                        
-                        %for each pair founded, compute P_k
-                        P_k(idx_p_k, 1 ) = 0.5*abs(rho_i - rho_j);
-                        P_k(idx_p_k, 2 ) = 0.5*(theta_i + theta_j);
-                        
-                        P_k(idx_p_k, 3 ) = Delta_theta;
-                        P_k(idx_p_k, 4 ) = Delta_rho;
-                        
-                        P_k(idx_p_k, 5 ) = i;
-                        P_k(idx_p_k, 6 ) = j;
-                        
-                        idx_p_k = idx_p_k + 1;
-                    end
+    for n_BBox = 1:size(windowCandidates,1)
+        
+        %for each BBox, compute the Hough transform
+        %Dimensions of the window
+        y = windowCandidates(n_BBox).y;
+        x = windowCandidates(n_BBox).x;
+        w = windowCandidates(n_BBox).w;
+        h = windowCandidates(n_BBox).h;
+        Window = padarray(mask_edges(y:min(h + y, dim_mask(1)), x:min(w + x, dim_mask(2))), [10 10]);
+        
+        [HT, theta, ~] = hough(Window);
+        %Transform from theta to the angle of the line
+        angle = theta + 90;
+        %Determine the peaks using T_c (we will allow maximum 10 peaks)
+        Peaks = houghpeaks(HT, 10, 'Threshold', Thresholds.T_c);
+        
+        
+        horizontal = zeros(size(Peaks, 1), 1);
+        vertical = zeros(size(Peaks, 1), 1);
+        inclined = zeros(size(Peaks, 1), 1);
+        
+        idx_h = 0;
+        idx_v = 0;
+        idx_i = 0;
+        
+        triangle_detected = 0;
+        rectangle_detected = 0;
+        circle_detected = 0;
+        for i = 1:size(Peaks, 1)
+            %We will classify the obtained lines into three types:
+            %-Horizontal: 0 degrees angle
+            %-Vertical: 90 degrees angle
+            %-Inclined: 60 degrees angle
+            if abs(abs(angle(Peaks(i, 2))) - 90) < Thresholds.T_theta_v
+                
+                idx_h = idx_h + 1;
+                horizontal(idx_h) = i;
+                
+            elseif abs(angle(Peaks(i, 2))) < Thresholds.T_theta_h
+                
+                idx_v = idx_v + 1;
+                vertical(idx_v) = i;
+                
+            elseif abs(abs(angle(Peaks(i, 2))) - 60) < Thresholds.T_theta_i
+                
+                idx_i = idx_i + 1;
+                inclined(idx_i) = i;
+                
+            end    
+        end  
+        vertical(idx_v + 1:end) = [];
+        horizontal(idx_h + 1:end) = [];
+        inclined(idx_i + 1:end) = [];
+        %When we have classified the segments, we will decide if the
+        %segments are a shape or not
+        
+        %Rectangle: 2 vertical and 2 horizontal
+        if length(vertical) >= 2
+            if length(horizontal) >= 2
+                rectangle_detected = 1;
+            end
+        end
+        
+        %Triangle: 1 horizontal and 2 inclined of different orientation
+        if length(horizontal) == 1
+            if length(inlcined) == 2
+                if sign(angle(inclined(1))) ~= sign(angle(inclined(2)))
+                   triangle_detected = 0;
                 end
             end
-            P_k(idx_p_k:end) = [];
-            Rectangle = zeros(6, 1);
-            Rectangle(1) = Inf;
-            for k = 1:idx_p_k - 1
-                for l = k + 1:idx_p_k - 1
-                    %for each P_k, find pairs with angle less than T_alpha
-                    Delta_alpha = abs(abs(P_k(k, 1) - P_k(l, 1)) - 90);
-                    if Delta_alpha < Thresholds.T_alpha;
-                        E = sqrt(Thresholds.a*(P_k(k, 3)^2 + P_k(l, 3)^2 + ...
-                            Delta_alpha^2) + Thresholds.b*(P_k(k, 4)^2 + P_k(l, 4)^2));
-                        %Eliminate repetitions using an energy function
-                        if E < Rectangle(1)
-                            Rectangle(1) = E;
-                            Rectangle(2) = P_k(k, 1);
-                            Rectangle(3) = P_k(k, 2);
-                            Rectangle(4) = P_k(l, 2);
-                        end
-                    end
-                end
-            end
-            %Find the rectangle from the given result
-            BBox_rectangle = find_rectangle( Rectangle );
+        end
             
-            BBox_final(idx_BB).y = BBox_rectangle.y;
-            BBox_final(idx_BB).x = BBox_rectangle.x;
-            BBox_final(idx_BB).w = BBox_rectangle.w;
-            BBox_final(idx_BB).h = BBox_rectangle.h;
+        %Compute the circular hough transform
+
+        Window = double(padarray(mask_original(y:min(h + y, dim_mask(1)), x:min(w + x, dim_mask(2))), [10 10]));
+        min_rad = round(min(size(Window, 1), size(Window, 2))/8);%??
+        max_rad = round(min(size(Window, 1), size(Window, 2)));%??
+        radrange = [min_rad max_rad];
+        [~, ~, cirrad] = CircularHough_Grd(Window, radrange);
+        if ~(isempty(cirrad))
+            circle_detected = 1;
+        end
+        if triangle_detected || rectangle_detected || circle_detected
+            %If a shape has been detected, save the BBox
+            BBox_final(idx_BB).y = windowCandidates(n_BBox).y;
+            BBox_final(idx_BB).x = windowCandidates(n_BBox).x;
+            BBox_final(idx_BB).w = windowCandidates(n_BBox).w;
+            BBox_final(idx_BB).h = windowCandidates(n_BBox).h;
             idx_BB = idx_BB + 1;
         end
-    end
-    %Compute the circular hough transform
-    img = imread(strcat(params.directory_read_images, imagename,'.jpg'));
-    [~, circen, cirrad] = CircularHough_Grd(img, radrange);
-    num_circles = length(cirrad);
-    for i = 1:num_circles
-        %Construct the BBox of the rectangle
-        BBox_final(idx_BB).y = 0;
-        BBox_final(idx_BB).x = 0;
-        BBox_final(idx_BB).w = 0;
-        BBox_final(idx_BB).h = 0;
-        idx_BB = idx_BB + 1;
-    end
-end
-empty = [];
-end
+    end 
+    BBox_final(idx_BB:end, :) = [];
+    windowCandidates = BBox_final;
+    new_mask = create_mask_of_window( windowCandidates, mask_original );
+    imwrite(new_mask, strcat(params.directory_write_results, '/', imagename, '_mask.png'));
+    save(strcat(params.directory_write_results, '/', imagename, '_mask.mat'), 'windowCandidates');
+% end
+% empty = [];
+% end
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+% for i = 1:size(Peaks, 1)
+%             for j = i + 1:size(Peaks, 1)
+%                 theta_i = theta(Peaks(i, 2));
+%                 theta_j = theta(Peaks(j, 2));
+%                 
+%                 % first we will look at its paralelism
+%                 Delta_theta_rectangle = abs(theta_i - theta_j);
+%                 if Delta_theta_rectangle < Thresholds.T_theta_rectangle
+%                     
+%                     %for each pair founded, compute P_k
+%                     P_k_rectangle(idx_p_k, 1 ) = 0.5*(theta_i + theta_j);
+%                     
+%                     P_k_rectangle(idx_p_k, 2 ) = Delta_theta_rectangle;
+%                     
+%                     P_k_rectangle(idx_p_k, 3 ) = i;
+%                     P_k_rectangle(idx_p_k, 4 ) = j;
+%                     
+%                     %Save all rho and theta values
+%                     P_k_rectangle(idx_p_k, 5 ) = theta_i;
+%                     P_k_rectangle(idx_p_k, 6 ) = theta_j;
+%                     
+%                     idx_p_k = idx_p_k + 1;
+%                 else
+%                     %If they are not paralel, we will see if they form a
+%                     %60º anglle
+%                     Delta_theta_triangle = abs(abs(theta_i - theta_j) - 60);
+%                     if Delta_theta_triangle < Thresholds.T_theta_triangle
+%                         %If they do, we will try to find the third vertex
+%                         %of the triangle
+%                         for r = j + 1:size(Peaks,1)
+%                             
+%                             theta_r = theta(Peaks(r, 2));
+%                             Delta_theta_r1 = abs(abs(theta_i - theta_r) - 60);
+%                             Delta_theta_r2 = abs(abs(theta_j - theta_r) - 60);
+%                             if Delta_theta_r1 < Thresholds.T_theta_triangle || Delta_theta_r2 < Thresholds.T_theta_triangle
+%                                 %We have found a triangle
+%                                 triangle_detected = 1;
+%                             end
+%                         end
+%                     end
+%                 end
+%             end
+%         end
+%         P_k_rectangle(idx_p_k:end, :) = [];
+%         for k = 1:idx_p_k - 1
+%             for l = k + 1:idx_p_k - 1
+%                 %for each P_k, find pairs with angle less than T_alpha
+%                 Delta_alpha = abs(abs(P_k_rectangle(k, 1) - P_k_rectangle(l, 1)) - 90);
+%                 if Delta_alpha < Thresholds.T_alpha;
+%                     rectangle_detected = 1;
+%                 end
+%             end
+%         end

@@ -5,9 +5,8 @@ function [ metrix_method ] = SignDetectionHough( params, files, SC_train )
 switch params.colorSpace
     case 1
         params.directory_read_mask = strcat(params.directory_read_mask, '/HSV/');
-        params.directory_write_results = strcat(params.directory_write_results, '/HSV_Hough/');
-    case 2
-        params.directory_write_results = strcat(params.directory_write_results, '/Gray_image_Hough/');
+        params.directory_read_window = strcat(params.directory_read_window, '/HSV_CCL/');
+        params.directory_write_results = strcat(params.directory_write_results, '/HSV_CCL_Hough/');
 end
 
 if ~exist(params.directory_write_results, 'dir')
@@ -15,7 +14,7 @@ if ~exist(params.directory_write_results, 'dir')
 end
 
 %Compute the BBoxes for all the images of the list of files
-Hough_detection(params, files, Characteristics );
+Hough_detection(params, files, SC_train );
 
 if params.compute_metrics
     %When the BBoxes are computed, if the set is not the test set, we compute

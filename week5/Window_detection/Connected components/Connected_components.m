@@ -10,6 +10,7 @@ train_param = trainSignCharacteristicsCCL(SC_train);
 for i = 1:length(files)
     sprintf(files(i).name)
     mask = imread(strcat(params.directory_read_mask, filesep, files(i).name, '_mask.png'));
+%     mask = imread(strcat(params.directory_read_mask, '/', files(i).name, '_morf.png'));
     windowCandidates = CCL(mask, train_param);
     save(strcat(params.directory_write_results, filesep, files(i).name, '_mask.mat'), 'windowCandidates');
     new_mask = create_mask_of_window( windowCandidates, mask );

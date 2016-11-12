@@ -3,8 +3,8 @@ close all
 clc
 addpath(genpath('.'))
 
-% template = Template(3, [80 80]);
-template = rgb2gray(imread('tr01.png'))/255;
+template = Template(4, [80 80]);
+% template = rgb2gray(imread('../Results_fins_week3/Triangles/tr01.png'))/255;
 % template = imrotate(template, 90);
 BW = edge(template, 'canny');
 template = padarray(template, [4 4]);
