@@ -12,7 +12,7 @@ directory_templates = '../Results/week_04/Templates';
 set_type = 'validate';
 
 %Names of the previous work to compute the correlation
-methods = { 'Global' 'CCLHSV'  'CCLHSVRGB'};
+methods = { 'Global' 'CCLHSV'  'histBP'};
 meth =    [    1        2           3     ];
 
 

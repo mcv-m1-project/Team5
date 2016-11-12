@@ -11,8 +11,8 @@ if ~isempty(BBox)
             x = BBox(i).x;
             window_width = BBox(i).w;
             window_height = BBox(i).h;
-            new_mask(y:min(window_width + y, dim_mask(1)), x:min(window_height + x, dim_mask(2))) = ...
-                Mask(y:min(window_width + y, dim_mask(1)), x:min(window_height + x, dim_mask(2)));
+            new_mask(y:min(window_height + y, dim_mask(1)), x:min(window_width + x, dim_mask(2))) = ...
+                Mask(y:min(window_height + y, dim_mask(1)), x:min(window_width + x, dim_mask(2)));
         end
     end
 end

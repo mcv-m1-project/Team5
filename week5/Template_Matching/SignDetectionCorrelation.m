@@ -18,12 +18,12 @@ switch params.method
         %Where the .mat files are
         params.directory_write_results = strcat(params.directory_write_results, '/TM_Correlation_HSV_CCL/');
     case 3
-        corr_threshold=.65;
-        CCL_method='HSV&RGB_CCL';
+        corr_threshold=.55;
+        CCL_method='histBP_CCL';
         run_TM_Correlation_CCL(templates,params.directory_write_results,params.directory_read_images,files,corr_threshold,params.directory_read_BBox,CCL_method);
         
         %Where the .mat files are
-        params.directory_write_results = strcat(params.directory_write_results, '/TM_Correlation_HSV&RGB_CCL/');
+        params.directory_write_results = strcat(params.directory_write_results, '/TM_Correlation_histBP_CCL/');
 end
 
 %When the BBoxes are computed, if the set is not the test set, we compute
