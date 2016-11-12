@@ -13,7 +13,7 @@ set_type = 'train';
 compute_metrics = 1;
 
 %Names of the previous work to compute the correlation
-colorSpaces = {'HSV', 'Gray_image'};
+colorSpaces = {'UCM', 'MS'};
 colorSp = [      1         2] ;
 
 
@@ -24,9 +24,9 @@ colorSp = [      1         2] ;
 %%
 
 metrix_methods = zeros(7, length(colorSp));
-for i = 1
+for i = 1:length(colorSp)
     params.colorSpace = colorSp(i);
-    metrix = SignDetection.......(params, files, SC_train);
+    metrix = SignDetectionWeek5(params, files, SC_train);
     if ~isempty(metrix)
         metrix_methods(:, i) = metrix;
     end
