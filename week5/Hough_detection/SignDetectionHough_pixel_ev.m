@@ -12,8 +12,8 @@ switch params.colorSpace
         params.directory_read_window = strcat(params.directory_read_window, '/histBP_CCL/');
         params.directory_write_results = strcat(params.directory_write_results, '/HBP_CCL_Hough/');
     case 3
-        params.directory_read_mask = strcat(params.directory_read_window, '/UCM2/');
-        params.directory_read_window = strcat(params.directory_read_window, '/UCM2/');
+        params.directory_read_mask = strcat(params.directory_write_results, '/UCM2/');
+        params.directory_read_window = strcat(params.directory_write_results, '/UCM2/');
         params.directory_write_results = strcat(params.directory_write_results, '/UCM_Hough/');
 end
 
