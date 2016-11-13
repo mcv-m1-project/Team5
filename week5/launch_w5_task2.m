@@ -10,11 +10,11 @@ directory_images = '../Images';
 %Set to evaluate: train, validate or test
 set_type = 'train';
 
-compute_metrics = 0;
+compute_metrics = 1;
 
 %Names of the previous work to compute the correlation
-colorSpaces = {'HSV_CCL', 'Gray_image'};
-colorSp = [      1             2  ] ;
+colorSpaces = {'HSV_CCL', 'HBP_CCL' 'UCM'};
+colorSp = [      1             2        3] ;
 
 
 [ params, files, SC_train] = compute_paremeters_w5( directory_results, directory_images, set_type, compute_metrics);
@@ -24,7 +24,7 @@ colorSp = [      1             2  ] ;
 %%
 
 metrix_methods = zeros(7, length(colorSp));
-for i = 1
+for i = 2
     params.colorSpace = colorSp(i);
     metrix = SignDetectionHough(params, files, SC_train);
     if ~isempty(metrix)
