@@ -1,5 +1,8 @@
-files_test = ListFiles('../Results/test/');
-set_type = 'test';
+set_type = 'validate';
+writepath=strcat('../Results/week_05/',set_type,'_result/best_approach');
+files_test = dir(strcat(writepath,'/*.png'));
+directory_results='../Results';
+params.type_set=set_type;
 for i = 1:size(files_test)
     files_test(i).name = files_test(i).name(1:length(files_test(i).name)-4);
 end
@@ -10,10 +13,10 @@ SC_train = SC_train.SC_train;
 train_param = trainSignCharacteristicsCCL(SC_train);
 
 
-writepath=strcat('../Results/week_05/',set_type,'_result/best_approach');
+
 hsvpath=strcat('../Results/week_03/',set_type,'_result/HSV_CCL');
 hsvfiles=dir(strcat(hsvpath,'/*.png'));
-
+num_files=length(hsvfiles);
 
 
 TP_images = zeros(num_files, 1);
@@ -31,14 +34,14 @@ for i = 1:size(files, 1)
     mask = imread(strcat(writepath,filesep,hsvfiles(i).name));
     
     windowCandidates = CCL(mask, train_param);
-    save(strcat(writepath, filesep, files(i).name, '_mask.mat'), 'windowCandidates');
+    save(strcat(writepath, filesep, files(i).name(1:end-5), '_mask.mat'), 'windowCandidates');
     
-    image_name = files(i).name;
+    image_name = files(i).name(1:end-5);
     
     if ~strcmp(params.type_set, 'test')
         
-        [windowAnnotation, ~] = LoadAnnotations( strcat('../Images/train/gt.', image_name, '.txt'));
-        load(strcat(params.directory_write_results, image_name, '_mask.mat'));
+        [windowAnnotation, ~] = LoadAnnotations( strcat('../Images/train/gt/gt.', image_name, '.txt'));
+        load(strcat(writepath,filesep, image_name, '_mask.mat'));
         
         [windowTP, windowFN, windowFP] = PerformanceAccumulationWindow(windowCandidates, windowAnnotation);
         [windowPrecision, windowAccuracy, windowSensitivity, windowFMeasure] = PerformanceEvaluationWindow(windowTP, windowFN, windowFP);
