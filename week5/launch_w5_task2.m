@@ -34,6 +34,7 @@ for i = 1:length(colorSp)
     end
 end
 if ~isempty(metrix_region)
-    save(strcat(params.directory_write_results, '/metrix_methods_', params.type_set, '_Hough'), 'metrix_methods');
+    save(strcat(params.directory_write_results, '/metrix_region_', params.type_set, '_Hough'), 'metrix_region');
+    save(strcat(params.directory_write_results, '/metrix_pixel_', params.type_set, '_Hough'), 'metrix_pixel');
 end
 sprintf(params.type_set)
