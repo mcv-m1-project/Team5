@@ -20,3 +20,4 @@ params.directory_read_mask = strcat(params.directory_read_mask, '/HSV/');
 params.directory_read_window = strcat(params.directory_read_window, '/HSV_CCL/');
 params.directory_write_results = strcat(params.directory_write_results, '/HSV_CCL_Hough/');
 params.colorSpace = 1;
+files = files(25:end);
