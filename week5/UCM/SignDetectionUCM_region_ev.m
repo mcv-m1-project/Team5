@@ -26,7 +26,8 @@ if params.compute_metrics
             %         windowAnnotation = load(strcat(params.directory_read_BBox, 'gt.', image_name, '.txt'));
             [windowAnnotation, ~] = LoadAnnotations(strcat(params.directory_read_BBox, 'gt.', image_name, '.txt'));
             load(strcat(params.directory_write_results, image_name, '_mask.mat'));
-            
+            windowCandidates = finalWindowCandidates;
+            save(strcat(params.directory_write_results,'/', files(i).name, '_mask.mat'), 'windowCandidates');
             [windowTP, windowFN, windowFP] = PerformanceAccumulationWindow(windowCandidates, windowAnnotation);
             [windowPrecision, windowAccuracy, windowSensitivity, windowFMeasure] = PerformanceEvaluationWindow(windowTP, windowFN, windowFP);
             TP_images(i) = windowTP;
