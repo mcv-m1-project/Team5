@@ -9,10 +9,13 @@ switch params.colorSpace
     case 2
         params.directory_read_mask = strcat(params.directory_read_mask, '/HSV&RGB');
         params.directory_write_results = strcat(params.directory_write_results, '/HSV&RGB_CCL/');
+    case 3
+        params.directory_read_mask = strcat(params.directory_read_mask, '/histBP');
+        params.directory_write_results = strcat(params.directory_write_results, '/histBP_CCL/');
 end
 
 if ~exist(params.directory_write_results, 'dir')
-  mkdir(params.directory_write_results);
+    mkdir(params.directory_write_results);
 end
 
 Connected_components(params, files , SC_train);
@@ -33,14 +36,14 @@ if ~strcmp(params.type_set, 'test')
     Sensitivity_images = zeros(num_files, 1);
     FMeasure_images = zeros(num_files, 1);
     for i = 1:num_files
-
+        
         image_name = files(i).name;
-%         windowAnnotation = load(strcat(params.directory_read_BBox, 'gt.', image_name, '.txt'));
+        %         windowAnnotation = load(strcat(params.directory_read_BBox, 'gt.', image_name, '.txt'));
         [windowAnnotation, ~] = LoadAnnotations(strcat(params.directory_read_BBox, 'gt.', image_name, '.txt'));
         load(strcat(params.directory_write_results, image_name, '_mask.mat'));
-
+        
         [windowTP, windowFN, windowFP] = PerformanceAccumulationWindow(windowCandidates, windowAnnotation);
-
+        
         
         [windowPrecision, windowAccuracy, windowSensitivity, windowFMeasure] = PerformanceEvaluationWindow(windowTP, windowFN, windowFP);
         TP_images(i) = windowTP;
