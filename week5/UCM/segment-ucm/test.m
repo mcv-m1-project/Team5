@@ -3,13 +3,13 @@ cd MCG-PreTrained
 % install
 cd ..
 
-ima_name = '00.001460.jpg';
+ima_name = '00.000977.jpg';
 ima = imread(ima_name);
+%hsv_image = rgb2hsv(ima);
+seg = segment_ucm(ima, 0.7);
 
-seg = segment_ucm(ima, 0.8);
-
-imshow(label2color(seg));
-imwrite(label2color(seg), '00.001460_seg.png');
+%imshow(label2color(seg));
+%imwrite(label2color(seg), '00.001460_seg.png');
 Unique_img = unique(seg);
 
 aux_img2=zeros(size(seg));
@@ -25,12 +25,25 @@ for i=1:length(Unique_img)
     if windowProps.Area >= train_param.minarea && windowProps.Area <= train_param.maxarea...
             && ff >= train_param.minff && ff <= train_param.maxff...
             && fr >= train_param.minfr && fr <= train_param.maxfr...
+            
         aux_img2 = aux_img|aux_img2;
         figure,imshow(aux_img2)
     end   
     %windowProps=discard_CCL_regions(windowProps,train_param);%Discard BBs
 end
-figure,imshow(aux_img2)
+
+finalWindowCandidates = CCL(aux_img2,train_param); 
+
+% CC = bwconncomp(aux_img2);
+% windowProps=regionprops(CC,'All');
+% newImage=zeros(size(ima));
+% 
+% for j=1:CC.NumObjects
+%     newWindowProps = windowProps(windowProps(j).Area >= train_param.minarea && windowProps(j).Area <= train_param.maxarea);       
+%     newImage(round(newWindowProps.BoundingBox(1)),round(newWindowProps.BoundingBox(2))) = newWindowProps.FilledImage;
+% end
+% figure,imshow(newWindowProps.FilledImage)
+
 % 
 % for i=1:length(candidates.bboxes)
 %    area = box_area( candidates.bboxes(i,:));
