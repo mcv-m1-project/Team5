@@ -1,7 +1,15 @@
 function [finalWindowCandidates] = UCM(params, files, SC_train)
-%directory_results = '/Users/lidiatalavera/Desktop/Resultados/';
-%directory_images = '/Users/lidiatalavera/Desktop/Images/train/';
-%files= dir([directory_images '/*.jpg']);
+
+% Task 1. UCM is a function that perfoms a segmentation of the original
+% image. The function has the next three input parameters (IP)
+% and one output parameter (OP).
+%
+% params:(IP) struct variable where several variables are saved.
+% SC_train:(IP) variable with the caracteristics of the training set
+% files:(IP) list with the name of the files that will be segmented
+%  
+% finalWindowCandidates:(OP) list of the windows candidates that are signs
+
 
     for j = 1:size(files, 1)
 
