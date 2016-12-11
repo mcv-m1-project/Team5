@@ -8,21 +8,22 @@ directory_results = '../Results';
 directory_images = '../Images';
 
 %Set to evaluate: train, validate or test
-set_type = 'train';
+set_type = 'validate';
 
 %Names of the different methods we have used for the segmentation
 colorSpaces = { 'HSV'  'HSV&RGB' };
-colorSp = [       1        2    ];
+colorSp = [       1            ];
 
 [ params, files, SC_train ] = compute_paremeters_w3( directory_results, directory_images, set_type );
 
 
 %%
 
-metrix_methods = zeros(7, 2);
-for i = 1:2
+metrix_methods = zeros(7, length(colorSp));
+for i = 1:length(colorSp)
     params.colorSpace = colorSp(i);
     metrix = SignDetectionSlideWindow( params, files, SC_train );
+
     if ~isempty(metrix)
         metrix_methods(:, i) = metrix;
     end

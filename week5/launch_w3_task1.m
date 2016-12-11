@@ -12,7 +12,7 @@ set_type = 'train';
 
 %Names of the different methods we have used for the segmentation
 colorSpaces = { 'HSV'  'HSV&RGB' 'histBP'};
-colorSp = [       1        2         3];
+colorSp = [       1                ];
 
 [ params, files, SC_train ] = compute_paremeters_w3( directory_results, directory_images, set_type );
 
@@ -23,6 +23,7 @@ for i = 1:length(colorSp)
     params.colorSpace = colorSp(i);
     sprintf(colorSpaces{i})
     metrix = SignDetectionCCL( params, files, SC_train );
+    metrix_pixel = SignDetectionSW_pixel_ev( params, files );
     if ~isempty(metrix)
         metrix_methods(:, i) = metrix;
     end
